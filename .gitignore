@@ -1,0 +1,37 @@
+# 依赖管理工具的目录
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# 构建输出目录
+dist/
+
+# 开发环境的配置文件
+.env
+
+# IDE 和编辑器的配置文件
+.idea/
+.vscode/
+
+# 测试生成的覆盖率报告
+coverage/
+
+# 测试文件目录及测试文件
+test/
+me/
+test.*
+*.test
+
+# 编译工具的缓存和临时文件
+.babelcache/
+.tmp/
+
+# 其他自动生成的文件或目录
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+*.pnp.js
