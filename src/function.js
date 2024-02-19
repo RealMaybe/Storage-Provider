@@ -48,10 +48,12 @@ export class StorageProvider {
         // 根据环境和存储类型选择合适的存储对象
         this._storage = (() => {
             // 浏览器环境
-            if (window && !window.plus) return storageType === "session" ? sessionStorage : localStorage;
+            if (window && !window.plus)
+                return storageType === "session" ? sessionStorage : localStorage;
 
             // H5+app 环境
-            if (window.plus && window.plus.storage) return storageType === "session" ? plus.storage : plus.storage.getStorageSync();
+            if (window.plus && window.plus.storage)
+                return storageType === "session" ? plus.storage : plus.storage.getStorageSync();
 
             // 其他情况
             throw new Error("Unknown environment, unable to determine storage method.");
@@ -114,9 +116,7 @@ export class StorageProvider {
      */
     Set(...arg) {
         try {
-            const ARG_ = arg;
-
-            _Set(this._storage, ARG_)
+            _Set(this._storage, arg)
         } catch (error) { console.error(error) }
     }
 

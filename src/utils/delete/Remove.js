@@ -12,7 +12,11 @@ import { _Key } from "../Parameter.js";
  * @throws { Error } 如果键名的数据类型不是字符串类型，将抛出错误
  */
 export function _Remove(storage, judge, key) {
-    if (judge && key !== undefined && key !== null) {
+    if (
+        judge &&
+        key !== undefined &&
+        key !== null
+    ) {
         const KEY_ = _Key(key);
         storage.removeItem(KEY_)
     } else storage.clear()
