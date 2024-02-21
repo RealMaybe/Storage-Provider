@@ -10,7 +10,7 @@ This document is currently available in three languages: Chinese, English, and J
 
 ---
 
-## One, Introduction
+## Introduction
 
 The *Storage Provider* provides a storage API for storing and retrieving data.
 
@@ -35,7 +35,46 @@ This storage API provides a convenient way to manage and manipulate stored data,
 
 ---
 
-## Two, Explanation
+## How to import and configure functions
+
+This method requires using `import` in JavaScript for importing.
+Versions before v0.1.1 do not support importing directly using the script tag in html.
+
+**Example code for importing:**
+
+```js
+import { StorageProvider, $Storage } from "StorageProvider.js";
+```
+
+The distribution name may differ from the one provided in this document. Import correctly by using the correct path and name.
+
+When using `StorageProvider`, you need to use `new` to invoke the constructor function. You need to pass a specified string for initialization configuration, and the optional values are `"local"` and `"session"`. These two strings correspond to the initialization methods of `localStorage` and `sessionStorage`, respectively. After that, you can use the relevant methods as stated in this document.
+
+When using `$Storage`, the default configuration is `"local"`. You can directly use the relevant methods as described in this document.
+
+**Example code for usage:**
+
+```js
+// Using StorageProvider to use the methods
+import { StorageProvider } from "StorageProvider.js";
+
+const $Storage = new StorageProvider("local");
+
+$Storage.Save("arg", "hello"); // This method used here is just an example, please use the corresponding method according to your actual needs
+```
+
+```js
+// Using $Storage to use the methods
+import { $Storage } from "StorageProvider.js";
+
+$Storage.Save("arg", "hello"); // This method used here is just an example, please use the corresponding method according to your actual needs
+```
+
+---
+
+---
+
+## Explanation
 
 Nearly all methods may throw exceptions due to the following reasons:
 
@@ -58,7 +97,7 @@ For specific reasons, please refer to the actual error message. Based on the abo
 
 ---
 
-## Three, Methods for storing and retrieving content
+## Methods for storing and retrieving content
 
 ### 1. `Storage`
 
@@ -179,7 +218,7 @@ Format example: `{key1: value1, key2: value2, ...}`.
 
 ---
 
-## Four, Methods for deleting stored data
+## Methods for deleting stored data
 
 ### 1. `Delete`
 
