@@ -1,4 +1,14 @@
-# Change Log
+# Update Log
+
+---
+
+This update log document is currently available in Chinese, English, and Japanese for reference.
+
+- Chinese Document: [Chinese Document](./log.md)
+- English Document: This file
+- Japanese Document: [Japanese Document](./log.jp.md)
+
+---
 
 ## v0.1.1-beta
 

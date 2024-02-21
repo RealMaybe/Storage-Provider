@@ -4,7 +4,7 @@
 
 This document is currently available in three languages: Chinese, English, and Japanese.
 
-- Chinese: [Chinese document](./ReadMe.md)
+- Chinese: [Chinese document](../ReadMe.md)
 - English: This file
 - Japanese: [Japanese document](./ReadMe.jp.md)
 
@@ -30,6 +30,14 @@ This API has the following methods:
     4. `Clean()` can delete all stored data.
 
 This storage API provides a convenient way to manage and manipulate stored data, enabling developers to easily store and retrieve various types of data. Whether at the session level or the local level, developers can use this API to meet their data storage needs.
+
+---
+
+---
+
+## Update Log
+
+See the [Update Log](./updataLog/log.en.md) for more details.
 
 ---
 
