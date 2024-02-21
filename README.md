@@ -10,7 +10,7 @@
 
 ---
 
-## 一、简介
+## 简介
 
 *Storage Provider 构造函数* 提供了一个用于存储和获取数据的方法库。
 
@@ -36,7 +36,46 @@
 
 ---
 
-## 二、说明
+## 如何进行引入和配置函数
+
+本方法需要使用 JavaScript 中的 import 进行引入。
+v0.1.1 及以前版本暂不支持直接使用 html 的 script 标签进行引入。
+
+**引入示例代码如下**
+
+```js
+import { StorageProvider, $Storage } from "StorageProvider.js";
+```
+
+发行版名称可能与本文档提供的名称不一致，按照正确的路径、名称引入即可。
+
+使用 `StorageProvider` 的时候，必须使用 `new` 来进行调用，该构造函数须要传入指定字符串来进行初始化配置，可选内容为 `"local"` 或者是 `"session"` 两个字符串来进行初始化。两个字符串对应的初始化方法分别为 `localStorage` 及 `sessionStorage` ，之后便可按照本文档中写明的相关方法进行使用。
+
+使用 `$Storage` 的时候，默认配置为 `"local"` ，直接使用本文档中写明的相关方法即可。
+
+**使用示例代码如下**
+
+```js
+// 使用 StorageProvider 来使用方法
+import { StorageProvider } from "StorageProvider.js";
+
+const $Storage = new StorageProvider("local");
+
+$Storage.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际需要来使用对应方法
+```
+
+```js
+// 使用 $Storage 来使用方法
+import { $Storage } from "StorageProvider.js";
+
+$Storage.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际需要来使用对应方法
+```
+
+---
+
+---
+
+## 说明
 
 近乎所有的方法都会出现的抛出异常缘由：
 
@@ -60,7 +99,7 @@
 
 ---
 
-## 三、存储及获取内容的方法
+## 存储及获取内容的方法
 
 ### 1. `Storage`
 
@@ -86,7 +125,7 @@
 
 ---
 
-## 四、存储内容的方法
+## 存储内容的方法
 
 ### 1. `Save`
 
@@ -173,7 +212,7 @@
 
 ---
 
-## 五、获取内容的方法
+## 获取内容的方法
 
 ### 1. `Get`
 
@@ -231,7 +270,7 @@
 
 ---
 
-## 六、删除存储数据的方法
+## 删除存储数据的方法
 
 ### 1、`Delete`
 
