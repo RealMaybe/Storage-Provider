@@ -1,3 +1,3 @@
 export const config = {
-    storageType: "local", // 存储类型
+    storageType: "local", // 默认存储类型
 }
