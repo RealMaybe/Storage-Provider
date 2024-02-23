@@ -1,10 +1,24 @@
+# Storage Provider
+
+```markdown
+- 本文档基于 **StorageProvider v0.1.1-bata** 版本。
+- 不同的版本所对应的文档可能存在不一致。
+- 为保证数据、说明等的完善性，本文档可能更新较为频繁。
+```
+
+---
+
+---
+
 # Storage Provider 说明文档
 
 ## 简介
 
-*Storage Provider 构造函数* 提供了一个用于存储和获取数据的方法库。
+*Storage Provider* 提供了一个用于存储和获取数据的方法库。
 
-该构造函数具有以下方法：
+本方法库基于原生 JavaScript 中的 localStorage 和 sessionStorage 所提供的一些方法进行了封装。
+
+本方法库具有以下方法：
 
 | 所属 | 方法 |
 | --- | --- |
@@ -20,7 +34,7 @@
 | 删除 | `RemoveMany(arr)` |
 | 删除 | `Clean()` |
 
-该存储构造函数提供了一些方便的方式来管理和操作存储的数据，使得开发人员可以轻松地存储和获取各种类型的数据。无论是在会话级别还是在本地级别，开发人员都可以使用该类方法来满足其数据存储需求。
+该存储方法库提供了一些方便的方式来管理和操作存储的数据，使得开发人员可以轻松地存储和获取各种类型的数据。无论是在会话级别还是在本地级别，开发人员都可以使用该类方法来满足其数据存储需求。
 
 ---
 
@@ -34,15 +48,33 @@
 
 ---
 
+## 开源协议
+
+本开源库遵守 [MIT开源协议](./LICENSE)。
+相关其他附加条款如下：
+
+#### Additional terms
+
+If you have any questions or need further information about the software, please feel free to contact the original author at any time:
+
+- **Name:** RealMaybe
+- **Email:** <realmaybe0429@qq.com>
+- **Twtiier:** [@RealMaybe0429](<https://twitter.com/RealMaybe0429>)
+- **Weibo:** [@也许吧真的RealMaybe](https://weibo.com/u/5678690912)
+
+---
+
+---
+
 ## 如何进行引入和配置函数
 
 本方法库目前须要在 JavaScript 中使用 import 进行引入。
-v0.1.1 及以前版本暂不支持在页面中直接使用 script 标签进行引入。
+**v0.1.1** 及以前版本暂不支持在页面中直接使用 script 标签进行引入。
 
-#### 引入示例代码
+#### 示例代码：引入
 
 ```js
-import { StorageProvider, $Storage } from "StorageProvider.js";
+import { StorageProvider } from "StorageProvider.js";
 ```
 
 发行版名称可能与本文档提供的名称不一致，按照正确的路径、名称引入即可。
@@ -51,22 +83,15 @@ import { StorageProvider, $Storage } from "StorageProvider.js";
 
 使用 `$Storage` 的时候，默认配置为 `"local"` ，直接使用本文档中写明的相关方法即可。
 
-#### 使用示例代码
+#### 示例代码：使用
 
 ```js
 // 使用 StorageProvider 来使用方法
 import { StorageProvider } from "StorageProvider.js";
 
-const $Storage = new StorageProvider("local");
+const $local = new StorageProvider("local");
 
-$Storage.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际需要来使用对应方法
-```
-
-```js
-// 使用 $Storage 来使用方法
-import { $Storage } from "StorageProvider.js";
-
-$Storage.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际需要来使用对应方法
+$local.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际需要来使用对应方法
 ```
 
 ---
@@ -104,7 +129,9 @@ $Storage.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实�
 ##### 上述问题的示例
 
 ```js
-import { $Storage } from "StorageProvider.js";
+import { StorageProvider } from "StorageProvider.js";
+
+const $local = new StorageProvider("local");
 
 const obj = {
     key1: "value1",
@@ -118,7 +145,7 @@ const obj = {
     }
 }
 
-$Storage.Save("obj", JSON.stringify(obj)); 
+$local.Save("obj", JSON.stringify(obj)); 
 // 此处存储的值变成了如下样子
 // "{\"key1\":\"value1\",\"key2\":[\"value2-1\",\"value2-2\",\"value2-3\"],\"key3\":{\"key\":\"value\"}}"
 ```

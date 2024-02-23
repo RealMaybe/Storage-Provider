@@ -16,6 +16,10 @@
 
 完全兼容
 
+#### 说明文档
+
+详见 [StorageProvider v0.1.1-bata 说明文档](../README.md)
+
 ---
 
 ---
