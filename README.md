@@ -42,7 +42,7 @@
 
 ## 更新日志
 
-详见 [更新日志](./updataLog/log.md)
+详见 [更新日志](./ChangeLog/ChangeLog.md)
 
 ---
 
