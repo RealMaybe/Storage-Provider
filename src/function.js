@@ -1,29 +1,34 @@
 // method
 import {
-    _Key,
-    _Value,
-    _Array,
-    _Object,
-    _Set
+    _Key, // key 有效性验证
+    _Value, // value 有效性验证
+    _Array, // 数组及内部数据有效性验证
+    _Object // 对象及内部数据有效性验证
+
 } from "./utils/Parameter.js";
 
 import {
-    _Remove
+    _Remove // 删除存储元素
 } from "./utils/Delete.js";
 
 import {
-    _Store,
-    _All,
-    _ObjectValue,
-    _ObjectMany
+    _Store, // 从存储中获取值或者设置值
+    _Set, // 设置单条或多条存储数据
+    _All, // 从存储中获取所有键值对
+    _ObjectValue, // 用于识别对象中的存储值
+    _ObjectMany // 用于操作数组中的对象
 } from "./utils/Data.js";
+
+import {
+    getStorageSize // 计算 webStorage 中所有数据的总大小
+} from "./utils/Helper.js";
 
 
 /* ========== */
 
 
-// var
-import { type } from "./var/type.js";
+// config
+import { _Settings } from "./config/Settings.js";
 
 
 /* ========== */
@@ -34,31 +39,67 @@ import { type } from "./var/type.js";
 /**
  * StorageProvider 提供对 localStorage 和 sessionStorage 的操作方法。
  * 仅支持 window 和 window.plus 环境，暂不支持其他环境。
+ * 
  * @constructor
+ * @class
+ * @name StorageProvider
  * @author RealMaybe
- * @param { string } storageType 用于设置存储类型
- *     - 可选值为 "session" 或 "local"
- *     - 不传值默认为 "local"
+ * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
+ * 
+ * @param { object } settings 配置对象
+ * - 如不传入内容，直接会使用默认配置
+ * 
+ * @param { string } settings.type 存储类型
+ * @param { number } settings.maxSize 存储的最大大小
+ * @param { number } settings.expiration 存储的过期时间
+ * @param { string } settings.prefix 存储的键的前缀
  */
 export class StorageProvider {
-    constructor(storageType = type) {
-        if (storageType !== "local" && storageType !== "session")
+    constructor(settings) {
+        // 解构配置对象
+        const {
+            type, // 存储类型
+            maxSize, // 存储的最大大小
+            // expiration, // 存储的过期时间
+            // prefix // 存储的 key 的前缀
+        } = _Settings(settings);
+
+        /* ========== */
+
+        // 存储类型验证
+        if (type !== "local" && type !== "session")
             throw new Error("Invalid storage type. Must be 'local' or 'session'.");
+
+
+        /* ========== */
+
 
         // 根据环境和存储类型选择合适的存储对象
         this._storage = (() => {
             // 浏览器环境
             if (window && !window.plus)
-                return storageType === "session" ? sessionStorage : localStorage;
+                return type === "session" ? sessionStorage : localStorage;
 
             // H5+app 环境
             if (window.plus && window.plus.storage)
-                return storageType === "session" ? plus.storage : plus.storage.getStorageSync();
+                return type === "session" ? plus.storage : plus.storage.getStorageSync();
 
             // 其他情况
             throw new Error("Unknown environment, unable to determine storage method.");
         })()
+
+
+        /* ========== */
+
+
+        // 数据大小验证
+        if (getStorageSize(this._storage).b > maxSize)
+            throw new Error("There is an excessive amount of data saved, please delete the excess part.");
     }
+
+
+    /* ========== */
+
 
     // set & get
 
@@ -212,9 +253,7 @@ export class StorageProvider {
         try {
             const ARR_ = _Array(arr, "string");
 
-            for (let key of ARR_) {
-                _Remove(this._storage, true, key)
-            }
+            for (let key of ARR_) _Remove(this._storage, true, key)
         } catch (error) { console.error(error) }
     }
 

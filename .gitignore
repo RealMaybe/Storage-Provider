@@ -18,7 +18,6 @@ coverage/
 
 # 测试文件目录及测试文件
 test/
-me/
 test.*
 *.test
 
@@ -35,3 +34,7 @@ yarn-error.log*
 .pnp/
 .pnp.js
 *.pnp.js
+
+# 测试中的开发文件
+cookie.*
+cookie/

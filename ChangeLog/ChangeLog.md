@@ -1,6 +1,47 @@
 # 更新日志
 
-## v0.1.1
+## v0.1.2
+
+#### 发布日期
+
+2024 / 02 / 21
+
+#### 更新内容
+
+基于 v0.1.1-bata 版本，重做了构造函数配置方法，由之前的使用 string 来进行配置修改为了使用 object 进行配置
+
+**默认配置**
+
+```javascript
+const defaultOptions = {
+    type: "local",          // 默认存储类型 localStorage
+    maxSize: 5242880,       // 最大存储大小 5242880 字节，即 5MB
+    expiration: 86400000,   // 存储的过期时间 86400000 毫秒，即 24 小时
+    prefix: "myApp_",       // 存储的 key 的前缀，用于配置过期使用
+    compression: true,      // 数据压缩
+    encryption: false,      // 数据加密
+    backup: true            // 数据备份
+};
+```
+
+详细配置要求等详见说明文档。
+
+#### 旧版兼容性
+
+**不兼容版本**
+
+v0.1.1-bata
+v0.1.0
+
+**兼容版本**
+
+无
+
+---
+
+---
+
+## v0.1.1-bata
 
 #### 发布日期
 
@@ -15,10 +56,6 @@
 #### 旧版兼容性
 
 完全兼容
-
-#### 说明文档
-
-详见 [StorageProvider v0.1.1-bata 说明文档](../README.md)
 
 ---
 

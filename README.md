@@ -1,7 +1,7 @@
 # Storage Provider
 
 ```markdown
-- 本文档基于 **StorageProvider v0.1.1-bata** 版本。
+- 本文档基于 **StorageProvider v0.1.2** 版本。
 - 不同的版本所对应的文档可能存在不一致。
 - 为保证数据、说明等的完善性，本文档可能更新较为频繁。
 ```
@@ -61,8 +61,8 @@ If you have any questions or need further information about the software, please
 
 - **Name:** RealMaybe
 - **Email:** <realmaybe0429@qq.com>
-- **Twtiier:** [@RealMaybe0429](<https://twitter.com/RealMaybe0429>)
 - **Weibo:** [@也许吧真的RealMaybe](https://weibo.com/u/5678690912)
+- **Twitter:** [@RealMaybe0429](<https://twitter.com/RealMaybe0429>)
 
 ---
 
@@ -71,29 +71,84 @@ If you have any questions or need further information about the software, please
 ## 如何进行引入和配置函数
 
 本方法库目前须要在 JavaScript 中使用 import 进行引入。
-**v0.1.1** 及以前版本暂不支持在页面中直接使用 script 标签进行引入。
+**v0.1.2** 及以前版本暂不支持在页面中直接使用 script 标签进行引入。
 
-#### 示例代码：引入
+**示例代码：引入**
 
-```js
-import { StorageProvider } from "StorageProvider.js";
+```javascript
+import { 
+    StorageProvider,
+    $local,
+    $session
+} from "StorageProvider.js";
 ```
 
 发行版名称可能与本文档提供的名称不一致，按照正确的路径、名称引入即可。
 
-使用 `StorageProvider()` 的时候，必须使用 `new` 来进行调用，该构造函数须要传入指定字符串来进行初始化配置，可选内容为 `"local"` 或者是 `"session"` 两个字符串来进行初始化。两个字符串对应的初始化方法分别为 `localStorage` 及 `sessionStorage` ，之后便可按照本文档中写明的相关方法进行使用。
+使用 `StorageProvider()` 的时候，必须使用 `new` 来进行调用，该构造函数须要传入指定格式的 object 来进行初始化配置。
+**默认配置如下：**
 
-使用 `$Storage` 的时候，默认配置为 `"local"` ，直接使用本文档中写明的相关方法即可。
+```javascript
+const defaultOptions = {
+    type: "local",          // 默认存储类型 localStorage
+    maxSize: 5242880,       // 最大存储大小 5242880 字节，即 5MB
+    expiration: 86400000,   // 存储的过期时间 86400000 毫秒，即 24 小时
+    prefix: "myApp_"        // 存储的 key 的前缀，用于配置过期使用
+};
+```
 
-#### 示例代码：使用
+在 v0.1.2 版本中，直接使用 `import { StorageProvider } from "StorageProvider.js"` 进行引入的话，直接使用 `const $local = new StorageProvider()` 来进行初始化的话，函数将会出现报错，原因为**没有传入配置参数**，配置参数类型为 object 。
+**错误的配置示例**
 
-```js
-// 使用 StorageProvider 来使用方法
+```javascript
+// 使用 import 来引入 StorageProvider
 import { StorageProvider } from "StorageProvider.js";
 
-const $local = new StorageProvider("local");
 
-$local.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际需要来使用对应方法
+const $local = new StorageProvider(); // 没有进行配置
+const $local = new StorageProvider("local"); // 配置类型为非对象
+
+// 此时会出现报错
+// Uncaught Error: Invalid data type: The parameter passed in by this method must be of type object.
+
+
+const $local = new StorageProvider({}); // 配置对象为空
+
+// 此时会出现报错
+// Uncaught Error: Object is empty or there is an invalid value in the object.
+```
+
+**正确的配置方法如下：**
+
+```javascript
+// 使用 import 来引入 StorageProvider
+import { StorageProvider } from "StorageProvider.js";
+
+// 传入配置对象
+// 源代码中已经对函数进行了初始配置，传入的配置对象包含至少一个配置属性即可
+const $local = new StorageProvider({ type: "local" });
+
+// 此处所用方法仅为示例，请根据实际需要来使用对应方法
+$local.Save("arg", "hello");
+```
+
+同样，如果不想手动进行配置，可以直接引入已经配置好的方法来直接使用。
+**示例代码如下：**
+
+```javascript
+// 使用 import 来引入已经配置好的 $local
+import { $local } from "StorageProvider.js";
+
+// 此处所用方法仅为示例，请根据实际需要来使用对应方法
+$local.Save("arg", "hello");
+```
+
+```javascript
+// 使用 import 来引入已经配置好的 $session
+import { $session } from "StorageProvider.js";
+
+// 此处所用方法仅为示例，请根据实际需要来使用对应方法
+$session.Save("arg", "hello");
 ```
 
 ---
@@ -130,7 +185,7 @@ $local.Save("arg", "hello"); // 此处所用方法仅为示例，请根据实际
 
 ##### 上述问题的示例
 
-```js
+```javascript
 import { StorageProvider } from "StorageProvider.js";
 
 const $local = new StorageProvider("local");
@@ -151,6 +206,22 @@ $local.Save("obj", JSON.stringify(obj));
 // 此处存储的值变成了如下样子
 // "{\"key1\":\"value1\",\"key2\":[\"value2-1\",\"value2-2\",\"value2-3\"],\"key3\":{\"key\":\"value\"}}"
 ```
+
+### 其他注意事项
+
+在 v0.1.2 版本中，所有存储方法中均对传入的存储值做了二次处理：对值进行递归处理，处理内部可能存在的对象嵌套、循环引用等问题。
+
+因此，如果有类似于如下方式定义的变量
+
+```javascript
+let obj = { a: "a" }
+obj.b = obj
+
+let arr = [1, 2, 3];
+arr[3] = arr;
+```
+
+上述对象嵌套、循环引用等问题，将在底层代码中将会处理掉该问题。
 
 ---
 
