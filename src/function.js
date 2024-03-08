@@ -14,6 +14,7 @@ import {
 import {
     _Store, // 从存储中获取值或者设置值
     _Set, // 设置单条或多条存储数据
+    _GetMany, // 从存储中获取多条存储数据
     _All, // 从存储中获取所有键值对
     _ObjectValue, // 用于识别对象中的存储值
     _ObjectMany // 用于操作数组中的对象
@@ -49,10 +50,10 @@ import { _Settings } from "./config/Settings.js";
  * @param { object } settings 配置对象
  * - 如不传入内容，直接会使用默认配置
  * 
- * @param { string } settings.type 存储类型
+ * @param { String } settings.type 存储类型
  * @param { number } settings.maxSize 存储的最大大小
  * @param { number } settings.expiration 存储的过期时间
- * @param { string } settings.prefix 存储的键的前缀
+ * @param { String } settings.prefix 存储的键的前缀
  */
 export class StorageProvider {
     constructor(settings) {
@@ -106,7 +107,7 @@ export class StorageProvider {
     /**
      * 设置或获取单条存储数据
      * @function Storage
-     * @param { string } key - 数据的键名
+     * @param { String } key - 数据的键名
      * @param { * } value - 要存储的值 (可选)
      * @returns { void | * } - 如果提供了值，则设置键的值；如果没有提供值，则返回键的存储值
      */
@@ -121,7 +122,7 @@ export class StorageProvider {
     /**
      * 设置单条存储数据
      * @function Save
-     * @param { string } key - 数据的键名
+     * @param { String } key - 数据的键名
      * @param { * } value - 要存储的值
      * @returns { void } 仅设置键的值，无返回值
      */
@@ -144,7 +145,7 @@ export class StorageProvider {
         try {
             const ARR_ = _Array(arr, "object");
 
-            _ObjectMany(this._storage, ARR_);
+            _ObjectMany(this._storage, ARR_)
         } catch (error) { console.error(error) }
     }
 
@@ -166,7 +167,7 @@ export class StorageProvider {
     /**
      * 获取单条存储数据
      * @function Get
-     * @param { string } key - 数据的键名
+     * @param { String } key - 数据的键名
      * @returns { * } - 返回键的存储值
      */
     Get(key) {
@@ -177,26 +178,15 @@ export class StorageProvider {
 
     /**
      * 从存储中获取多个键对应的值。
+     * - 如关于 type 的具体用法无法理解，请参见说明文档。
      * @function GetMany
      * @param { Array.<string> } arr - 包含需要获取值的键的数组。
-     * @returns { Array.<Object> } 包含键值对的对象数组，格式为 [{key1: value1}, {key2: value2}, ...]。
+     * @param { String } type - 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
+     * @returns { Array.<Object> | Object } 
      */
-    GetMany(arr) {
+    GetMany(arr, type = "array") {
         try {
-            const ARR_ = _Array(arr, "string");
-
-            let resultArr = [];
-
-            for (let key of ARR_) {
-                let value = _Store(this._storage, key),
-                    obj = {
-                        [key]: value
-                    };
-
-                resultArr.push(obj);
-            }
-
-            return resultArr;
+            return _GetMany(this._storage, arr, type)
         } catch (error) { console.error(error) }
     }
 
@@ -207,7 +197,7 @@ export class StorageProvider {
      */
     GetAll() {
         try {
-            return _All(this._storage);
+            return _All(this._storage)
         } catch (error) { console.error(error) }
     }
 
@@ -220,7 +210,7 @@ export class StorageProvider {
     /**
      * 删除存储数据
      * @function Delete
-     * @param { string } key - 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
+     * @param { String } key - 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
      * @returns { void } 无返回值
      */
     Delete(key) {
@@ -232,7 +222,7 @@ export class StorageProvider {
     /**
      * 删除存储的单条数据
      * @function Remove
-     * @param { string } key - 要删除的数据的键名
+     * @param { String } key - 要删除的数据的键名
      * @returns { void } 无返回值
      */
     Remove(key) {

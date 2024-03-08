@@ -29,7 +29,7 @@
 | 设置 | `SaveMany(arr)` |
 | 设置 | `Set(...arg)` |
 | 获取 | `Get(key)` |
-| 获取 | `GetMany(arr)` |
+| 获取 | `GetMany(arr, type)` |
 | 获取 | `GetAll()` |
 | 删除 | `Delete(key)` |
 | 删除 | `Remove(key)` |
@@ -377,12 +377,37 @@ arr[3] = arr;
 | 参数 | 必选 | 类型 | 说明 |
 | --- | --- | --- | --- |
 | arr | ture | array | 包含需要获取值的键的数组 |
+| type | false | string | 获取值之后的输出样式 |
 
 #### 返回值
 
 | 类型 | 说明 | 格式示例 |
 | --- | --- | --- |
-| array | 包含键值对的对象数组 | `[{key1: value1}, {key2: value2}, ...]` |
+| array | 包含键值对的对象数组 | `[{"key1":value1},{"key2":value2}, ...]` |
+| object | 包含键值对的对象 | `{"key1":value1,"key2":value2, ...}` |
+| array | 包含键值对的对象数组 | `[{"key":"key1","value":value1},{"key":"key2","value":value2}, ...]` |
+
+#### 关于参数 type 的具体说明
+
+- 如果 type 是 "array"，则将字符串数组中的每个元素作为键，对应的存储值作为值，构成一个对象数组，格式为 `[{ key1: value1 }, { key2: value2 }, ...]`。
+- 如果 type 是 "object"，则将字符串数组中的每个元素作为键，对应的存储值作为值，构成一个对象，格式为 `{ key1: value1, key2: value2, ... }`。
+- 如果 type 是 "array-object"，则将字符串数组中的每个元素作为键，并将键值对的格式放入一个对象数组中，格式为 `[{ key: "key1", value: value1 }, { key: "key2", value: value2 }, ...]`。
+
+示例如下
+
+```javascript
+import { $local } from "StorageProvider.js";
+
+const result = $local.GetMany(["key1", "key2", "key3"]);
+const result = $local.GetMany(["key1", "key2", "key3"], "array");
+// 上述两种返回值一致，格式均为 [{ "key1": value1 }, { "key2": value2 }, { "key3": value3 }]
+
+const result = $local.GetMany(["key1", "key2", "key3"], "object");
+// 上述返回值格式为 { "key1": value1, "key2": value2, "key3": value3 }
+
+const result = $local.GetMany(["key1", "key2", "key3"], "array-object");
+// 上述返回值格式为 [{ "key": "key1", value" value1 }, { "key": "key2", value" value2 }, { "key": "key3", value" value3 }]
+```
 
 ---
 
