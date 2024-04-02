@@ -55,16 +55,14 @@ export function _Set(storage, arg) {
         // 第 1 个参数为字符串，且第 2 个参数有效
         // 第 1 个参数为 key
         // 第 2 个参数为 value
-        if (
-            typeof arg[0] === "string" &&
-            arg[1] !== undefined &&
-            arg[1] !== null
-        ) {
-            const KEY_ = _Key(arg[0]),
-                VALUE_ = _Value(arg[1]);
+        const key = arg[0],
+            value = arg[1];
 
-            _Store(storage, KEY_, VALUE_)
-        }
+        if (
+            typeof key === "string" &&
+            value !== undefined &&
+            value !== null
+        ) _Store(storage, key, value);
 
         // 两个参数存在类型错误
         else throw new Error("If two parameters are passed in, the first parameter must be of type string, and the second parameter must exist and be valid.")

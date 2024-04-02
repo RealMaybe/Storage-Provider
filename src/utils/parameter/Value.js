@@ -9,5 +9,8 @@ export function _Value(value) {
     if (value === undefined || value === null)
         throw new Error("There must be a value for the content that needs to be saved.");
 
+    if (value === "" || value.trim() === "")
+        console.warn("It is not recommended to use empty strings as storage values, although this is feasible.");
+
     return value;
 }

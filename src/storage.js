@@ -1,10 +1,13 @@
+"use strict";
+
+
+/* ========== */
+
+
 // method
 import {
-    _Key, // key 有效性验证
-    _Value, // value 有效性验证
     _Array, // 数组及内部数据有效性验证
     _Object // 对象及内部数据有效性验证
-
 } from "./utils/Parameter.js";
 
 import {
@@ -48,12 +51,12 @@ import { _Settings } from "./config/Settings.js";
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
  * 
  * @param { object } settings 配置对象
- * - 如不传入内容，直接会使用默认配置
- * 
- * @param { String } settings.type 存储类型
+ * @param { string } settings.type 存储类型
  * @param { number } settings.maxSize 存储的最大大小
- * @param { number } settings.expiration 存储的过期时间
- * @param { String } settings.prefix 存储的键的前缀
+ * @param { boolean } settings.expiration 存储是否过期
+ * @param { number } settings.time 存储的过期时间
+ * @param { string } settings.prefix 存储的键的前缀
+ * @param { boolean } settings.warn 存储的键的前缀
  */
 export class StorageProvider {
     constructor(settings) {
@@ -61,11 +64,17 @@ export class StorageProvider {
         const {
             type, // 存储类型
             maxSize, // 存储的最大大小
-            // expiration, // 存储的过期时间
-            // prefix // 存储的 key 的前缀
+            // expiration, // 存储是否过期
+            // time, // 存储的过期时间
+            // prefix, // 存储的 key 的前缀
+            warn // 是否在控制台弹出警告信息
         } = _Settings(settings);
 
+        this.warn = warn;
+
+
         /* ========== */
+
 
         // 存储类型验证
         if (type !== "local" && type !== "session")
@@ -128,10 +137,7 @@ export class StorageProvider {
      */
     Save(key, value) {
         try {
-            const KEY_ = _Key(key),
-                VALUE_ = _Value(value);
-
-            _Store(this._storage, KEY_, VALUE_)
+            _Store(this._storage, key, value)
         } catch (error) { console.error(error) }
     }
 
@@ -227,9 +233,7 @@ export class StorageProvider {
      */
     Remove(key) {
         try {
-            const KEY_ = _Key(key);
-
-            _Remove(this._storage, true, KEY_)
+            _Remove(this._storage, true, key)
         } catch (error) { console.error(error) }
     }
 
