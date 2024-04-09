@@ -1,7 +1,7 @@
 # Storage Provider
 
 ```markdown
-- 本文档基于 **StorageProvider v0.1.2** 版本。
+- 本文档基于 **StorageProvider v0.1.3** 版本。
 - 不同的版本所对应的文档可能存在不一致。
 - 为保证数据、说明等的完善性，本文档可能更新较为频繁。
 ```
@@ -71,7 +71,7 @@ If you have any questions or need further information about the software, please
 ## 如何进行引入和配置函数
 
 本方法库目前须要在 JavaScript 中使用 import 进行引入。
-**v0.1.2** 及以前版本暂不支持在页面中直接使用 script 标签进行引入。
+**v0.1.3** 及以前版本暂不支持在页面中直接使用 script 标签进行引入。
 
 **示例代码：引入**
 
@@ -90,14 +90,16 @@ import {
 
 ```javascript
 const defaultOptions = {
-    type: "local",          // 默认存储类型 localStorage
-    maxSize: 5242880,       // 最大存储大小 5242880 字节，即 5MB
-    expiration: 86400000,   // 存储的过期时间 86400000 毫秒，即 24 小时
-    prefix: "myApp_"        // 存储的 key 的前缀，用于配置过期使用
+    type: "local",            // 默认存储类型 localStorage
+    maxSize: 1048576,         // 最大存储大小 1,048,576 字节，即 1MB
+    // expiration: false,     // 存储是否过期
+    // time: 86400000,        // 存储的过期时间 86,400,000 毫秒，即 24 小时
+    // prefix: "myApp_",      // 存储的 key 的前缀，用于配置过期使用
+    warn: true,               // 是否在控制台弹出警告信息
 };
 ```
 
-在 v0.1.2 版本中，直接使用 `import { StorageProvider } from "StorageProvider.js"` 进行引入的话，直接使用 `const $local = new StorageProvider()` 来进行初始化的话，函数将会出现报错，原因为**没有传入配置参数**，配置参数类型为 object 。
+在 v0.1.2 及以上版本中，直接使用 `import { StorageProvider } from "StorageProvider.js"` 进行引入的话，直接使用 `const $local = new StorageProvider()` 来进行初始化的话，函数将会出现报错，原因为**没有传入配置参数**，配置参数类型为 object 。
 **错误的配置示例**
 
 ```javascript
