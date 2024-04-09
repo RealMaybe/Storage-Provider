@@ -1,5 +1,5 @@
 // 版本号
-const version = "v0.1.1-bata";
+const version = "v0.1.3";
 
 /**
  * @type { import('rollup').RollupOptions }

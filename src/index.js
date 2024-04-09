@@ -1,13 +1,10 @@
-// config
-import { config } from "./config/settings/storage.config.js";
-
-// main
-import { StorageProvider } from "./storage.js";
+import { Recommended } from "./settings/Settings.js";
+import { StorageProvider } from "./Storage.js";
 
 /* ========== */
 
-const $local = new StorageProvider(config),
-    $session = new StorageProvider({...config, type: "session" });
+const $local = new StorageProvider(Recommended),
+    $session = new StorageProvider({...Recommended, type: "session" });
 
 export {
     StorageProvider, // 导出主函数（无配置，直接使用须要手动配置）

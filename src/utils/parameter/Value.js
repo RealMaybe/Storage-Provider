@@ -1,16 +1,20 @@
 /**
  * 用于验证 value 的有效性。
- * @function _Value
+ * @function $Value
+ * @param { object } config 配置对象。
  * @param { * } value 存储值。
- * @returns { string } 返回传入的键。
+ * @returns { * } 返回传入的值。
+ * 
  * @throws { Error } 如果传入的值为空，将抛出错误。
  */
-export function _Value(value) {
+export function $Value(config, value) {
     if (value === undefined || value === null)
         throw new Error("There must be a value for the content that needs to be saved.");
 
-    if (value === "" || value.trim() === "")
-        console.warn("It is not recommended to use empty strings as storage values, although this is feasible.");
+    if (typeof value === "string" &&
+        (value === "" || value.trim() === ""))
+        if (config.warn === true)
+            console.warn("Warning: It is not recommended to use empty strings as storage values, although this is feasible.");
 
     return value;
 }

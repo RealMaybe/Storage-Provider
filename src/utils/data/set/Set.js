@@ -1,24 +1,26 @@
 import {
-    _Key,
-    _Value,
-    _Array,
-    _Object
-} from "../Parameter.js";
+    $Array,
+    $Object
+} from "../../../methods/Parameter.js";
 
 import {
-    _ObjectMany,
-    _ObjectValue,
-    _Store
-} from "../Data.js";
+    $ObjectMany,
+    $ObjectValue,
+    $Store
+} from "../../../methods/Data.js";
+
 
 /**
  * 设置单条或多条存储数据。
- * @function _Set
- * @param  { any } arg - 要存储的单条或者多条数据
  * - 该函数传入参数数量为必须为 1 ~ 2。
  * - 参数的传入原则详见说明文档。
+ * 
+ * @function $Set
+ * 
+ * @param { object } config 配置对象
+ * @param { * } arg 要存储的单条或者多条数据
  */
-export function _Set(storage, arg) {
+export function $Set(config, arg) {
     /* 检查参数数量 */
     if (
         arg.length <= 0 ||
@@ -31,9 +33,9 @@ export function _Set(storage, arg) {
     if (arg.length === 1) {
         // 参数为数组
         if (Array.isArray(arg[0])) {
-            const ARR_ = _Array(arg[0], "object");
+            const ARR_ = $Array(arg[0], "object");
 
-            _ObjectMany(storage, ARR_);
+            $ObjectMany(config, ARR_);
         }
 
         // 参数为对象
@@ -41,9 +43,9 @@ export function _Set(storage, arg) {
             typeof arg[0] === "object" &&
             !Array.isArray(arg[0])
         ) {
-            const OBJ_ = _Object(arg[0]);
+            const OBJ_ = $Object(config, arg[0]);
 
-            _ObjectValue(storage, OBJ_);
+            $ObjectValue(config, OBJ_);
         }
 
         // 其他情况
@@ -62,7 +64,7 @@ export function _Set(storage, arg) {
             typeof key === "string" &&
             value !== undefined &&
             value !== null
-        ) _Store(storage, key, value);
+        ) $Store(config, key, value);
 
         // 两个参数存在类型错误
         else throw new Error("If two parameters are passed in, the first parameter must be of type string, and the second parameter must exist and be valid.")

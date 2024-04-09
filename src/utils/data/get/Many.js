@@ -1,18 +1,23 @@
-import { _All } from "./All.js";
-import { _Array } from "../Parameter.js";
-import { _Store } from "./Store.js";
+import { $Array } from "../../../methods/Parameter.js";
+import { $Store } from "../../../methods/Data.js";
+
+/* ========== */
 
 /**
  * 从存储中获取多个值并根据指定的类型返回不同格式的结果。
  * - 关于 type 的具体用法、输出格式等详见说明文档。
- * @param { Storage } storage - 存储对象
- * @param { Array.<string> } arr - 字符串数组
- * @param { String } type - 获取值之后的输出类型，可选值为 'array', 'object', 'array-object'
- * @returns { Array.<Object> | Object } - 根据指定类型返回不同格式的结果
+ * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
+ * 
+ * @function $GetMany
+ * 
+ * @param { object } config 配置对象
+ * @param { Array.<string> } arr 字符串数组
+ * @param { String } type 获取值之后的输出类型，可选值为 'array', 'object', 'array-object'
+ * @returns { Array.<Object> | Object } 根据指定类型返回不同格式的结果
  */
-export function _GetMany(storage, arr, type) {
+export function $GetMany(config, arr, type) {
     // 有效性验证
-    const ARR_ = _Array(arr, "string");
+    const ARR_ = $Array(arr, "string");
 
     const _TYPE = (t => {
         if (typeof t !== "string")
@@ -34,17 +39,17 @@ export function _GetMany(storage, arr, type) {
     switch (_TYPE) {
         case "array":
             result = ARR_.map(key => ({
-                [key]: _Store(storage, key)
+                [key]: $Store(config, key)
             }));
             break;
 
         case "object":
             result = {};
-            ARR_.forEach(key => { result[key] = _Store(storage, key) });
+            ARR_.forEach(key => { result[key] = $Store(config, key) });
             break;
 
         case "array-object":
-            result = ARR_.map(key => ({ key, value: _Store(storage, key) }));
+            result = ARR_.map(key => ({ key, value: $Store(config, key) }));
             break;
 
         default:
