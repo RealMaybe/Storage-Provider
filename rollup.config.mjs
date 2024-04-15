@@ -1,5 +1,5 @@
 // 版本号
-const version = "v0.1.3";
+const version = "v1.0.1";
 
 /**
  * @type { import('rollup').RollupOptions }

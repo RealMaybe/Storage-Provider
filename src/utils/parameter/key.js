@@ -7,15 +7,15 @@
  * @throws { Error } 如果键名的数据类型不是字符串类型，将抛出错误。
  * @throws { Error } 如果键名是空字符串，将抛出错误。
  */
-export function $Key(key) {
+export function $Key(key, tips = "key") {
     if (key === undefined || key === null)
-        throw new Error("Please pass in valid key.");
+        throw new Error(`Please pass in valid ${tips}.`);
 
     if (typeof key !== "string")
-        throw new Error("The data type of the key must be a string.");
+        throw new Error(`The data type of the ${tips} must be a string.`);
 
     if (typeof key === "string" && key.trim() === "")
-        throw new Error("The key cannot be an empty string.");
+        throw new Error(`The ${tips} cannot be an empty string.`);
 
     return key;
 }

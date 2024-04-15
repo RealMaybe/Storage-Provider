@@ -3,6 +3,7 @@
 ```markdown
 - 本文档基于 **StorageProvider v0.1.3** 版本。
 - 不同的版本所对应的文档可能存在不一致。
+- 高版本若未更新该文档，即本文档对高版本适用。
 - 为保证数据、说明等的完善性，本文档可能更新较为频繁。
 ```
 
@@ -190,7 +191,7 @@ $session.Save("arg", "hello");
 ```javascript
 import { StorageProvider } from "StorageProvider.js";
 
-const $local = new StorageProvider("local");
+const $local = new StorageProvider({ type: "local" });
 
 const obj = {
     key1: "value1",
