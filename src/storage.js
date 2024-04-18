@@ -64,12 +64,6 @@ export class StorageProvider {
             type, // 存储类型
             maxSize, // 存储的最大大小
             warn // 是否在控制台显示警告信息
-
-            /* 以下几项是定义好的内容，但是现版本暂时不会使用到 */
-
-            // expiration, // 存储是否过期
-            // time, // 存储的过期时间
-            // prefix, // 存储的 key 的前缀
         } = $Settings(settings);
 
 
@@ -105,6 +99,7 @@ export class StorageProvider {
          * 非必要的验证
          * 数据大小的验证通常来说可能无意义
          * 一般来说本地存储数据量完全够用
+         * 后期版本可能会删除掉这个验证
          */
 
         // 数据大小验证
@@ -122,7 +117,7 @@ export class StorageProvider {
      * 设置或获取单条存储数据
      * @method Storage
      * @param { String } key 数据的键名
-     * @param { * } value 要存储的值 (可选)
+     * @param { * } value 要存储的值（可选）
      * @returns { void | * } 如果提供了值，则设置键的值；如果没有提供值，则返回键的存储值
      */
     Storage(key, value) {
