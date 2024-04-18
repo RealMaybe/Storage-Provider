@@ -7,6 +7,7 @@
 /* 参数方法 */
 import {
     $Array, // 数组 有效性验证
+    $Key, // 键 有效性验证
 } from "./methods/Parameter.js";
 
 /* 数据方法 */
@@ -99,6 +100,12 @@ export class StorageProvider {
         }
 
         /* ========== */
+
+        /*
+         * 非必要的验证
+         * 数据大小的验证通常来说可能无意义
+         * 一般来说本地存储数据量完全够用
+         */
 
         // 数据大小验证
         if (_getStorageSize(this._config).b > maxSize && maxSize <= 5242880)
@@ -241,7 +248,7 @@ export class StorageProvider {
      */
     Remove(key) {
         try {
-            $Delete(this._config, true, key)
+            $Delete(this._config, true, $Key(key))
         } catch (error) { console.error(error) }
     }
 
@@ -253,9 +260,8 @@ export class StorageProvider {
      */
     RemoveMany(arr) {
         try {
-            const ARR_ = $Array(arr, "string");
-
-            for (let key of ARR_) $Delete(this._config, true, key)
+            for (let key of $Array(arr, "string"))
+                $Delete(this._config, true, key)
         } catch (error) { console.error(error) }
     }
 
