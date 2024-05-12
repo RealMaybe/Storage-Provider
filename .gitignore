@@ -38,3 +38,11 @@ yarn-error.log*
 # 测试中的开发文件
 cookie.*
 cookie/
+
+# 文档文件
+docs/
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
