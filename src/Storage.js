@@ -51,11 +51,13 @@ import { $Settings } from "./settings/Settings.js";
  * @author RealMaybe
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
  * 
- * @param { object } settings 配置对象
+ * @param { String | Object } settings 配置对象
  * 
- * @param { String } [settings.type] 存储类型
- * @param { number } [settings.maxSize] 存储的最大大小
- * @param { boolean } [settings.warn] 是否在控制台弹出警告信息
+ * @param { String } [settings.type] 存储类型，如果 settings 本身就是字符串的话，会被视为 type 字段。
+ * - "local"：使用 localStorage 存储数据。
+ * - "session"：使用 sessionStorage 存储数据。
+ * @param { Number } [settings.maxSize] 存储的最大大小
+ * @param { Boolean } [settings.warn] 是否在控制台弹出警告信息
  */
 export class StorageProvider {
     constructor(settings) {
@@ -117,7 +119,7 @@ export class StorageProvider {
      * 设置或获取单条存储数据
      * @method Storage
      * @param { String } key 数据的键名
-     * @param { * } value 要存储的值（可选）
+     * @param { any } value 要存储的值（可选）
      * @returns { void | * } 如果提供了值，则设置键的值；如果没有提供值，则返回键的存储值
      */
     Storage(key, value) {
@@ -136,7 +138,7 @@ export class StorageProvider {
      * 设置单条存储数据
      * @method Save
      * @param { String } key 数据的键名
-     * @param { * } value 要存储的值
+     * @param { any } value 要存储的值
      * @returns { void } 仅设置键的值，无返回值
      */
     Save(key, value) {
@@ -148,7 +150,7 @@ export class StorageProvider {
     /**
      * 设置多条存储数据
      * @method SaveMany
-     * @param { Array<{key: string, value: any}> } arr 要存储的多条数据，数组中的每个元素都是包含 key 和 value 属性的对象
+     * @param { Array<{key: String, value: any}> } arr 要存储的多条数据，数组中的每个元素都是包含 key 和 value 属性的对象
      * @returns { void } 仅设置键的值，无返回值
      */
     SaveMany(arr) {
@@ -165,6 +167,7 @@ export class StorageProvider {
      *
      * @method Set
      * @param  { ...* } arg 要存储的单条或者多条数据
+     * @returns { void } 仅设置值，无返回值
      */
     Set(...arg) {
         try {
@@ -182,7 +185,7 @@ export class StorageProvider {
      * 获取单条存储数据
      * @method Get
      * @param { String } key 数据的键名
-     * @returns { * } 返回键的存储值
+     * @returns { any } 返回键的存储值
      */
     Get(key) {
         try {
@@ -198,7 +201,7 @@ export class StorageProvider {
      * @method GetMany
      * @param { Array<string> } arr 包含需要获取值的键的数组。
      * @param { String } type 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
-     * @returns { Array<Object> | Object } 
+     * @returns { Array<Object> | Object } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
      */
     GetMany(arr, type = "array") {
         try {

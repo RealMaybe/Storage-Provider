@@ -19,19 +19,4 @@ import { $Store } from "../utils/data/value/Store.js";
 
 /* ========== */
 
-export {
-    // delete
-    $Delete,
-
-    // get
-    $GetAll,
-    $GetMany,
-
-    // set
-    $ObjectMany,
-    $ObjectValue,
-    $Set,
-
-    // value
-    $Store
-}
+export { $Delete, $GetAll, $GetMany, $ObjectMany, $ObjectValue, $Set, $Store };

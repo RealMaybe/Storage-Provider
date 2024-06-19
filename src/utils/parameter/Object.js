@@ -41,20 +41,25 @@ export function $Object(config, obj) {
 
         // 循环引用验证
         const circle = _circularReferenceChecker(obj);
-        if (circle === true && config.warn === true)
+        if (circle === true && config.warn === true) {
             console.warn("Warning: This object has the behavior of cyclically referencing itself, and we do not recommend doing so.");
+            console.warn("The objects with circular references are as follows:\n", obj);
+            console.warn("Warning: We have cleared the section that references itself in a loop for you. Please check the code for potential errors.");
+        }
 
 
         // 非空验证，去除循环引用
         let cache = [];
 
-        if (JSON.stringify(obj, (_, val) => {
-                if (typeof val === "object" && val !== null) {
-                    if (cache.indexOf(val) !== -1) return;
-                    cache.push(val);
-                }
-                return val;
-            }) !== "{}" && valid === true)
+        const objString = JSON.stringify(obj, (_, val) => {
+            if (typeof val === "object" && val !== null) {
+                if (cache.indexOf(val) !== -1) return;
+                cache.push(val);
+            }
+            return val;
+        });
+
+        if (objString !== "{}" && valid === true)
             return obj;
 
         cache = null;

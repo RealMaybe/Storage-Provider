@@ -17,9 +17,4 @@ import { $Value } from "../utils/parameter/Value.js";
 /* ========== */
 
 /* 导出所有方法 */
-export {
-    $Array, // 数组 有效性验证
-    $Key, // 键 有效性验证
-    $Object, // 对象 有效性验证
-    $Value // 值 有效性验证
-}
+export { $Array, $Key, $Object, $Value };
