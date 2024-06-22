@@ -4,13 +4,16 @@ import { _getValueFromStorage } from "../../storageValue/getValue.js";
 /* ========== */
 
 /**
- * 删除存储元素
+ * 删除存储元素。
  * 
  * @function $Delete
  * 
  * @param { object } config 配置对象
  * @param { boolean } judge 决定用于删除单个项目还是清空存储，true 为删除单个，false 为清空
  * @param { string } key 键名
+ * @return { void } 无返回值
+ * 
+ * @warning 如果传入的 key 对应的值不存在或者无效，则发出警告
  */
 export function $Delete(config, judge, key) {
     if (!!judge &&

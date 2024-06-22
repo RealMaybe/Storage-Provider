@@ -1,11 +1,14 @@
 /**
  * 验证 key 的有效性。
+ * 
  * @function $Key
- * @param { string } key 键名。
- * @returns { string } 返回传入的键。
- * @throws { Error } 如果传入的值为空，将抛出错误。
- * @throws { Error } 如果键名的数据类型不是字符串类型，将抛出错误。
- * @throws { Error } 如果键名是空字符串，将抛出错误。
+ * 
+ * @param { string } key 需要验证的键名
+ * @returns { string } 返回验证过后的键
+ * 
+ * @throws { Error } 如果传入的值为空，将抛出错误
+ * @throws { Error } 如果键名的数据类型不是字符串类型，将抛出错误
+ * @throws { Error } 如果键名是空字符串，将抛出错误
  */
 export function $Key(key, tips = "key") {
     if (key === undefined || key === null)

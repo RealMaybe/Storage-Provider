@@ -1,21 +1,21 @@
 import { _circularReferenceChecker } from "../../methods/Checker.js";
 
 /**
- * 查验对象是否为非空对象。
- * obj 必须是一个非空对象，并且不能是数组。
- * 这是为了确保只有键值对存在于 obj 中，而不是其他类型的数据。
+ * - 查验对象是否为非空对象。
+ * - obj 必须是一个非空对象，并且不能是数组。
+ * - 这是为了确保只有键值对存在于 obj 中，而不是其他类型的数据。
  * 
  * 
  * @function $Object
  * @param { object } config 配置对象
- * @param { object } obj 一个非空对象。
- * @returns { object } 返回传入的非空对象。
+ * @param { object } obj 一个非空对象
+ * @returns { object } 返回传入的非空对象
  * 
- * @throws 抛出错误：当对象为空或包含无效值时。
- * @throws 抛出错误：当传入的参数不是对象时。
+ * @throws 抛出错误：当对象为空或包含无效值时
+ * @throws 抛出错误：当传入的参数不是对象时
  * 
- * @summary 如果传入的对象存在循环引用自身的行为，在默认情况下，控制台会提示警告信息。
- * @summary 不建议传入存在循环引用自身的行为的对象，虽然这样并不会报错。
+ * @summary 如果传入的对象存在循环引用自身的行为，在默认情况下，控制台会提示警告信息
+ * @summary 不建议传入存在循环引用自身的行为的对象，虽然这样并不会报错
  */
 export function $Object(config, obj) {
     if (

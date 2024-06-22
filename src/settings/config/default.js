@@ -36,14 +36,14 @@ export function $Settings(options) {
         // 参数为对象，且不为数组，验证传入的对象是否包含指定属性
         else if (!Array.isArray(param) && typeof param === "object") {
             const propertiesToCheck = [
-                "type",
-                "maxSize",
-                "warn",
-                // "encrypt",
-                // "compress",
-                // "expiration",
-                // "time",
-                // "prefix"
+                "type", // 存储类型
+                "maxSize", // 最大存储大小
+                "warn", // 是否在控制台弹出警告信息
+                // "encrypt", // 是否加密存储
+                // "compress", // 是否压缩存储
+                // "expiration", // 过期时间
+                // "time", // 存储时间
+                // "prefix" // 前缀
             ];
 
             // 检查配置对象中是否包含指定的属性，如果不包含则抛出错误

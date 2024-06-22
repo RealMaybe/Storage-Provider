@@ -27,14 +27,12 @@ import {
     $Store // 从存储中获取值或者设置值
 } from "./methods/Data.js";
 
-import {
-    _getStorageSize // 本地存储合计大小
-} from "./methods/Checker.js";
-
-/* ========== */
+/* 检查器 */
+import { _getStorageSize } from "./methods/Checker.js";
 
 /* 配置 */
 import { $Settings } from "./settings/Settings.js";
+
 
 /* ========== */
 
