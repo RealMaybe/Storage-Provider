@@ -4,7 +4,7 @@
  * @function $Array
  * 
  * @param { Array } arr 需要验证的数组
- * @param { string } type 需要的数据类型
+ * @param { String } type 需要的数据类型
  * @returns { Array } 返回验证过后的数组
  * 
  * @throws 抛出报错：输入参数不是数组

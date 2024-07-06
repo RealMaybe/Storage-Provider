@@ -9,8 +9,8 @@ import { $Key } from "../../methods/Parameter.js";
  * @function _getValueFromStorage
  * 
  * @param { object } config 配置对象
- * @param { string } key 要获取的键名
- * @returns { * } 存储的值，如果没有找到则返回null
+ * @param { String } key 要获取的键名
+ * @returns { any } 存储的值，如果没有找到则返回null
  */
 export function _getValueFromStorage(config, key) {
     const KEY_ = $Key(key),

@@ -49,7 +49,7 @@ import { $Settings } from "./settings/Settings.js";
  * @author RealMaybe
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
  * 
- * @param { String | Object } settings 配置对象
+ * @param { String | object } settings 配置对象
  * 
  * @param { String } [settings.type] 存储类型，如果 settings 本身就是字符串的话，会被视为 type 字段。
  * - "local"：使用 localStorage 存储数据。
@@ -80,12 +80,8 @@ export class StorageProvider {
             type, // 文本提示
             storage: (() => { // 存储环境
                 // 浏览器环境
-                if (window && !window.plus)
+                if (window && !global)
                     return type === "session" ? sessionStorage : localStorage;
-
-                // H5+app 环境
-                if (window.plus && window.plus.storage)
-                    return type === "session" ? plus.storage : plus.storage.getStorageSync;
 
                 // 其他环境
                 throw new Error("Unknown environment, unable to determine storage method.")
@@ -118,7 +114,7 @@ export class StorageProvider {
      * @method Storage
      * @param { String } key 数据的键名
      * @param { any } value 要存储的值（可选）
-     * @returns { void | * } 如果提供了值，则设置键的值；如果没有提供值，则返回键的存储值
+     * @returns { void | any } 如果提供了值，则设置键的值；如果没有提供值，则返回键的存储值
      */
     Storage(key, value) {
         try {
@@ -164,7 +160,7 @@ export class StorageProvider {
      * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
      *
      * @method Set
-     * @param  { ...* } arg 要存储的单条或者多条数据
+     * @param  { ...any } arg 要存储的单条或者多条数据
      * @returns { void } 仅设置值，无返回值
      */
     Set(...arg) {

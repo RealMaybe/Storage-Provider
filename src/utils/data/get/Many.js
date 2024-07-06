@@ -13,7 +13,7 @@ import { $Store } from "../../../methods/Data.js";
  * @param { object } config 配置对象
  * @param { Array.<string> } arr 字符串数组
  * @param { String } type 获取值之后的输出类型，可选值为 'array', 'object', 'array-object'
- * @returns { Array.<Object> | Object } 根据指定类型返回不同格式的结果
+ * @returns { Array.<object> | object } 根据指定类型返回不同格式的结果
  */
 export function $GetMany(config, arr, type) {
     // 有效性验证

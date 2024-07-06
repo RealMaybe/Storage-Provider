@@ -10,9 +10,9 @@ import { _setValueToStorage } from "../../storageValue/setValue.js";
  * 
  * @param { object } config 配置对象
  * @param { string } key 键名
- * @param { * } value 值
+ * @param { any } value 值
  * 
- * @returns { void | * } 获取到的值或者无返回值
+ * @returns { any | void } 获取到的值或者无返回值
  */
 export function $Store(config, key, value) {
     // value 无效，获取 key 对应的内容

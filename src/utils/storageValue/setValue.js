@@ -9,8 +9,8 @@ import { $Key, $Value } from "../../methods/Parameter.js";
  * @function _setValueToStorage
  * 
  * @param { object } config 配置对象
- * @param { string } key 要存储的键名
- * @param { * } value 要存储的数据
+ * @param { String } key 要存储的键名
+ * @param { any } value 要存储的数据
  */
 export function _setValueToStorage(config, key, value) {
     const KEY_ = $Key(key),

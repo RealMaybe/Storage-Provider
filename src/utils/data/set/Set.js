@@ -18,7 +18,7 @@ import {
  * @function $Set
  * 
  * @param { object } config 配置对象
- * @param { * } arg 要存储的单条或者多条数据
+ * @param { any } arg 要存储的单条或者多条数据
  */
 export function $Set(config, arg) {
     /* 检查参数数量 */

@@ -87,8 +87,8 @@ const defaultOptions = {
 
 | 属性 | 类型 | 默认值 | 解释 | 备注 |
 | :--- | :--- | :--- | :--- | :--- |
-| `type` | `string` | `local` | 存储类型，可选值为 `local` 或 `session` | `local` 为 localStorage，`session` 为 sessionStorage |
-| `maxSize` | `number` | `local` | 最大存储大小，单位为字节 | 默认为 `1048576` 字节，即 `1MB` |
+| `type` | `string` | `"local"` | 存储类型，可选值为 `"local"` 或 `"session"` | `"local"` 为 localStorage，`"session"` 为 sessionStorage |
+| `maxSize` | `number` | `1048576` | 最大存储大小，单位为字节 | 默认为 `1048576` 字节，即 `1MB` |
 | `warn` | `boolean` | `true` | 是否在控制台弹出警告信息 | `true` 为弹出警告信息，`false` 为不弹出警告信息 |
 
 现版本中，以下属性 **暂未启用**

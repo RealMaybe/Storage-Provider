@@ -8,7 +8,7 @@ import { _getValueFromStorage } from "../../storageValue/getValue.js"
  * @function $GetAll
  * 
  * @param { object } config 配置对象
- * @returns { Object } 包含所有键值对的对象
+ * @returns { object } 包含所有键值对的对象
  */
 export function $GetAll(config) {
     const allData = {};

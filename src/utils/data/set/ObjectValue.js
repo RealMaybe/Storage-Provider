@@ -10,6 +10,7 @@ import { $Object } from "../../../methods/Parameter.js";
  * 
  * @param { object } config 配置对象
  * @param { object } obj 存有需要存储的内容的对象
+ * @return { void }
  */
 export function $ObjectValue(config, obj) {
     const OBJ_ = $Object(config, obj);

@@ -2,8 +2,8 @@
  * 用于验证 value 的有效性。
  * @function $Value
  * @param { object } config 配置对象。
- * @param { * } value 存储值。
- * @returns { * } 返回传入的值。
+ * @param { any } value 存储值。
+ * @returns { any } 返回传入的值。
  * 
  * @throws { Error } 如果传入的值为空，将抛出错误。
  */

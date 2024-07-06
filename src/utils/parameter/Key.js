@@ -3,8 +3,8 @@
  * 
  * @function $Key
  * 
- * @param { string } key 需要验证的键名
- * @returns { string } 返回验证过后的键
+ * @param { String } key 需要验证的键名
+ * @returns { String } 返回验证过后的键
  * 
  * @throws { Error } 如果传入的值为空，将抛出错误
  * @throws { Error } 如果键名的数据类型不是字符串类型，将抛出错误

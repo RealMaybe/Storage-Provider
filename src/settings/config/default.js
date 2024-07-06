@@ -10,7 +10,7 @@ import {
  * 
  * @function $Settings
  * 
- * @param { object | string } options 配置选项对象
+ * @param { { type: String, maxSize: Number, warn: Boolean } | string } options 配置选项对象
  * @param { string } [options.type] 存储类型
  * @param { number } [options.maxSize] 最大存储大小，单位为字节
  * @param { boolean } [options.warn] 是否在控制台弹出警告信息
@@ -36,14 +36,14 @@ export function $Settings(options) {
         // 参数为对象，且不为数组，验证传入的对象是否包含指定属性
         else if (!Array.isArray(param) && typeof param === "object") {
             const propertiesToCheck = [
-                "type", // 存储类型
-                "maxSize", // 最大存储大小
-                "warn", // 是否在控制台弹出警告信息
-                // "encrypt", // 是否加密存储
-                // "compress", // 是否压缩存储
-                // "expiration", // 过期时间
-                // "time", // 存储时间
-                // "prefix" // 前缀
+                "type", // 存储类型【String】
+                "maxSize", // 最大存储大小【Number】
+                "warn", // 是否在控制台弹出警告信息【Boolean】
+                // "encrypt", // 是否加密存储【Boolean】
+                // "compress", // 是否压缩存储【Boolean】
+                // "expiration", // 过期时间【Number】
+                // "time", // 存储时间【Number】
+                // "prefix" // 前缀【String】
             ];
 
             // 检查配置对象中是否包含指定的属性，如果不包含则抛出错误
