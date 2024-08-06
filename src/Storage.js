@@ -80,11 +80,12 @@ export class StorageProvider {
             type, // 文本提示
             storage: (() => { // 存储环境
                 // 浏览器环境
-                if (window && !global)
+                if (window)
                     return type === "session" ? sessionStorage : localStorage;
 
                 // 其他环境
-                throw new Error("Unknown environment, unable to determine storage method.")
+                if (!window)
+                    throw new Error("Unknown environment, unable to determine storage method.");
             })(),
             warn, // 警告
         }

@@ -7,7 +7,7 @@ const $local = new StorageProvider(Recommended),
     $session = new StorageProvider({...Recommended, type: "session" });
 
 export {
-    StorageProvider, // 导出主函数（无配置，直接使用须要手动配置）
     $local, // 导出配置好的 local 方法
-    $session // 导出配置好的 session 方法
+    $session, // 导出配置好的 session 方法
+    StorageProvider as default // 导出主函数作为默认导出
 }
