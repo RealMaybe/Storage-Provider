@@ -17,7 +17,7 @@
 | 类型 | 地址 |
 | --- | --- |
 | 说明文档（中文） | [中文说明文档](./docs/zh/说明文档.md) |
-| 方法文档（中文） | [中文方法文档](./docs/zh/methodDocument-zh.md) |
+| 方法文档（中文） | [中文方法文档](./docs/zh/方法文档.md) |
 | English Documentation | [Documentation](./docs/en/documentation-en.md) |
 | English Method document | [Method document](./docs/en/methodDocument-en.md) |
 | 日本語の説明ドキュメント | [説明ドキュメント](./docs/jp/documentation-jp.md) |
@@ -32,7 +32,7 @@
 
 相关其他附加条款如下：
 
-#### Additional terms
+### Additional terms
 
 If you have any questions or need further information about the software, please feel free to contact the original author at any time:
 
