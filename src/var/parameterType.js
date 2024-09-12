@@ -20,7 +20,7 @@ let storageType = {
 // 最大容量
 let maxSize = {
     type: "number",
-    required: true,
+    required: false,
     // allowedValues: null,
     validator: value =>
         typeof value === "number" &&
@@ -111,9 +111,9 @@ let prefix = {
 // 导出参数属性类型
 export const parameterType = {
     storageType,
-    maxSize,
     warn,
     circular,
+    maxSize,
     encrypt,
     compress,
     expirationTime,

@@ -1,8 +1,8 @@
 /* 获取多个数据 */
 
 // 导入依赖
-import { ValidateArray } from "../validate/ValidateArray.js";
-import { GetValueFromStorage } from "../value/getValue.js";
+import { ValidateArray } from "../validate/ValidateArray.js"; // 导入数组有效性验证函数
+import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存储内容的函数
 
 /* ========== */
 

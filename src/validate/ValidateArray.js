@@ -38,7 +38,7 @@ export function ValidateArray(classConfig, arr, type = null) {
 
     // 允许的类型列表
     if (type !== null) {
-        const allowedTypes = ["number", "string", "boolean", "object", "function", "array", "undefined", "null", "symbol", "bigint"];
+        const allowedTypes = ["array", "bigint", "boolean", "function", "null", "number", "object", "string", "symbol", "undefined"];
 
         // type不是字符串，或者不在允许的类型列表中
         if (typeof type !== "string" || !allowedTypes.includes(type))

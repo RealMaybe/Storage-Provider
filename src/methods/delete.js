@@ -1,8 +1,8 @@
 /* 删除存储的内容 */
 
 // 导入依赖
-import { ValidateKey } from "../parameter/ValidateKey.js";
-import { GetValueFromStorage } from "../value/getValue.js";
+import { ValidateKey } from "../parameter/ValidateKey.js"; // 导入 key 验证器
+import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存储内容的函数
 
 /**
  * 删除存储元素。

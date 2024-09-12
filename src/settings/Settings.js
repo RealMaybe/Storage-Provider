@@ -1,18 +1,18 @@
 /* 配置对象查验器 */
 
 // 导入依赖
-import { defaultConfig } from "../var/defaultConfig.js";
-import { parameterType } from "../var/parameterType.js";
-import { CheckType } from "../checker/checkType.js";
+import { defaultConfig } from "../var/defaultConfig.js"; // 导入默认配置
+import { parameterType } from "../var/parameterType.js"; // 导入参数类型
+import { CheckType } from "../checker/checkType.js"; // 导入参数类型验证器
 
 /**
  * 验证配置对象
  * 
  * @function Settings
  * 
- * @param { string | { storageType: string, maxSize: number, warn: boolean } } classConfig 配置对象
+ * @param { string | { storageType: string, maxSize?: number, warn: boolean, circular?: boolean } } classConfig 配置对象
  * 
- * @returns { { storageType: string; maxSize: number; warn: boolean } } 验证过后的配置对象
+ * @returns { { storageType: string, maxSize: number, warn: boolean, circular: boolean } } 验证过后的配置对象
  * 
  * @throws { Error } 验证失败时抛出错误
  */

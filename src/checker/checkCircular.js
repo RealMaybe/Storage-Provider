@@ -5,15 +5,14 @@
  * 
  * @function CheckCircular
  * 
- * @param { { circular: boolean } } config 配置对象。
  * @param { object | Array<any> } item 要处理的原始对象或数组。
  * 
  * @returns { { isCircular: boolean, value: object | Array<any>, warning: string | null } } 一个对象，包含三个属性：
- * - isCircular: 一个布尔值，表示原始对象中是否存在循环引用。
+ * - isCircular: 一个布尔值，表示原始对象中是否存在循环引用。如果为 true，则表示存在循环引用；如果为 false，则表示不存在循环引用。
  * - warning: 一个字符串，如果原始对象中存在循环引用，则会包含一个警告信息。如果原始对象中不存在循环引用，则为 null。
  * - value: 处理后的原始对象或者数组的一个副本。
  * 
- * @summary 如果遇到循环引用，则循环引用的部分将被替换为"[Circular]"。
+ * @summary 如果遇到循环引用，则循环引用的部分将被替换为字符串 "[Circular]"
  */
 export function CheckCircular(item) {
     const _TYPE = (() => {

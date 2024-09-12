@@ -27,8 +27,8 @@ export function m_setManyFromKeyValue(config, arr) {
             !ITEM_.value ||
             ITEM_.value === null ||
             ITEM_.value === undefined
-        ) throw new Error("Array items must be objects that contain valid 'key' and valid 'value' properties.");
+        ) throw new Error(`Array items must be objects that contain valid "key" and valid "value" properties.`);
 
-        SetValueToStorage(config, ITEM_.key, ITEM_.value);
+        else SetValueToStorage(config, ITEM_.key, ITEM_.value);
     })
 }

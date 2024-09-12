@@ -1,7 +1,7 @@
 /* 检查配置对象属性及类型 */
 
 // 导入依赖
-import { ValidateObject } from "../validate/ValidateObject.js";
+import { ValidateObject } from "../validate/ValidateObject.js"; // 导入对象有效性检查器
 
 /**
  * 检查配置对象属性及类型

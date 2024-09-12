@@ -1,7 +1,7 @@
 /* 获取所有元素 */
 
 // 导入依赖
-import { GetValueFromStorage } from "../value/getValue.js";
+import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存储内容的函数
 
 /* ========== */
 

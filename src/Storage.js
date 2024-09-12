@@ -21,24 +21,23 @@ import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存�
  * StorageProvider 提供对 localStorage 和 sessionStorage 的操作方法。
  * 仅支持 window 环境，暂不支持其他环境。
  * 
- * @class
- * @constructor
- * @name StorageProvider
+ * @class StorageProvider
  * @author RealMaybe
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
  * 
- * @param { string | { storageType: string, maxSize: number, warn: boolean } } settings 配置对象或存储类型字符串
- * @param { string } [settings.type] 存储类型
- * - "local": 使用 localStorage 存储数据。  
- * - "session": 使用 sessionStorage 存储数据。  
- * - 如果 `settings` 是字符串，则直接视为 `type` 的值。  
- * @param { number } [settings.maxSize] 存储的最大大小（单位为字节）
- * @param { boolean } [settings.warn] 是否在控制台弹出警告信息，如超出最大存储大小等
+ * @param { string | { storageType: string, maxSize?: number, warn: boolean, circular?: boolean } } settings 配置对象或存储类型字符串
+ * @param { string } [settings.storageType] 存储类型，必填
+ * - "local": 使用 localStorage 存储数据。
+ * - "session": 使用 sessionStorage 存储数据。
+ * - 如果 `settings` 是字符串，则直接视为 `storageType` 的值。
+ * @param { number } [settings.maxSize] 最大存储容量，非必填，默认为 1048576 字节，即 1MB
+ * @param { boolean } [settings.warn] 是否在控制台弹出警告信息，必填，默认为 true
+ * @param { boolean } [settings.circular] 是否去除循环引用，非必填，默认为 false
  */
 export class StorageProvider {
     constructor(settings) {
         // 解构、验证配置参数
-        const { storageType, maxSize, warn, circular } = Settings(settings);
+        const { storageType, warn, circular } = Settings(settings);
 
         // 建立配置对象
         this._config = {
@@ -54,9 +53,6 @@ export class StorageProvider {
             warn,
             circular
         };
-
-        /* ========== */
-
     }
 
     /* ========== */
@@ -70,7 +66,7 @@ export class StorageProvider {
      * 
      * @return { object | Array<any> } 去除循环引用后的对象或数组
      */
-    Circular(item) {
+    circular(item) {
         try {
             const { isCircular, warning, value } = CheckCircular(item);
 
@@ -96,7 +92,7 @@ export class StorageProvider {
      * - 如果没有传入有效的 `value`，则返回对应键名的值；
      * - 否则，存储对应键名的值并返回 `undefined`。
      */
-    Storage(key, value) {
+    storage(key, value) {
         try {
             return m_store(this._config, key, value)
         } catch (err) { console.error(err) }
@@ -115,7 +111,7 @@ export class StorageProvider {
      * 
      * @returns { void } 仅设置键的值，无返回值
      */
-    Save(key, value) {
+    save(key, value) {
         try {
             m_store(this._config, key, value)
         } catch (err) { console.error(err) }
@@ -130,7 +126,7 @@ export class StorageProvider {
      * 
      * @returns { void } 仅设置键的值，无返回值
      */
-    SaveMany(arr) {
+    saveMany(arr) {
         try {
             m_setManyFromKeyValue(this._config, arr)
         } catch (err) { console.error(err) }
@@ -145,7 +141,7 @@ export class StorageProvider {
      * 
      * @returns { void } 仅设置键的值，无返回值
      */
-    SetMany(obj) {
+    setMany(obj) {
         try {
             m_setManyFromObject(this._config, obj)
         } catch (err) { console.error(err) }
@@ -163,7 +159,7 @@ export class StorageProvider {
      * 
      * @returns { void } 仅设置值，无返回值
      */
-    Set(...data) {
+    set(...data) {
         try {
             m_setValueMethod(this._config, data)
         } catch (err) { console.error(err) }
@@ -182,7 +178,7 @@ export class StorageProvider {
      * 
      * @returns { any } 返回键的存储值
      */
-    Get(key) {
+    get(key) {
         try {
             return m_store(this._config, key)
         } catch (err) { console.error(err) }
@@ -200,7 +196,7 @@ export class StorageProvider {
      * 
      * @returns { Array<object> | object } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
      */
-    GetMany(arr, type = "object") {
+    getMany(arr, type = "object") {
         try {
             return m_getMany(this._config, arr, type)
         } catch (err) { console.error(err) }
@@ -213,7 +209,7 @@ export class StorageProvider {
      * 
      * @returns { object } 包含所有本地存储数据的对象。
      */
-    GetAll() {
+    getAll() {
         try {
             return m_getAll(this._config)
         } catch (err) { console.error(err) }
@@ -234,7 +230,7 @@ export class StorageProvider {
      * 
      * @returns { void } 无返回值
      */
-    Delete(key) {
+    delete(key) {
         try {
             m_deleteItem(this._config, true, key)
         } catch (err) { console.error(err) }
@@ -249,7 +245,7 @@ export class StorageProvider {
      * 
      * @returns { void } 无返回值
      */
-    Remove(key) {
+    remove(key) {
         try {
             m_deleteItem(this._config, true, ValidateKey(this._config, key))
         } catch (err) { console.error(err) }
@@ -264,7 +260,7 @@ export class StorageProvider {
      * 
      * @returns { void } 无返回值
      */
-    RemoveMany(arr) {
+    removeMany(arr) {
         try {
             for (let key of ValidateArray(this._config, arr, "string"))
                 m_deleteItem(this._config, true, key)
@@ -278,7 +274,7 @@ export class StorageProvider {
      * 
      * @returns { void } 无返回值
      */
-    Clean() {
+    clean() {
         try {
             m_deleteItem(this._config, false)
         } catch (err) { console.error(err) }
