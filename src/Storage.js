@@ -9,6 +9,7 @@ import { Settings } from "./settings/Settings.js"; // 配置管理器
 import { CheckCircular } from "./checker/checkCircular.js" // 循环引用检查器
 import { ValidateArray } from "./validate/ValidateArray.js"; // 验证数组的方法
 import { ValidateKey } from "./parameter/ValidateKey.js"; // 验证键名的方法
+import { ValidateValue } from "./parameter/ValidateValue.js"; // 验证键名的方法
 import { m_store } from "./methods/store.js" // 存储、获取值的方法
 import { m_setManyFromKeyValue } from "./methods/setManyFromKeyValue.js" // 通过数组中的对象中的 key 和 value 属性批量设置值的方法
 import { m_setManyFromObject } from "./methods/setManyFromObject.js"; // 通过对象批量设置值的方法
@@ -55,7 +56,9 @@ export class StorageProvider {
         };
     }
 
+
     /* ========== */
+
 
     // 辅助方法，去除循环引用
 
@@ -76,7 +79,9 @@ export class StorageProvider {
         } catch (err) { console.error(err) }
     }
 
+
     /* ========== */
+
 
     // 存储或获取
 
@@ -98,7 +103,9 @@ export class StorageProvider {
         } catch (err) { console.error(err) }
     }
 
+
     /* ========== */
+
 
     // 存储
 
@@ -113,7 +120,7 @@ export class StorageProvider {
      */
     save(key, value) {
         try {
-            m_store(this._config, key, value)
+            m_store(this._config, key, ValidateValue(this._config, value))
         } catch (err) { console.error(err) }
     }
 
@@ -137,7 +144,7 @@ export class StorageProvider {
      * 
      * @method SetMany
      * 
-     * @param { { [key: string]: any } } obj 要存储的多条数据，对象中的每个属性都是键值对
+     * @param { { [key: string]: any } } obj 要存储的多条数据，对象中的每个属性的将作为key，属性值将作为存储的值。
      * 
      * @returns { void } 仅设置键的值，无返回值
      */
@@ -149,13 +156,13 @@ export class StorageProvider {
 
     /**
      * 设置单条或多条存储数据。
-     * - 该方法本质上是对 Save、SaveMany、SetMany 的整合，用于简化调用。
+     * - 该方法本质上是对 save、saveMany、setMany 的整合，用于简化调用。
      * - 该函数传入参数数量为必须为 1 ~ 2。
-     * - 参数的传入原则与 Save、SaveMany、SetMany 三个方法相同。
+     * - 参数的传入原则与 save、saveMany、setMany 三个方法相同。
      *
      * @method Set
      * 
-     * @param { { [key: string]: any } | Array<{ key: string, value: any }> | string } data 要存储的单条或多条数据
+     * @param { Array<{ key: string, value: any }> | { [key: string]: any } | string } data 要存储的单条或多条数据
      * 
      * @returns { void } 仅设置值，无返回值
      */
@@ -165,7 +172,9 @@ export class StorageProvider {
         } catch (err) { console.error(err) }
     }
 
+
     /* ========== */
+
 
     // 获取
 
@@ -207,7 +216,7 @@ export class StorageProvider {
      * 
      * @method GetAll
      * 
-     * @returns { object } 包含所有本地存储数据的对象。
+     * @returns { { [key: string]: any } } 包含所有本地存储数据的对象。
      */
     getAll() {
         try {
@@ -226,7 +235,7 @@ export class StorageProvider {
      * 
      * @method Delete
      * 
-     * @param { string } key 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
+     * @param { string } [key] 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
      * 
      * @returns { void } 无返回值
      */

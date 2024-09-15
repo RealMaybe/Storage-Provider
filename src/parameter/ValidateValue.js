@@ -31,20 +31,25 @@ export function ValidateValue(config, value) {
 
     // 验证参数类型
     try {
-        if (value === null || value === undefined) throw new Error("This value cannot be null or undefined.");
+        if (value === null || value === undefined)
+            throw new Error("This value cannot be null or undefined.");
 
-        const type = typeof value;
-        if (type === "object" && Array.isArray(value)) type = "array";
+        const TYPE_ = typeof value;
+        if (TYPE_ === "object" && Array.isArray(value)) TYPE_ = "array";
 
-        const validator = validators[type];
+        // 调用对应的验证器
+        const validator = validators[TYPE_];
         if (validator) {
             const result = validator(config, value);
+
+            // 如果验证器返回了值，说明验证成功
             if (result !== undefined) return result;
 
-            throw new Error(`Validation for type "${type}" failed without returning a result.`);
+            // 如果验证器没有返回值，说明验证失败
+            throw new Error(`Validation for type "${TYPE_}" failed without returning a result.`);
         }
 
         // 如果没有匹配的验证器，抛出错误
-        throw new Error(`Unsupported value type: ${type}`);
+        throw new Error(`Unsupported value type: ${TYPE_}`);
     } catch (err) { console.error(err) }
 };

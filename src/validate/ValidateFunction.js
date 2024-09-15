@@ -8,7 +8,7 @@
  * @param { { warn: boolean } } config 配置对象
  * @param { Function } func 函数名称
  * 
- * @return { { functionName: string, functionSourceCode: string, numberOfParameters: number, tips: Array<string> } } 验证结果对象
+ * @return { { functionName: string, functionSourceCode: string, numberOfParameters: number } } 验证结果对象
  */
 export function ValidateFunction(config, func) {
     let notice = [

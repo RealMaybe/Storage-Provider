@@ -15,7 +15,9 @@ import { ValidateString } from "../validate/ValidateString.js";
  */
 export function ValidateKey(config, key) {
     try {
-        return ValidateString(config, key, "key");
+        if (key === "") {
+            throw new Error("Key cannot be an empty string.");
+        } else return ValidateString(config, key, "key");
     } catch (err) {
         console.error(err);
     }
