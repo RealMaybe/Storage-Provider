@@ -8,6 +8,7 @@ export default {
     input: "src/index.js",
     output: {
         file: `dist/StorageProvider.${version}.js`,
-        format: "es",
+        format: "iife", // es or iife
+        name: "StorageProvider"
     },
 };

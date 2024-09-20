@@ -6,5 +6,5 @@ const $session = new StorageProvider({ storageType: "session", warn: true });
 export {
     $local,
     $session,
-    StorageProvider as default
+    StorageProvider
 }
