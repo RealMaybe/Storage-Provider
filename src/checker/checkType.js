@@ -5,12 +5,12 @@ import { ValidateObject } from "../validate/ValidateObject.js"; // 导入对象�
 
 /**
  * 检查配置对象属性及类型
- * 
+ *
  * @function CheckType
- * 
+ *
  * @param { { storageType: string, maxSize: number, warn: boolean } } classConfig 需要检查的配置对象
  * @param { { [key: string]: { type: string, required: boolean, allowedValues?: Array<any>, validator: function, errorMessage: string }} } rules 规则对象
- * 
+ *
  * @returns { { isValid: boolean, errors: Array<string>, tips: Array<string> } } 验证结果对象
  */
 export function CheckType(classConfig, rules) {
@@ -26,7 +26,7 @@ export function CheckType(classConfig, rules) {
         // 如果属性在对象中但不在规则中，则添加到tips数组
         if (!rules.hasOwnProperty(objPropName))
             tips.push(`Extra property found: '${objPropName}'. This property is not defined in the validation rules.`);
-    };
+    }
 
     // 然后，遍历rules对象进行验证
     for (const rulePropName in rules) {
@@ -45,22 +45,33 @@ export function CheckType(classConfig, rules) {
         if (rulePropName in _OBJ) {
             // 检查类型
             if (rule.type && typeof propValue !== rule.type)
-                errors.push(`Property '${rulePropName}' must be of type '${rule.type}', but was '${typeof propValue}'`);
+                errors.push(
+                    `Property '${rulePropName}' must be of type '${
+                        rule.type
+                    }', but was '${typeof propValue}'`
+                );
 
             // 执行验证函数
             if (rule.validator && !rule.validator(propValue))
-                errors.push(rule.errorMessage || `Property '${rulePropName}' failed validation.`);
+                errors.push(
+                    rule.errorMessage ||
+                    `Property '${rulePropName}' failed validation.`
+                );
 
             // 检查是否有允许的值，并验证
             if (rule.allowedValues && !rule.allowedValues.includes(propValue))
-                errors.push(`Property '${rulePropName}' must be one of the following values: '${rule.allowedValues.join("', '")}', but was '${propValue}'`);
+                errors.push(
+                    `Property '${rulePropName}' must be one of the following values: '${rule.allowedValues.join(
+                        "', '"
+                    )}', but was '${propValue}'`
+                );
         }
-    };
+    }
 
     // 返回包含验证结果的对象
     return {
         isValid: errors.length === 0,
         errors,
-        tips
+        tips,
     };
-};
+}

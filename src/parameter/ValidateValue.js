@@ -29,12 +29,14 @@ export function ValidateValue(config, value) {
         symbol: (c, v) => v
     };
 
+
+
     // 验证参数类型
     try {
         if (value === null || value === undefined)
             throw new Error("This value cannot be null or undefined.");
 
-        const TYPE_ = typeof value;
+        let TYPE_ = typeof value;
         if (TYPE_ === "object" && Array.isArray(value)) TYPE_ = "array";
 
         // 调用对应的验证器
