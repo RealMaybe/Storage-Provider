@@ -17,6 +17,7 @@ import { m_setValueMethod } from "./methods/setValueMethod.js"; // 设置单条�
 import { m_getMany } from "./methods/getMany.js" // 获取多条存储数据的方法
 import { m_getAll } from "./methods/getAll.js" // 获取所有存储数据的方法
 import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存储数据的方法
+// import { m_change } from "./methods/change.js" // 存储变化监控的方法
 
 /**
  * StorageProvider 提供对 localStorage 和 sessionStorage 的操作方法。
@@ -25,20 +26,24 @@ import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存�
  * @class StorageProvider
  * @author RealMaybe
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
+ * @version 1.0.3
  * 
- * @param { string | { storageType: string, maxSize?: number, warn: boolean, circular?: boolean } } settings 配置对象或存储类型字符串
- * @param { string } [settings.storageType] 存储类型，必填
- * - "local": 使用 localStorage 存储数据。
- * - "session": 使用 sessionStorage 存储数据。
- * - 如果 `settings` 是字符串，则直接视为 `storageType` 的值。
- * @param { number } [settings.maxSize] 最大存储容量，非必填，默认为 1048576 字节，即 1MB
- * @param { boolean } [settings.warn] 是否在控制台弹出警告信息，必填，默认为 true
- * @param { boolean } [settings.circular] 是否去除循环引用，非必填，默认为 false
+ * @param { string | object } settings 配置对象，可以是字符串或包含配置属性的对象。
+ * @param { string } [settings.storageType] 存储类型，必须是 "local" 或 "session"（必填）
+ * @param { boolean } [settings.warn] 是否显示警告（必填）
+ * @param { boolean } [settings.circular] 是否检查循环引用（可选）
+ * @param { number } [settings.maxSize] 最大存储大小（可选）
+ * @param { boolean } [settings.monitor] 是否监控存储变化（可选）
+ * @param { string } [settings.prefix] 存储项的前缀（可选）
  */
 export class StorageProvider {
     constructor(settings) {
         // 解构、验证配置参数
         const { storageType, warn, circular } = Settings(settings);
+
+
+        /* ========== */
+
 
         // 建立配置对象
         this._config = {
@@ -48,12 +53,23 @@ export class StorageProvider {
                     return storageType === "session" ? sessionStorage : localStorage;
 
                 // 其他环境
-                if (globalThis !== window)
-                    throw new Error("Unknown environment, unable to determine storage method.");
+                else throw new Error("Unknown environment, unable to determine storage method.");
             })(),
-            warn,
-            circular
+            warn, // 是否弹出警告信息
+            circular, // 是否去除循环引用
+            // monitor, // 是否监控存储变化（需要配合指定方法使用）
         };
+
+
+        /* ========== */
+
+
+        // 初始化时间线对象
+        // this._timeline = {};
+
+        // if (monitor) {
+        //     this._timeline = this._$storage.getAll()
+        // }
     }
 
 
@@ -288,4 +304,25 @@ export class StorageProvider {
             m_deleteItem(this._config, false)
         } catch (err) { console.error(err) }
     }
+
+
+    /* ========== */
+
+
+    // 监听方法
+
+    /**
+     * @method onChanged 有监听效果的操作方法
+     * - 该方法用于监听存储数据的变化，并在数据变化时执行回调函数。
+     * 
+     * @param { { method: string, key: string, value: any } } changes - 包含变化的键和值的对象
+     * @param { (provider: StorageProvider) => void } callback 回调函数
+     * 
+     * @returns { void }
+     */
+    /* onChanged(changes, callback) {
+        try {
+            m_change(this._config, changes, callback)
+        } catch (err) { console.error(err) }
+    } */
 }
