@@ -1,19 +1,20 @@
-/* 检查对象属性及类型 */
+/* 检查配置对象属性及类型 */
 
 // 导入依赖
 import { ValidateObject } from "../validate/ValidateObject.js"; // 导入对象有效性检查器
 
 /**
- * 检查对象属性及类型
+ * 检查配置对象属性及类型
  *
  * @function CheckType
  *
- * @param { { storageType: string, warn: boolean } } classConfig 需要检查的对象
- * @param { { [rulesPropName: string]: { type: string, required: boolean, validator: Function, errorMessage: string }} } rules 规则对象
+ * @param { { storageType: string, warn: boolean } } classConfig 类配置对象
+ * @param { { [propName: string]: any } } obj 需要查验的对象
+ * @param { { [rulesPropName: string]: { type: string, required: boolean, validator: Function, errorMessage: string } } } rules 规则
  *
  * @returns { { isValid: boolean, errors: Array<string>, tips: Array<string> } } 验证结果对象
  */
-export function CheckType(classConfig, rules) {
+export function CheckType(classConfig, obj, rules) {
     const errors = []; // 存储必需属性验证失败的信息
     const tips = []; // 存储非必需属性验证失败的信息和额外属性的提示信息
 
@@ -28,9 +29,7 @@ export function CheckType(classConfig, rules) {
     /* ===== */
 
     // 验证对象有效性
-    const _OBJ = ValidateObject({
-        warn: typeof classConfig.warn === "boolean" ? classConfig.warn : true,
-    }, classConfig); // 查验对象有效性
+    const _OBJ = ValidateObject(classConfig, obj); // 查验对象有效性
 
     // 获取所有属性名
     const objProps = Object.keys(_OBJ);

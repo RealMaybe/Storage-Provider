@@ -6,16 +6,15 @@ import { CheckCircular } from "../checker/checkCircular.js";
 /**
  * 验证对象及内部属性的有效性
  * 
- * - 查验对象是否为非空对象。
- * - obj 必须是一个非空对象，并且不能是数组。
+ * - obj 必须是一个对象，并且不能是数组。
  * - 这是为了确保只有键值对存在于 obj 中，而不是其他类型的数据。
  * 
  * @function ValidateObject
  * 
  * @param { { warn: boolean } } classConfig 配置对象
- * @param { object } obj 一个非空对象
+ * @param { object } obj 一个对象
  * 
- * @returns { object } 返回传入的非空对象
+ * @returns { object } 返回传入的对象
  * 
  * @throws { Error } 验证失败时抛出错误
  * 
@@ -25,11 +24,16 @@ import { CheckCircular } from "../checker/checkCircular.js";
  */
 export function ValidateObject(classConfig, obj) {
     // 验证配置对象
-    if (typeof classConfig !== "object" || !classConfig.hasOwnProperty("warn"))
-        throw new Error(`Invalid configuration: The parameter "classConfig" must be an object and must contain the "warn" attribute.`);
+    if (typeof classConfig !== "object" ||
+        !classConfig.hasOwnProperty("warn")
+    ) throw new Error(`Invalid configuration: The parameter "classConfig" must be an object and must contain the "warn" attribute.`);
 
     // 验证对象  
-    if (obj === undefined || obj === null || Array.isArray(obj) || typeof obj !== "object")
+    if (obj === undefined ||
+        obj === null ||
+        Array.isArray(obj) ||
+        typeof obj !== "object"
+    )
         throw new Error(`Invalid data type: The parameter "obj" must be a non-null, non-array object.`);
 
     // 验证对象中的每个属性值都不为 undefined 或 null  

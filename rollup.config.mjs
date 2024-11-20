@@ -1,15 +1,12 @@
 // 版本号
-const version = "v1.0.3";
-const mod = "iife"; // es or iife
+const version = "1.1.0-bata";
 
-/**
- * @type { import('rollup').RollupOptions }
- */
+// rollup 配置
 export default {
     input: "src/index.js",
     output: {
-        file: `dist/StorageProvider.${version}.${mod}.js`,
-        format: mod,
+        file: `dist/StorageProvider.${version}.js`,
+        format: "iife",
         name: "StorageProvider"
     },
 };

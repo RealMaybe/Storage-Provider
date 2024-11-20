@@ -6,10 +6,12 @@
 import { localStorage } from "./var/local.js"; // localStorage 存储器
 import { sessionStorage } from "./var/session.js"; // sessionStorage 存储器
 import { Settings } from "./settings/Settings.js"; // 配置管理器
+// import { StorageListener } from "./Listener.js"; // 存储监听器
 import { CheckCircular } from "./checker/checkCircular.js" // 循环引用检查器
 import { ValidateArray } from "./validate/ValidateArray.js"; // 验证数组的方法
-import { ValidateKey } from "./parameter/ValidateKey.js"; // 验证键名的方法
+import { ValidateKey } from "./parameter/ValidateKey.js"; // 验证键名的方法 
 import { ValidateValue } from "./parameter/ValidateValue.js"; // 验证键名的方法
+import { m_inspector } from "./methods/inspector.js" // 验证规则的方法
 import { m_store } from "./methods/store.js" // 存储、获取值的方法
 import { m_setManyFromKeyValue } from "./methods/setManyFromKeyValue.js" // 通过数组中的对象中的 key 和 value 属性批量设置值的方法
 import { m_setManyFromObject } from "./methods/setManyFromObject.js"; // 通过对象批量设置值的方法
@@ -17,7 +19,6 @@ import { m_setValueMethod } from "./methods/setValueMethod.js"; // 设置单条�
 import { m_getMany } from "./methods/getMany.js" // 获取多条存储数据的方法
 import { m_getAll } from "./methods/getAll.js" // 获取所有存储数据的方法
 import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存储数据的方法
-// import { m_change } from "./methods/change.js" // 存储变化监控的方法
 
 /**
  * StorageProvider 提供对 localStorage 和 sessionStorage 的操作方法。
@@ -39,11 +40,15 @@ import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存�
 export class StorageProvider {
     constructor(settings) {
         // 解构、验证配置参数
-        const { storageType, warn, circular } = Settings(settings);
-
+        const {
+            storageType,
+            warn,
+            circular,
+            // monitor,
+            prefix,
+        } = Settings(settings);
 
         /* ========== */
-
 
         // 建立配置对象
         this._config = {
@@ -55,31 +60,30 @@ export class StorageProvider {
                 // 其他环境
                 else throw new Error("Unknown environment, unable to determine storage method.");
             })(),
+            type: storageType, // 存储类型
             warn, // 是否弹出警告信息
             circular, // 是否去除循环引用
-            // monitor, // 是否监控存储变化（需要配合指定方法使用）
+            // monitor, // 是否监控存储变化
+            prefix, // 存储项的前缀
         };
-
 
         /* ========== */
 
-
-        // 初始化时间线对象
-        // this._timeline = {};
-
-        // if (monitor) {
-        //     this._timeline = this._$storage.getAll()
-        // }
+        // 建立监听器
+        // if (monitor) window.addEventListener("storage", event => this.listener().change(event));
+        // else throw new Error(`The "monitor" is not enabled, please check the configuration parameters of the Storage Provider`);
     }
 
 
     /* ========== */
 
 
-    // 辅助方法，去除循环引用
+    // 辅助方法
 
     /**
-     * @method Circular 去除循环引用的方法
+     * 去除循环引用的方法
+     * 
+     * @method Circular 
      * 
      * @param { object | Array<any> } item 要去除循环引用的对象或数组
      * 
@@ -94,6 +98,39 @@ export class StorageProvider {
             return value
         } catch (err) { console.error(err) }
     }
+
+    /**
+     * 验证本地存储中指定的项是否满足制定规则的方法
+     * 
+     * @method inspector 
+     * 
+     * @param { { [storageKey: string]: string | (item: any) => boolean } } obj 指定的项及其验证规则
+     * - 该对象中的每一个属性的键名将作为存储的键名，属性值将作为验证规则；
+     * - 验证规则可以是字符串，也可以是一个函数，该函数的返回值必须为布尔值；
+     * - 如果是字符串，则检测 Storage 中 storageKey 对应的值的类型是否与该字符串相等；
+     * - 如果是函数，则调用该函数，传入 Storage 中 storageKey 对应的值，如果函数返回 true，则验证通过，否则验证失败。
+     * 
+     * @returns { { all: boolean, tips: { [storageKey: string]: string }, errors: { [storageKey: string]: string } } } 验证结果对象
+     * - all: 所有的项目验证是否通过，全部通过为 true，任一不通过为 false；
+     * - tips: 验证提示信息；
+     * - errors: 验证失败的项目及其对应的错误信息。
+     */
+    inspector(obj) {
+        try {
+            return {...m_inspector(this._config, obj) }
+        } catch (err) { console.error(err) }
+    }
+
+    /**
+     * 暂时还未实现相关效果
+     * 
+     * @returns { StorageListener } 存储监听器
+     */
+
+    /*
+    listener() {
+        return new StorageListener(this._config)
+    } */
 
 
     /* ========== */
@@ -272,7 +309,7 @@ export class StorageProvider {
      */
     remove(key) {
         try {
-            m_deleteItem(this._config, true, ValidateKey(this._config, key))
+            m_deleteItem(this._config, true, ValidateKey(this._config, key, `"remove"`))
         } catch (err) { console.error(err) }
     }
 
@@ -304,25 +341,4 @@ export class StorageProvider {
             m_deleteItem(this._config, false)
         } catch (err) { console.error(err) }
     }
-
-
-    /* ========== */
-
-
-    // 监听方法
-
-    /**
-     * @method onChanged 有监听效果的操作方法
-     * - 该方法用于监听存储数据的变化，并在数据变化时执行回调函数。
-     * 
-     * @param { { method: string, key: string, value: any } } changes - 包含变化的键和值的对象
-     * @param { (provider: StorageProvider) => void } callback 回调函数
-     * 
-     * @returns { void }
-     */
-    /* onChanged(changes, callback) {
-        try {
-            m_change(this._config, changes, callback)
-        } catch (err) { console.error(err) }
-    } */
 }

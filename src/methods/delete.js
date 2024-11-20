@@ -9,7 +9,7 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  * 
  * @function m_deleteItem
  * 
- * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * @param { boolean } judge 决定用于删除单个项目还是清空存储
  * - true 删除单个
  * - false 清空
@@ -19,17 +19,14 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  * 
  * @warning 如果传入的 key 对应的值不存在或者无效，则发出警告
  */
-export function m_deleteItem(config, judge, key) {
-    if (judge &&
-        key !== undefined &&
-        key !== null
-    ) {
-        const KEY_ = ValidateKey(config, key);
+export function m_deleteItem(classConfig, judge, key) {
+    if (judge && key) {
+        const KEY_ = ValidateKey(classConfig, key);
 
         // 对传入的需要删除的 key 是否有对应值进行验证，如果不存在或者无效，则发出警告
-        if (!GetValueFromStorage(config, KEY_) && config.warn)
-            console.warn(`Warning:\n- Trying to delete a non-existent key from ${config.type}Storage.\n- The key you want to delete is [${KEY_}].`);
+        if (!GetValueFromStorage(classConfig, KEY_) && classConfig.warn)
+            console.warn(`Warning:\n- Trying to delete a non-existent key from ${classConfig.type}Storage.\n- The key you want to delete is [${KEY_}].`);
 
-        config.storage.removeItem(KEY_)
-    } else config.storage.clear()
+        classConfig.storage.removeItem(KEY_)
+    } else if (!judge) classConfig.storage.clear()
 };

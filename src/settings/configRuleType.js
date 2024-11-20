@@ -4,4 +4,4 @@
 import { typeCreator } from "./configTypeCreator.js";
 
 // 导出参数属性类型
-export const configRuleType = {...typeCreator };
+export { typeCreator as configRuleType }

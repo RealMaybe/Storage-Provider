@@ -48,7 +48,7 @@ export function Settings(classConfig) {
     })();
 
     // 检查验证结果  
-    const { isValid, errors, tips } = CheckType(CONFIG_OBJ, configRuleType)
+    const { isValid, errors, tips } = CheckType(CONFIG_OBJ, CONFIG_OBJ, configRuleType)
 
     // 输出错误信息
     if (!isValid)
