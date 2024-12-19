@@ -13,11 +13,11 @@ import { ValidateObject } from "../validate/ValidateObject.js";
  * 
  * @returns { { valid: boolean, value: object } } 如果所有必需属性都存在，则返回验证后的设置对象。
  * 
- * @throws { Error } 如果设置对象为null、undefined或缺少任何必需属性，则抛出错误。
+ * @throws { Error } 如果设置对象无效或缺少任何必需属性，则抛出错误。
  */
 export function configObjectChecker(settings) {
     const CONFIG = ValidateObject({
-        warn: typeof settings.warn === "boolean" ? settings.warn : true,
+        warn: settings ? (typeof settings.warn === "boolean" ? settings.warn : true) : true,
     }, settings); // 查验对象有效性
 
     // 必需属性
@@ -28,16 +28,12 @@ export function configObjectChecker(settings) {
         "storageType": ["type"]
     };
 
-    // 查验等价属性
-    for (let attr in equivalentAttributes) {
-        if (equivalentAttributes.hasOwnProperty(attr)) {
-            const equivalents = equivalentAttributes[attr];
-
-            for (let i = 0; i < equivalents.length; i++) {
-                const equivalent = equivalents[i];
-
+    // 标准化等价属性
+    for (const [primaryAttr, equivalents] of Object.entries(equivalentAttributes)) {
+        if (!CONFIG.hasOwnProperty(primaryAttr) || CONFIG[primaryAttr] === void 0) {
+            for (const equivalent of equivalents) {
                 if (CONFIG.hasOwnProperty(equivalent)) {
-                    CONFIG[attr] = CONFIG[equivalent];
+                    CONFIG[primaryAttr] = CONFIG[equivalent];
                     delete CONFIG[equivalent];
                     break;
                 }
@@ -46,7 +42,7 @@ export function configObjectChecker(settings) {
     }
 
     // 查验必需属性
-    const missingAttributes = requiredAttributes.filter(prop => !CONFIG.hasOwnProperty(prop) || CONFIG[prop] === undefined);
+    const missingAttributes = requiredAttributes.filter(prop => !CONFIG.hasOwnProperty(prop) || CONFIG[prop] === void 0);
 
     if (missingAttributes.length > 0) {
         const missingList = missingAttributes.join('", "');
@@ -55,7 +51,7 @@ export function configObjectChecker(settings) {
     }
 
     return {
-        settingsValid: true,
-        settingsValue: CONFIG
+        valid: true,
+        value: CONFIG
     };
 }

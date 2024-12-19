@@ -1,16 +1,16 @@
 /* 主方法库，StorageProvider 类 */
 
-"use strict";
 
 // 导入依赖
 import { localStorage } from "./var/local.js"; // localStorage 存储器
 import { sessionStorage } from "./var/session.js"; // sessionStorage 存储器
 import { Settings } from "./settings/Settings.js"; // 配置管理器
-// import { StorageListener } from "./Listener.js"; // 存储监听器
 import { CheckCircular } from "./checker/checkCircular.js" // 循环引用检查器
+import { ValidateObject } from "./validate/ValidateObject.js"; // 验证对象的方法
 import { ValidateArray } from "./validate/ValidateArray.js"; // 验证数组的方法
 import { ValidateKey } from "./parameter/ValidateKey.js"; // 验证键名的方法 
-import { ValidateValue } from "./parameter/ValidateValue.js"; // 验证键名的方法
+import { ValidateValue } from "./parameter/ValidateValue.js"; // 验证值的方法
+import { m_listener } from "./methods/listener.js" // 监听器
 import { m_inspector } from "./methods/inspector.js" // 验证规则的方法
 import { m_store } from "./methods/store.js" // 存储、获取值的方法
 import { m_setManyFromKeyValue } from "./methods/setManyFromKeyValue.js" // 通过数组中的对象中的 key 和 value 属性批量设置值的方法
@@ -20,41 +20,71 @@ import { m_getMany } from "./methods/getMany.js" // 获取多条存储数据的�
 import { m_getAll } from "./methods/getAll.js" // 获取所有存储数据的方法
 import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存储数据的方法
 
+
+/* ========== */
+
+
+/**
+ * 配置对象的类型定义
+ * @typedef { Object } ConfigType
+ * @property { Storage } storage 存储环境
+ * @property { string } type 存储类型
+ * @property { boolean } warn 是否弹出警告信息
+ * @property { boolean } circular 是否去除循环引用
+ * @property { boolean } monitor 是否监控存储变化
+ * @property { string } prefix 存储项的前缀
+ */
+
+
+/* ========== */
+
+
 /**
  * StorageProvider 提供对 localStorage 和 sessionStorage 的操作方法。
  * 仅支持 window 环境，暂不支持其他环境。
  * 
  * @class StorageProvider
- * @author RealMaybe
+ * @author RealMaybe <ling0910ai@qq.com>
+ * @version 1.1.1
+ * @license MIT
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
- * @version 1.0.3
- * 
- * @param { string | object } settings 配置对象，可以是字符串或包含配置属性的对象。
- * @param { string } [settings.storageType] 存储类型，必须是 "local" 或 "session"（必填）
- * @param { boolean } [settings.warn] 是否显示警告（必填）
- * @param { boolean } [settings.circular] 是否检查循环引用（可选）
- * @param { number } [settings.maxSize] 最大存储大小（可选）
- * @param { boolean } [settings.monitor] 是否监控存储变化（可选）
- * @param { string } [settings.prefix] 存储项的前缀（可选）
  */
 export class StorageProvider {
+    /**
+     * 私有属性：配置
+     * @private
+     * @type { ConfigType }
+     */
+    #config
+
+    /**
+     * @constructor StorageProvider
+     * @param { string | object } settings 配置对象，可以是字符串或包含配置属性的对象。
+     * @param { string } [settings.storageType] 存储类型，必须是 "local" 或 "session"（必填）
+     * @param { string } [settings.type] 存储类型，与 storageType 一致，二选一填写即可
+     * @param { boolean } [settings.warn] 是否显示警告（必填）
+     * @param { boolean } [settings.circular] 是否检查循环引用（可选）
+     * @param { number } [settings.maxSize] 最大存储大小（可选）
+     * @param { boolean } [settings.monitor] 是否监控存储变化（可选）
+     * @param { string } [settings.prefix] 存储项的前缀（可选）
+     */
     constructor(settings) {
         // 解构、验证配置参数
         const {
             storageType,
             warn,
             circular,
-            // monitor,
-            prefix,
+            monitor,
+            channelName,
         } = Settings(settings);
 
         /* ========== */
 
         // 建立配置对象
-        this._config = {
+        this.#config = {
             storage: (() => { // 存储环境
                 // 浏览器环境
-                if (globalThis === window)
+                if (window && globalThis === window)
                     return storageType === "session" ? sessionStorage : localStorage;
 
                 // 其他环境
@@ -63,15 +93,9 @@ export class StorageProvider {
             type: storageType, // 存储类型
             warn, // 是否弹出警告信息
             circular, // 是否去除循环引用
-            // monitor, // 是否监控存储变化
-            prefix, // 存储项的前缀
-        };
-
-        /* ========== */
-
-        // 建立监听器
-        // if (monitor) window.addEventListener("storage", event => this.listener().change(event));
-        // else throw new Error(`The "monitor" is not enabled, please check the configuration parameters of the Storage Provider`);
+            monitor, // 是否监控存储变化
+            channel: monitor && typeof BroadcastChannel !== "undefined" ? new BroadcastChannel(channelName) : null, // 频道
+        }
     }
 
 
@@ -93,7 +117,7 @@ export class StorageProvider {
         try {
             const { isCircular, warning, value } = CheckCircular(item);
 
-            if (isCircular && this._config.warn) console.warn(warning);
+            if (isCircular && this.#config.warn) console.warn(warning);
 
             return value
         } catch (err) { console.error(err) }
@@ -117,20 +141,31 @@ export class StorageProvider {
      */
     inspector(obj) {
         try {
-            return {...m_inspector(this._config, obj) }
+            return {...m_inspector(this.#config, obj) }
         } catch (err) { console.error(err) }
     }
 
     /**
-     * 暂时还未实现相关效果
-     * 
-     * @returns { StorageListener } 存储监听器
+     * 发送消息
+     * @param { any } data
+     * @returns { void }
      */
+    sendMsg(data) {
+        try {
+            m_listener(this.#config, { message: data })
+        } catch (err) { console.error(err) }
+    }
 
-    /*
-    listener() {
-        return new StorageListener(this._config)
-    } */
+    /**
+     * 接收消息
+     * @param { (message: any) => any } callback
+     * @returns { void }
+     */
+    listenMsg(callback) {
+        try {
+            return m_listener(this.#config, { callback })
+        } catch (err) { console.error(err) }
+    }
 
 
     /* ========== */
@@ -152,7 +187,7 @@ export class StorageProvider {
      */
     storage(key, value) {
         try {
-            return m_store(this._config, key, value)
+            return m_store(this.#config, key, value)
         } catch (err) { console.error(err) }
     }
 
@@ -173,7 +208,7 @@ export class StorageProvider {
      */
     save(key, value) {
         try {
-            m_store(this._config, key, ValidateValue(this._config, value))
+            m_store(this.#config, key, ValidateValue(this.#config, value))
         } catch (err) { console.error(err) }
     }
 
@@ -188,7 +223,7 @@ export class StorageProvider {
      */
     saveMany(arr) {
         try {
-            m_setManyFromKeyValue(this._config, arr)
+            m_setManyFromKeyValue(this.#config, arr)
         } catch (err) { console.error(err) }
     }
 
@@ -203,7 +238,7 @@ export class StorageProvider {
      */
     setMany(obj) {
         try {
-            m_setManyFromObject(this._config, obj)
+            m_setManyFromObject(this.#config, obj)
         } catch (err) { console.error(err) }
     }
 
@@ -221,7 +256,7 @@ export class StorageProvider {
      */
     set(...data) {
         try {
-            m_setValueMethod(this._config, data)
+            m_setValueMethod(this.#config, data)
         } catch (err) { console.error(err) }
     }
 
@@ -242,7 +277,7 @@ export class StorageProvider {
      */
     get(key) {
         try {
-            return m_store(this._config, key)
+            return m_store(this.#config, key)
         } catch (err) { console.error(err) }
     }
 
@@ -260,7 +295,7 @@ export class StorageProvider {
      */
     getMany(arr, type = "object") {
         try {
-            return m_getMany(this._config, arr, type)
+            return m_getMany(this.#config, arr, type)
         } catch (err) { console.error(err) }
     }
 
@@ -273,7 +308,7 @@ export class StorageProvider {
      */
     getAll() {
         try {
-            return m_getAll(this._config)
+            return m_getAll(this.#config)
         } catch (err) { console.error(err) }
     }
 
@@ -294,7 +329,7 @@ export class StorageProvider {
      */
     delete(key) {
         try {
-            m_deleteItem(this._config, true, key)
+            m_deleteItem(this.#config, true, key)
         } catch (err) { console.error(err) }
     }
 
@@ -309,7 +344,7 @@ export class StorageProvider {
      */
     remove(key) {
         try {
-            m_deleteItem(this._config, true, ValidateKey(this._config, key, `"remove"`))
+            m_deleteItem(this.#config, true, ValidateKey(this.#config, key, `"remove"`))
         } catch (err) { console.error(err) }
     }
 
@@ -324,8 +359,8 @@ export class StorageProvider {
      */
     removeMany(arr) {
         try {
-            for (let key of ValidateArray(this._config, arr, "string"))
-                m_deleteItem(this._config, true, key)
+            for (let key of ValidateArray(this.#config, arr, "string"))
+                m_deleteItem(this.#config, true, key)
         } catch (err) { console.error(err) }
     }
 
@@ -338,7 +373,7 @@ export class StorageProvider {
      */
     clean() {
         try {
-            m_deleteItem(this._config, false)
+            m_deleteItem(this.#config, false)
         } catch (err) { console.error(err) }
     }
 }

@@ -20,7 +20,7 @@ export function CheckCircular(item) {
 
         else if (typeof item === "object" && item !== null) return "object";
 
-        else throw new Error("Why would you pass a parameter of a type that inherently cannot have circular references to a function specifically designed to verify circular references ?");
+        else throw new Error("Could you share your thoughts on passing a parameter, which by its nature cannot contain circular references, to a function that's specifically meant to detect such issues?");
     })();
 
     const warn = [
@@ -34,7 +34,7 @@ export function CheckCircular(item) {
     /* ========== */
 
 
-    const cache = new WeakMap();
+    const seenObjects = new WeakMap();
     let hasCircular = false;
 
     /**
@@ -42,29 +42,38 @@ export function CheckCircular(item) {
      * 
      * @function process
      * 
-     * @param { object | Array<any> } obj 当前正在处理的对象或数组。
+     * @param { object | Array<any> } currentObj 当前正在处理的对象或数组。
      * 
      * @returns { object | Array<any> } 处理后的对象或数组。
      */
-    function process(obj) {
-        if (typeof obj !== "object" || obj === null) return obj;
+    function process(currentObj) {
+        if (typeof currentObj !== "object" || currentObj === null)
+            return currentObj;
 
-        if (cache.has(obj)) {
+
+        if (seenObjects.has(currentObj)) {
             hasCircular = true;
             return "[Circular]";
         }
 
-        cache.set(obj, true);
+        // 标记当前对象已被处理过
+        seenObjects.set(currentObj, true);
 
-        if (Array.isArray(obj)) return obj.map(i => process(i));
+        // 数组
+        if (Array.isArray(currentObj))
+            return currentObj.map(i => process(i));
 
-        const result = {};
+        // 对象
+        else {
+            const result = {};
 
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) result[key] = process(obj[key]);
+            for (const key in currentObj) {
+                if (currentObj.hasOwnProperty(key))
+                    result[key] = process(currentObj[key]);
+            }
+
+            return result;
         }
-
-        return result;
     };
 
     /* ========== */

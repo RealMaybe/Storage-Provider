@@ -11,7 +11,7 @@ import { CheckCircular } from "../checker/checkCircular.js";
  * 
  * @function ValidateObject
  * 
- * @param { { warn: boolean } } classConfig 配置对象
+ * @param { { warn: boolean, circular: boolean } } classConfig 配置对象
  * @param { object } obj 一个对象
  * 
  * @returns { object } 返回传入的对象
@@ -23,33 +23,31 @@ import { CheckCircular } from "../checker/checkCircular.js";
  * - 不建议传入存在循环引用自身的行为的对象，虽然这样并不会报错
  */
 export function ValidateObject(classConfig, obj) {
-    // 验证配置对象
-    if (typeof classConfig !== "object" ||
-        !classConfig.hasOwnProperty("warn")
-    ) throw new Error(`Invalid configuration: The parameter "classConfig" must be an object and must contain the "warn" attribute.`);
-
     // 验证对象  
-    if (obj === undefined ||
+    if (obj === void 0 ||
         obj === null ||
         Array.isArray(obj) ||
         typeof obj !== "object"
-    )
-        throw new Error(`Invalid data type: The parameter "obj" must be a non-null, non-array object.`);
+    ) throw new Error(`Invalid data type: The parameter "obj" must be a non-null, non-array object.`);
 
-    // 验证对象中的每个属性值都不为 undefined 或 null  
+    // 验证对象中的每个属性值都不为 void 0 或 null  
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
             const val = obj[key];
 
-            if (val === undefined || val === null)
-                throw new Error(`Invalid object: The object contains an invalid value (undefined or null) for key "${key}".`);
+            if (val === void 0 || val === null)
+                throw new Error(`Invalid object: The object contains an invalid value (void 0 or null) for key "${key}".`);
         }
     };
 
     // 循环引用检测
-    const { isCircular, warning, value } = CheckCircular(obj);
-    if (classConfig.warn && isCircular) console.warn(warning);
+    if (classConfig.circular) {
+        const { isCircular, warning, value } = CheckCircular(obj);
+        if (classConfig.warn && isCircular) console.warn(warning);
 
-    // 返回验证后的值 
-    return classConfig.circular ? value : obj;
+        return value
+    }
+
+    // 返回值
+    return obj;
 };

@@ -17,7 +17,7 @@ import { validationRegexes } from "../var/RegExp.js";
  */
 export function ValidateStringWithRegExp(config, str, type = null) {
     // 验证参数类型
-    if (str === undefined || str === null || typeof str !== "string")
+    if (str === void 0 || str === null || typeof str !== "string")
         throw new Error(`Invalid data type: The parameter "str" passed to this method must be of type string.`);
 
     // 空字符串警告
@@ -25,7 +25,7 @@ export function ValidateStringWithRegExp(config, str, type = null) {
         console.warn(`Warning: The parameter "str" passed to this method is an empty string.`);
 
     // 验证正则表达式或预定义类型  
-    if (type !== null && type !== undefined) {
+    if (type !== null && type !== void 0) {
         let regex;
 
         if (typeof type === "string") {

@@ -18,11 +18,11 @@ import { SetValueToStorage } from "../value/setValue.js";
  */
 export function m_store(config, key, value) {
     // value 无效，获取 key 对应的内容
-    if (value === undefined || value === null)
+    if (value === void 0 || value === null)
         return GetValueFromStorage(config, key);
 
     // value 有效，设置 key 和 value 值
-    else if (value !== undefined && value !== null)
+    else if (value !== void 0 && value !== null)
         SetValueToStorage(config, key, value);
 
     // 其他情况，获取 key 对应的内容

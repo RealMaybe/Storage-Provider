@@ -47,3 +47,7 @@ docs/
 *.docx
 *.xls
 *.xlsx
+
+# shit code
+*.DS_store
+*._.DS_store

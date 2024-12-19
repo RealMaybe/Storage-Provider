@@ -13,55 +13,51 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  * 
  * @function m_getMany
  * 
- * @param { object } config 配置对象
- * @param { Array<string> } arr 字符串数组
- * @param { string } type 获取值之后的输出类型，可选值为 "array", "object", "array-object"
+ * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { Array<string> } keys 字符串数组
+ * @param { string } outputType 获取值之后的输出类型，可选值为 "array", "object", "array-object"
  * 
- * @returns { Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string, value: any }> } 根据 type 指定类型返回不同格式的结果
+ * @returns { Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string, value: any }> } 根据 outputType 指定类型返回不同格式的结果
  * 
- * @example type = "array" => Array<{ [key: string]: any }
- * @example type = "object" => { [key: string]: any }
- * @example type = "array-object" => Array<{ key: string, value: any }>
+ * @example outputType = "array" => Array<{ [key: string]: any }>
+ * @example outputType = "object" => { [key: string]: any }
+ * @example outputType = "array-object" => Array<{ key: string, value: any }>
  */
-export function m_getMany(config, arr, type) {
-    // 有效性验证
-    const ARR_ = ValidateArray(config, arr, "string");
+export function m_getMany(config, keys, outputType) {
+    // 参数验证
+    const validatedKeys = ValidateArray(config, keys, "string");
+    if (typeof outputType !== "string")
+        throw new Error(`The type of "outputType" must be a string.`);
 
-    const _TYPE = (t => {
-        if (typeof t !== "string")
-            throw new Error(`The type of "type" must be a string.`);
-
-        if (t !== "array" &&
-            t !== "object" &&
-            t !== "array-object")
-            throw new Error(`The only available formats are "array", "object", and "array-object".`);
-
-        return t
-    })(type);
-
-    /* ========== */
+    if (!["array", "object", "array-object"].includes(outputType))
+        throw new Error(`The only available formats are "array", "object", and "array-object".`);
 
     // 格式判断
     let result;
 
-    switch (_TYPE) {
+    switch (outputType) {
         case "array":
-            result = ARR_.map(key => ({
+            result = validatedKeys.map(key => ({
                 [key]: GetValueFromStorage(config, key)
             }));
             break;
 
         case "object":
             result = {};
-            ARR_.forEach(key => { result[key] = GetValueFromStorage(config, key) });
+            validatedKeys.forEach(key => {
+                result[key] = GetValueFromStorage(config, key)
+            });
             break;
 
         case "array-object":
-            result = ARR_.map(key => ({ key, value: GetValueFromStorage(config, key) }));
+            result = validatedKeys.map(key => ({
+                key,
+                value: GetValueFromStorage(config, key)
+            }));
             break;
 
         default:
-            throw new Error(`Invalid type specified.`);
+            throw new Error("Invalid type specified.");
     }
 
     return result;

@@ -159,6 +159,14 @@ export const typeCreator = (($type) => {
         false
     );
 
+    // 频道名称
+    $type.channelName = createConfig(
+        "string",
+        false,
+        stringValidator(1, 30, "channelName"),
+        "StorageProvider_Channel"
+    )
+
     // 前缀
     $type.prefix = createConfig(
         "string",

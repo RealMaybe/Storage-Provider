@@ -27,8 +27,8 @@ export function ValidateFunction(config, func) {
     ];
 
     // 验证函数引用是否存在且不为空
-    if (func === null || func === undefined)
-        throw new Error("Function is required and cannot be null or undefined.");
+    if (func === null || func === void 0)
+        throw new Error("Function is required and cannot be null or void 0.");
 
     // 验证该函数是否为函数类型
     if (typeof func !== "function")

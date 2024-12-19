@@ -14,8 +14,6 @@ import { ValidateString } from "../validate/ValidateString.js";
  * @return { string } 验证后的键名
  */
 export function ValidateKey(config, key, methodName = "this method") {
-    try {
-        if (key === "") throw new Error(`In ${methodName}, the key must be a valid string`);
-        else return ValidateString(config, key, "key", methodName);
-    } catch (err) { console.error(err) }
+    if (key === "") throw new Error(`In ${methodName}, the key must be a valid string`);
+    else return ValidateString(config, key, "key", methodName);
 }

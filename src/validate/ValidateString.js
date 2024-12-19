@@ -14,7 +14,7 @@
  */
 export function ValidateString(config, str, keyName = "str", methodName = "this method") {
     // 验证参数类型
-    if (str === undefined || str === null || typeof str !== "string")
+    if (str === void 0 || str === null || typeof str !== "string")
         throw new Error(`Invalid data type: The parameter "${keyName}" passed to ${methodName} must be of type string.`);
 
     // 空字符串警告

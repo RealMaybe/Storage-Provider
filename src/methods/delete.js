@@ -25,7 +25,7 @@ export function m_deleteItem(classConfig, judge, key) {
 
         // 对传入的需要删除的 key 是否有对应值进行验证，如果不存在或者无效，则发出警告
         if (!GetValueFromStorage(classConfig, KEY_) && classConfig.warn)
-            console.warn(`Warning:\n- Trying to delete a non-existent key from ${classConfig.type}Storage.\n- The key you want to delete is [${KEY_}].`);
+            console.warn(`Warning:\n- Trying to delete a non-existent key from ${classConfig.type}Storage.\n- The key you want to delete is "${KEY_}".`);
 
         classConfig.storage.removeItem(KEY_)
     } else if (!judge) classConfig.storage.clear()

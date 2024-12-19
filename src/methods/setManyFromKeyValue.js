@@ -23,10 +23,10 @@ export function m_setManyFromKeyValue(config, arr) {
 
         if (!ITEM_.key ||
             ITEM_.key === null ||
-            ITEM_.key === undefined ||
+            ITEM_.key === void 0 ||
             !ITEM_.value ||
             ITEM_.value === null ||
-            ITEM_.value === undefined
+            ITEM_.value === void 0
         ) throw new Error(`Array items must be objects that contain valid "key" and valid "value" properties.`);
 
         else SetValueToStorage(config, ITEM_.key, ITEM_.value);
