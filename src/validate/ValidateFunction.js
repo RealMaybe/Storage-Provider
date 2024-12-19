@@ -5,12 +5,12 @@
  * 
  * @function ValidateFunction
  * 
- * @param { { warn: boolean } } config 配置对象
+ * @param { { warn: boolean } } classConfig 配置对象
  * @param { Function } func 函数名称
  * 
  * @return { { functionName: string, functionSourceCode: string, numberOfParameters: number } } 验证结果对象
  */
-export function ValidateFunction(config, func) {
+export function ValidateFunction(classConfig, func) {
     let notice = [
         "Important Notice:",
         "Functions cannot be directly stored in localStorage or sessionStorage.",
@@ -35,7 +35,7 @@ export function ValidateFunction(config, func) {
         throw new Error(`${func} is not a function.`);
 
     // 警告信息
-    if (config.warn) {
+    if (classConfig.warn) {
         console.warn(notice.join("\n - "));
         console.warn(warning.join("\n - "));
     }

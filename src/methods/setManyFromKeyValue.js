@@ -10,16 +10,16 @@ import { SetValueToStorage } from "../value/setValue.js";
  * 
  * @function m_setManyFromKeyValue
  * 
- * @param { object } config 配置对象
+ * @param { object } classConfig 配置对象
  * @param { Array<{ key: string, value: any }> } arr 数组
  * 
  * @throws 抛出报错：数组项必须是包含有效键和有效值属性的对象
  */
-export function m_setManyFromKeyValue(config, arr) {
-    const ARR_ = ValidateArray(config, arr, "object");
+export function m_setManyFromKeyValue(classConfig, arr) {
+    const ARR_ = ValidateArray(classConfig, arr, "object");
 
     ARR_.forEach(item => {
-        const ITEM_ = ValidateObject(config, item);
+        const ITEM_ = ValidateObject(classConfig, item);
 
         if (!ITEM_.key ||
             ITEM_.key === null ||
@@ -29,6 +29,6 @@ export function m_setManyFromKeyValue(config, arr) {
             ITEM_.value === void 0
         ) throw new Error(`Array items must be objects that contain valid "key" and valid "value" properties.`);
 
-        else SetValueToStorage(config, ITEM_.key, ITEM_.value);
+        else SetValueToStorage(classConfig, ITEM_.key, ITEM_.value);
     })
 }

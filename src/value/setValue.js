@@ -9,16 +9,16 @@ import { ValidateValue } from "../parameter/ValidateValue.js";
  * 
  * @function SetValueToStorage
  * 
- * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * @param { string } key 要存储的键名
  * @param { any } value 要存储的数据
  * 
  * @returns { void }
  */
-export function SetValueToStorage(config, key, value) {
-    const KEY_ = ValidateKey(config, key);
-    const VALUE_ = ValidateValue(config, value);
+export function SetValueToStorage(classConfig, key, value) {
+    const KEY_ = ValidateKey(classConfig, key);
+    const VALUE_ = ValidateValue(classConfig, value);
 
     // 存储数据
-    config.storage.setItem(KEY_, JSON.stringify(VALUE_));
+    classConfig.storage.setItem(KEY_, JSON.stringify(VALUE_));
 }

@@ -9,14 +9,14 @@ import { ValidateKey } from "../parameter/ValidateKey.js";
  * 
  * @function GetValueFromStorage
  * 
- * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * @param { string } key 要获取的键名
  * 
  * @returns { any } 存储的值，如果没有找到则返回null
  */
-export function GetValueFromStorage(config, key) {
-    const KEY_ = ValidateKey(config, key);
-    const storedValue = config.storage.getItem(KEY_);
+export function GetValueFromStorage(classConfig, key) {
+    const KEY_ = ValidateKey(classConfig, key);
+    const storedValue = classConfig.storage.getItem(KEY_);
 
     return storedValue ? JSON.parse(storedValue) : null;
 }

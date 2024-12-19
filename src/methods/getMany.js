@@ -13,7 +13,7 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  * 
  * @function m_getMany
  * 
- * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * @param { Array<string> } keys 字符串数组
  * @param { string } outputType 获取值之后的输出类型，可选值为 "array", "object", "array-object"
  * 
@@ -23,9 +23,9 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  * @example outputType = "object" => { [key: string]: any }
  * @example outputType = "array-object" => Array<{ key: string, value: any }>
  */
-export function m_getMany(config, keys, outputType) {
+export function m_getMany(classConfig, keys, outputType) {
     // 参数验证
-    const validatedKeys = ValidateArray(config, keys, "string");
+    const validatedKeys = ValidateArray(classConfig, keys, "string");
     if (typeof outputType !== "string")
         throw new Error(`The type of "outputType" must be a string.`);
 
@@ -38,21 +38,21 @@ export function m_getMany(config, keys, outputType) {
     switch (outputType) {
         case "array":
             result = validatedKeys.map(key => ({
-                [key]: GetValueFromStorage(config, key)
+                [key]: GetValueFromStorage(classConfig, key)
             }));
             break;
 
         case "object":
             result = {};
             validatedKeys.forEach(key => {
-                result[key] = GetValueFromStorage(config, key)
+                result[key] = GetValueFromStorage(classConfig, key)
             });
             break;
 
         case "array-object":
             result = validatedKeys.map(key => ({
                 key,
-                value: GetValueFromStorage(config, key)
+                value: GetValueFromStorage(classConfig, key)
             }));
             break;
 

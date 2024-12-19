@@ -10,18 +10,18 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  * 
  * @function m_getAll
  * 
- * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * 
  * @returns { { [key: string]: any } } 包含所有键值对的对象
  */
-export function m_getAll(config) {
+export function m_getAll(classConfig) {
     const allData = {};
     const keys = Array.from({
-        length: config.storage.length
-    }, (_, i) => config.storage.key(i));
+        length: classConfig.storage.length
+    }, (_, i) => classConfig.storage.key(i));
 
     for (const key of keys)
-        allData[key] = GetValueFromStorage(config, key);
+        allData[key] = GetValueFromStorage(classConfig, key);
 
     return allData;
 }

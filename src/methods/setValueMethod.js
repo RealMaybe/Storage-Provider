@@ -1,38 +1,11 @@
 /* 设置单条或多条存储数据 */
 
 // 导入依赖
-import { createOverload } from "../value/addMethod.js" // 函数重载
 import { ValidateArray } from "../validate/ValidateArray.js"; // 验证数组
 import { ValidateObject } from "../validate/ValidateObject.js"; // 验证对象
 import { m_setManyFromKeyValue } from "./setManyFromKeyValue.js" // 批量设置值的方法
 import { m_setManyFromObject } from "./setManyFromObject.js" // 批量设置值的方法
 import { SetValueToStorage } from "../value/setValue.js" // 设置值到存储的方法
-
-// 创建函数重载
-/* const fun = createOverload();
-fun.addImpl("object", (config, items) => {
-    const ARR_ = ValidateArray(config, items, "object");
-    m_setManyFromKeyValue(config, ARR_);
-});
-fun.addImpl("object", (config, items) => {
-    if (
-        items !== null &&
-        !Array.isArray(items)
-    ) {
-        const OBJ_ = ValidateObject(config, items);
-        m_setManyFromObject(config, OBJ_);
-    }
-});
-fun.addImpl("string", "any", (config, key, value) => {
-    if (
-        typeof key === "string" &&
-        value !== void 0 &&
-        value !== null
-    ) SetValueToStorage(config, key, value);
-
-    // 两个参数存在类型错误
-    else throw new Error("If two parameters are passed in, the first parameter must be of type string, and the second parameter must exist and be valid.")
-}); */
 
 /**
  * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
@@ -41,34 +14,31 @@ fun.addImpl("string", "any", (config, key, value) => {
  * 
  * @function m_setValueMethod
  * 
- * @param { object } config 
+ * @param { object } classConfig 
  * @param { Array<{ key: string, value: any }> | Array<string> } items 
  */
-export function m_setValueMethod(config, items) {
+export function m_setValueMethod(classConfig, items) {
     /* 检查参数数量 */
     if (!(items.length === 1 || items.length === 2))
         throw new Error("Effective parameters must exist and the number of parameters must be exactly 1 or 2");
-
-    // fun(config, items);
 
     // 参数数量为 1
     if (items.length === 1) {
         // 参数为数组
         if (Array.isArray(items[0])) {
-            const ARR_ = ValidateArray(config, items[0], "object");
+            const ARR_ = ValidateArray(classConfig, items[0], "object");
 
-            m_setManyFromKeyValue(config, ARR_);
+            m_setManyFromKeyValue(classConfig, ARR_);
         }
 
         // 参数为对象
-        else if (
-            typeof items[0] === "object" &&
+        else if (typeof items[0] === "object" &&
             items[0] !== null &&
             !Array.isArray(items[0])
         ) {
-            const OBJ_ = ValidateObject(config, items[0]);
+            const OBJ_ = ValidateObject(classConfig, items[0]);
 
-            m_setManyFromObject(config, OBJ_);
+            m_setManyFromObject(classConfig, OBJ_);
         }
 
         // 其他情况
@@ -80,11 +50,10 @@ export function m_setValueMethod(config, items) {
         // 第 1 个参数为字符串，且第 2 个参数有效，第 1 个参数为 key，第 2 个参数为 value
         const [KEY_, VALUE_] = items;
 
-        if (
-            typeof KEY_ === "string" &&
+        if (typeof KEY_ === "string" &&
             VALUE_ !== void 0 &&
             VALUE_ !== null
-        ) SetValueToStorage(config, KEY_, VALUE_);
+        ) SetValueToStorage(classConfig, KEY_, VALUE_);
 
         // 两个参数存在类型错误
         else throw new Error("If two parameters are passed in, the first parameter must be of type string, and the second parameter must exist and be valid.")

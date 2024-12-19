@@ -9,20 +9,20 @@ import { SetValueToStorage } from "../value/setValue.js";
  * 
  * @function m_setManyFromObject
  * 
- * @param { object } config 配置对象
+ * @param { object } classConfig 配置对象
  * @param { { [key: string]: any } } obj 存有需要存储的内容的对象
  * 
  * @return { void } 仅设置值，无返回值
  */
-export function m_setManyFromObject(config, obj) {
-    const OBJ_ = ValidateObject(config, obj);
+export function m_setManyFromObject(classConfig, obj) {
+    const OBJ_ = ValidateObject(classConfig, obj);
 
     // 遍历对象属性
     for (const key in OBJ_) {
         if (obj.hasOwnProperty(key)) {
             const value = obj[key];
 
-            SetValueToStorage(config, key, value)
+            SetValueToStorage(classConfig, key, value)
         }
     };
 }

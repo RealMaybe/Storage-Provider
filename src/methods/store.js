@@ -10,21 +10,21 @@ import { SetValueToStorage } from "../value/setValue.js";
  * 
  * @function m_store
  * 
- * @param { { storage: Storage, warn: boolean } } config 配置对象
+ * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * @param { string } key 键名
  * @param { any } value 值
  * 
  * @returns { any | void } 获取到的值或者无返回值
  */
-export function m_store(config, key, value) {
+export function m_store(classConfig, key, value) {
     // value 无效，获取 key 对应的内容
     if (value === void 0 || value === null)
-        return GetValueFromStorage(config, key);
+        return GetValueFromStorage(classConfig, key);
 
     // value 有效，设置 key 和 value 值
     else if (value !== void 0 && value !== null)
-        SetValueToStorage(config, key, value);
+        SetValueToStorage(classConfig, key, value);
 
     // 其他情况，获取 key 对应的内容
-    else return GetValueFromStorage(config, key);
+    else return GetValueFromStorage(classConfig, key);
 };
