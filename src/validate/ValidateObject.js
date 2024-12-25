@@ -3,6 +3,8 @@
 // 导入依赖
 import { CheckCircular } from "../checker/checkCircular.js";
 
+/* ========== */
+
 /**
  * 验证对象及内部属性的有效性
  * 
@@ -30,15 +32,13 @@ export function ValidateObject(classConfig, obj) {
         typeof obj !== "object"
     ) throw new Error(`Invalid data type: The parameter "obj" must be a non-null, non-array object.`);
 
-    // 验证对象中的每个属性值都不为 void 0 或 null  
+    // 验证对象中的每个属性值都不为无效值
     for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            const val = obj[key];
-
-            if (val === void 0 || val === null)
-                throw new Error(`Invalid object: The object contains an invalid value (void 0 or null) for key "${key}".`);
-        }
-    };
+        if (obj.hasOwnProperty(key) && (
+                obj[key] === null ||
+                obj[key] === void 0
+            )) throw new Error(`Invalid object: The object contains an invalid value (null or undefined) for key "${key}".`);
+    }
 
     // 循环引用检测
     if (classConfig.circular) {

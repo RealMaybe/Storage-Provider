@@ -147,7 +147,11 @@ export class StorageProvider {
 
     /**
      * 发送消息
-     * @param { any } data
+     *
+     * @method sendMsg
+     *
+     * @param { any } data 需要发送的消息，可以是任意可克隆的类型
+     *
      * @returns { void }
      */
     sendMsg(data) {
@@ -157,13 +161,35 @@ export class StorageProvider {
     }
 
     /**
+     * 发送消息
+     * 此方法会检测传入的消息内容是否有效
+     *
+     * @method postMsg
+     *
+     * @param { any } data 需要发送的消息，可以是任意可克隆的类型
+     *
+     * @returns { void }
+     */
+    postMsg(data) {
+        try {
+            m_listener(this.#config, { message: ValidateValue(data) })
+        } catch (err) { console.error(err) }
+    }
+
+    /**
      * 接收消息
-     * @param { (message: any) => any } callback
+     *
+     * @method listenMsg
+     *
+     * @param { (message: any) => void } callback 回调函数
+     * - 回调函数中可以使用 this
+     * - this 指向实例化出来的 StorageProvider 对象
+     *
      * @returns { void }
      */
     listenMsg(callback) {
         try {
-            return m_listener(this.#config, { callback })
+            return m_listener(this.#config, { callback }, this)
         } catch (err) { console.error(err) }
     }
 

@@ -15,7 +15,7 @@ import { SetValueToStorage } from "../value/setValue.js" // 设置值到存储�
  * @function m_setValueMethod
  * 
  * @param { object } classConfig 
- * @param { Array<{ key: string, value: any }> | Array<string> } items 
+ * @param { Array<{ key: string, value: any }> | Array<{ [key: string]: any }> | [string, any] } items 参数数组
  */
 export function m_setValueMethod(classConfig, items) {
     /* 检查参数数量 */

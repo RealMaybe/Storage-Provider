@@ -16,9 +16,7 @@ import { GetValueFromStorage } from "../value/getValue.js"; // 导入获取存�
  */
 export function m_getAll(classConfig) {
     const allData = {};
-    const keys = Array.from({
-        length: classConfig.storage.length
-    }, (_, i) => classConfig.storage.key(i));
+    const keys = Object.keys(classConfig.storage);
 
     for (const key of keys)
         allData[key] = GetValueFromStorage(classConfig, key);

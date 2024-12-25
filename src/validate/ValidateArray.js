@@ -3,6 +3,8 @@
 // 导入依赖
 import { CheckCircular } from "../checker/checkCircular.js";
 
+/* ========== */
+
 /**
  * 验证数组及内部属性的有效性
  * 

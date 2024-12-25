@@ -5,7 +5,7 @@
     "main": "src/index.js",
     "scripts": {
         "build": "rollup -c",
-        "compress": ""
+        "watch": "rollup -c -w"
     },
     "keywords": [
         "工具",
@@ -16,5 +16,8 @@
         "cookie"
     ],
     "author": "RealMaybe",
-    "license": "MIT License"
+    "license": "MIT License",
+    "devDependencies": {
+        "rollup-plugin-terser": "^7.0.2"
+    }
 }

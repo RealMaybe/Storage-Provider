@@ -11,26 +11,22 @@ import { ValidateFunction } from "../validate/ValidateFunction.js"; // 函数验
  * 
  * @function ValidateValue
  * 
- * @param { { warn: boolean } } config 配置对象
+ * @param { { warn: boolean } } classConfig 配置对象
  * @param { any } value 需要验证的值
  * 
  * @return { any } 验证后的参数值
  */
-export function ValidateValue(config, value) {
+export function ValidateValue(classConfig, value) {
     // 定义验证器
     const validators = {
         array: (set, val) => ValidateArray(set, val),
-        bigint: (set, val) => val,
-        boolean: (set, val) => val,
+        bigint: (set, val) => typeof val === "bigint" ? val : void 0,
+        boolean: (set, val) => typeof val === "boolean" ? val : void 0,
         function: (set, val) => ValidateFunction(set, val),
-        number: (set, val) => val,
-        object: (set, val) => {
-            if (val !== null &&
-                !Array.isArray(val)
-            ) return ValidateObject(set, val)
-        },
+        number: (set, val) => typeof val === "number" ? val : void 0,
+        object: (set, val) => val !== null && !Array.isArray(val) ? ValidateObject(set, val) : void 0,
         string: (set, val) => ValidateString(set, val, "value"),
-        symbol: (set, val) => val,
+        symbol: (set, val) => typeof val === "symbol" ? val : void 0
     };
 
     // 如果值是无效值，抛出错误
@@ -40,13 +36,14 @@ export function ValidateValue(config, value) {
     ) throw new Error("This value cannot be null, void 0 or NaN.");
 
     // 获取值的类型
-    let TYPE_ = typeof value;
-    if (TYPE_ === "object" && Array.isArray(value)) TYPE_ = "array";
+    let TYPE_;
+    if (Array.isArray(value)) TYPE_ = "array";
+    else TYPE_ = typeof value;
 
     // 调用对应的验证器
     const validator = validators[TYPE_];
     if (validator) {
-        const result = validator(config, value);
+        const result = validator(classConfig, value);
 
         // 如果验证器返回了值，说明验证成功
         if (result !== void 0) return result;

@@ -1,5 +1,6 @@
 /* 获取或设置值 */
 
+// 导入依赖
 import { GetValueFromStorage } from "../value/getValue.js";
 import { SetValueToStorage } from "../value/setValue.js";
 
@@ -10,21 +11,17 @@ import { SetValueToStorage } from "../value/setValue.js";
  * 
  * @function m_store
  * 
- * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
+ * @param { { storage: Storage } } classConfig 配置对象
  * @param { string } key 键名
  * @param { any } value 值
  * 
  * @returns { any | void } 获取到的值或者无返回值
  */
 export function m_store(classConfig, key, value) {
-    // value 无效，获取 key 对应的内容
+    // 如果 value 无效，则获取 key 对应的内容
     if (value === void 0 || value === null)
         return GetValueFromStorage(classConfig, key);
 
-    // value 有效，设置 key 和 value 值
-    else if (value !== void 0 && value !== null)
-        SetValueToStorage(classConfig, key, value);
-
-    // 其他情况，获取 key 对应的内容
-    else return GetValueFromStorage(classConfig, key);
+    // 如果 value 有效，则设置 key 和 value 值
+    SetValueToStorage(classConfig, key, value);
 };

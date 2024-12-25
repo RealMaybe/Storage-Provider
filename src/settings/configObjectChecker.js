@@ -1,8 +1,5 @@
 /* 查验配置对象以确保它包含所有必需的属性 */
 
-// 导入依赖
-import { ValidateObject } from "../validate/ValidateObject.js";
-
 /**
  * 验证设置对象以确保它包含所有必需的属性。
  * 如果对象包含等价属性（例如 'type' 和 'storageType'），
@@ -16,9 +13,11 @@ import { ValidateObject } from "../validate/ValidateObject.js";
  * @throws { Error } 如果设置对象无效或缺少任何必需属性，则抛出错误。
  */
 export function configObjectChecker(settings) {
-    const CONFIG = ValidateObject({
-        warn: settings ? (typeof settings.warn === "boolean" ? settings.warn : true) : true,
-    }, settings); // 查验对象有效性
+    const CONFIG = ((set) => {
+            if (typeof settings !== "object" || settings === null)
+                throw new Error("The configuration object must be an object.");
+            else return set
+        })(settings) // 查验对象有效性
 
     // 必需属性
     const requiredAttributes = ["storageType", "warn"];
@@ -30,7 +29,7 @@ export function configObjectChecker(settings) {
 
     // 标准化等价属性
     for (const [primaryAttr, equivalents] of Object.entries(equivalentAttributes)) {
-        if (!CONFIG.hasOwnProperty(primaryAttr) || CONFIG[primaryAttr] === void 0) {
+        if (!CONFIG.hasOwnProperty(primaryAttr) || CONFIG[primaryAttr] === void 0)
             for (const equivalent of equivalents) {
                 if (CONFIG.hasOwnProperty(equivalent)) {
                     CONFIG[primaryAttr] = CONFIG[equivalent];
@@ -38,7 +37,6 @@ export function configObjectChecker(settings) {
                     break;
                 }
             }
-        }
     }
 
     // 查验必需属性

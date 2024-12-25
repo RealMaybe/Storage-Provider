@@ -13,6 +13,8 @@ import { SetValueToStorage } from "../value/setValue.js";
  * @param { object } classConfig 配置对象
  * @param { Array<{ key: string, value: any }> } arr 数组
  * 
+ * @returns { void } 仅设置值，无返回值
+ * 
  * @throws 抛出报错：数组项必须是包含有效键和有效值属性的对象
  */
 export function m_setManyFromKeyValue(classConfig, arr) {

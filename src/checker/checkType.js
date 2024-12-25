@@ -58,17 +58,15 @@ export function CheckType(classConfig, obj, rules) {
         if (!rule.required && propValue === void 0) continue;
 
         // 如果规则要求该属性的类型，但_OBJ对象中该属性的值类型不匹配，则添加错误信息
-        if (rule.type && typeof propValue !== rule.type)
-            addError(rule, `Property "${rulePropName}" must be of type "${rule.type}", but was "${typeof propValue}"`);
+        if (rule.type &&
+            typeof propValue !== rule.type
+        ) addError(rule, `Property "${rulePropName}" must be of type "${rule.type}", but was "${typeof propValue}"`);
 
         // 如果规则要求该属性必须通过验证器验证，但_OBJ对象中该属性的值未通过验证器验证，则添加错误信息
-        if (rule.validator && propValue !== void 0 && !rule.validator(propValue))
-            addError(rule, rule.errorMessage || `Property "${rulePropName}" failed validation.`);
-
-        // 如果规则允许的值存在，属性值不为void 0，且属性值不在规则允许的值中
-        // 则添加错误，属性值必须是规则允许的值之一，但实际值为propValue
-        if (rule.allowedValues && propValue !== void 0 && !rule.allowedValues.includes(propValue))
-            addError(rule, `Property "${rulePropName}" must be one of the following values: "${rule.allowedValues.join("', '")}", but was "${propValue}"`);
+        if (rule.validator &&
+            propValue !== void 0 &&
+            !rule.validator(propValue)
+        ) addError(rule, rule.errorMessage || `Property "${rulePropName}" failed validation.`);
     }
 
     // 返回包含验证结果的对象

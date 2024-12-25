@@ -4,15 +4,8 @@
 import { typeCreator } from "./configTypeCreator.js";
 
 // 导出默认配置
-export const configDefault = (typeObj => {
-    const defaults = {};
-
-    for (const key in typeObj) {
-        if (typeObj.hasOwnProperty(key)) {
-            const property = typeObj[key];
-            defaults[key] = property.defaultValue;
-        }
-    }
-
-    return defaults
-})(typeCreator);
+export const configDefault = Object.keys(typeCreator)
+    .reduce((defaults, key) => {
+        defaults[key] = typeCreator[key].defaultValue;
+        return defaults;
+    }, {});

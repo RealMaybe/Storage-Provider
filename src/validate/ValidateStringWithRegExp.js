@@ -3,6 +3,8 @@
 // 导入依赖
 import { validationRegexes } from "../var/RegExp.js";
 
+/* ========== */
+
 /**
  * 验证字符串是否符合指定的正则表达式
  * 
@@ -17,43 +19,43 @@ import { validationRegexes } from "../var/RegExp.js";
  */
 export function ValidateStringWithRegExp(classConfig, str, type = null) {
     // 验证参数类型
-    if (str === void 0 || str === null || typeof str !== "string")
-        throw new Error(`Invalid data type: The parameter "str" passed to this method must be of type string.`);
+    if (str === void 0 ||
+        str === null ||
+        typeof str !== "string"
+    ) throw new Error(`Invalid data type: The parameter "str" passed to this method must be of type string.`);
 
     // 空字符串警告
-    if (classConfig.warn && str.trim() === "")
-        console.warn(`Warning: The parameter "str" passed to this method is an empty string.`);
+    if (classConfig.warn &&
+        str.trim() === ""
+    ) console.warn(`Warning: The parameter "str" passed to this method is an empty string.`);
 
     // 验证正则表达式或预定义类型  
     if (type !== null && type !== void 0) {
-        let regex;
+        let regex = null;
 
         if (typeof type === "string") {
             // 检查是否为预定义的正则表达式  
-            if (validationRegexes.hasOwnProperty(type)) {
+            if (validationRegexes.hasOwnProperty(type))
                 regex = validationRegexes[type];
-            } else {
-                // 如果不是预定义类型，且classConfig.warn为真，则发出警告  
-                if (classConfig.warn) {
-                    console.warn(`Warning: The provided "type" "${type}" does not exist in the validationRegexes object.`);
-                }
-                regex = null; // 没有有效的正则表达式进行验证  
-            }
-        } else if (type instanceof RegExp) {
-            // 直接使用提供的RegExp对象  
-            regex = type;
-        } else {
-            // 如果type不是字符串也不是RegExp，且classConfig.warn为真，则发出警告  
-            if (classConfig.warn) {
-                console.warn(`Warning: The parameter "type" must be a string or a RegExp object.`);
-            }
-            regex = null; // 没有有效的正则表达式进行验证  
+
+            // 如果不是预定义类型，且classConfig.warn为真，则发出警告  
+            else if (classConfig.warn)
+                console.warn(`Warning: The provided "type" "${type}" does not exist in the validationRegexes object.`);
         }
 
+        // 直接使用提供的RegExp对象  
+        else if (type instanceof RegExp)
+            regex = type;
+
+        // 如果type不是字符串也不是RegExp，且classConfig.warn为真，则发出警告
+        else if (classConfig.warn)
+            console.warn(`Warning: The parameter "type" must be a string or a RegExp object.`);
+
         // 使用正则表达式进行验证  
-        if (regex && !regex.test(str) && classConfig.warn) {
-            console.warn(`Warning: The parameter "str" passed to this method does not match the ${type} pattern.`);
-        }
+        if (regex &&
+            !regex.test(str) &&
+            classConfig.warn
+        ) console.warn(`Warning: The parameter "str" passed to this method does not match the ${type} pattern.`);
     }
 
     // 返回验证后的字符串

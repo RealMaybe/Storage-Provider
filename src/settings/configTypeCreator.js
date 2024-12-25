@@ -3,7 +3,6 @@
 /**
  * 布尔值验证器工厂函数
  * @function booleanValidator
- * @param { boolean } required 属性是否是必须的
  * @param { string } name 属性名称
  * @returns { { validator: (value: any) => boolean, errorMessage: string } } 包含布尔值验证器和错误信息的对象
  */
@@ -100,6 +99,7 @@ const numberValidator = (conditions, errorMessage) => ({
  * @param { string } type 属性的类型
  * @param { boolean } required 属性是否是必须的
  * @param { { validator: (value: any) => boolean, errorMessage: string } } validatorObject 包含验证器和错误信息的对象
+ * @param { any } defaultValue 属性的默认值
  * @returns { { type: string, required: boolean, validator: (value: any) => boolean, errorMessage: string } } 包含类型、必填性、验证器和错误信息的对象
  */
 const createConfig = (type, required, validatorObject, defaultValue) => ({
@@ -111,88 +111,89 @@ const createConfig = (type, required, validatorObject, defaultValue) => ({
 });
 
 
-
 /* ========== */
 
 
-
-export const typeCreator = (($type) => {
+export const typeCreator = {
     // 存储类型
-    $type.storageType = createConfig(
+    storageType: createConfig(
         "string",
         true, {
             validator: value => ["local", "session"].includes(value),
             errorMessage: `"storageType" property value is invalid. It must be "local" or "session".`
         },
         "local"
-    );
+    ),
 
     // 是否打印警告
-    $type.warn = createConfig(
+    warn: createConfig(
         "boolean",
         true,
         booleanValidator("warn"),
         true
-    );
+    ),
 
     // 是否自动去除循环引用
-    $type.circular = createConfig(
+    circular: createConfig(
         "boolean",
         false,
         booleanValidator("circular"),
         false
-    );
+    ),
 
     // 最大存储大小
-    $type.maxSize = createConfig(
+    maxSize: createConfig(
         "number",
         false,
-        numberValidator([">0", "<=5242880"], `The "maxSize" property value is invalid. It must be a positive integer less than or equal to 5242880.`),
+        numberValidator(
+            [">0", "<=5242880"],
+            `The "maxSize" property value is invalid. It must be a positive integer less than or equal to 5242880.`
+        ),
         1048576
-    );
+    ),
 
     // 是否监控数据变化
-    $type.monitor = createConfig(
+    monitor: createConfig(
         "boolean",
         false,
         booleanValidator("monitor"),
         false
-    );
+    ),
 
     // 频道名称
-    $type.channelName = createConfig(
+    channelName: createConfig(
         "string",
         false,
         stringValidator(1, 30, "channelName"),
         "StorageProvider_Channel"
-    )
+    ),
 
     // 前缀
-    $type.prefix = createConfig(
+    prefix: createConfig(
         "string",
         false,
         stringValidator(1, 10, "prefix"),
         "myApp_"
-    );
+    ),
 
-    // 是否加密
-    /* $type.encrypt = createConfig(
+    /* // 是否加密
+    encrypt: createConfig(
         "boolean",
         false,
         booleanValidator("encrypt"),
         false
-    ); */
+    ),
 
     // 是否压缩
-    /* $type.compress = createConfig(
+    compress: createConfig(
         "boolean",
         false,
         booleanValidator("compress"),
         false
-    ); */
+    ),
 
     // 过期时间
-    /* $type.expirationTime = createConfig(
+    expirationTime: createConfig(
         "number",
         false, {
             validator: value => {
@@ -204,17 +205,15 @@ export const typeCreator = (($type) => {
             errorMessage: `The "expirationTime" property value is invalid. It must be a timestamp representing a time at least ten minutes in the future.`
         },
         null
-    ); */
+    ),
 
     // 存储时间
-    /* $type.storageTime = createConfig(
+    storageTime: createConfig(
         "number",
         false, {
             validator: value => typeof value === "number" && value > 0,
             errorMessage: "Invalid time. It must be a positive number."
         },
         null
-    ); */
-
-    return $type;
-})({});
+    ), */
+};
