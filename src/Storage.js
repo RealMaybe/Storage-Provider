@@ -185,7 +185,7 @@ export class StorageProvider {
      * - 回调函数中可以使用 this
      * - this 指向实例化出来的 StorageProvider 对象
      *
-     * @returns { void }
+     * @returns { (close: boolean = false) => void }
      */
     listenMsg(callback) {
         try {

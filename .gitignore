@@ -41,7 +41,7 @@ cookie/
 typescript/
 
 # 文档文件
-docs/
+# docs/
 *.pdf
 *.doc
 *.docx

@@ -4,7 +4,7 @@
  * 辅助监听函数
  * @param { { monitor: boolean, channel: BroadcastChannel } } classConfig 类配置
  * @param { { message?: any, callback?: (message: any) => any, provider: StorageProvider } } msgObj 消息对象
- * @returns { () => void } 清理函数
+ * @returns { (close: boolean = false) => void } 清理函数
  */
 export function m_listener(classConfig, msgObj, provider) {
     const { monitor, channel } = classConfig;
@@ -42,7 +42,7 @@ export function m_listener(classConfig, msgObj, provider) {
             channel.addEventListener("message", callbackFun)
 
             // 返回清理函数
-            return () => { channel.removeEventListener("message", callbackFun) }
+            return (close = false) => { close ? channel.close() : channel.removeEventListener("message", callbackFun) }
         }
     }
 };
