@@ -145,6 +145,12 @@ export class StorageProvider {
         } catch (err) { console.error(err) }
     }
 
+
+    /* ========== */
+
+
+    /* 监听方法 */
+
     /**
      * 发送消息
      *

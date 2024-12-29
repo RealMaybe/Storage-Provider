@@ -14,15 +14,12 @@
 
 ## 官方文档
 
-| 类型 | 地址 |
-| --- | --- |
-| 说明文档（中文） | [中文说明文档](./docs/zh/说明文档.md) |
-| 方法文档（中文） | [中文方法文档](./docs/zh/方法文档.md) |
-| English Documentation | [Documentation](./docs/en/documentation-en.md) |
-| English Method document | [Method document](./docs/en/methodDocument-en.md) |
-| 日本語の説明ドキュメント | [説明ドキュメント](./docs/jp/documentation-jp.md) |
-| 日本語のメソッドドキュメント | [メソッドドキュメント](./docs/jp/methodDocument-jp.md) |
-| 更新日志（中文在线版） | [更新日志](https://www.yuque.com/realmaybe0429/storage-provider/change-log) |
+| 语种 | 类型 | 地址 |
+| --- | --- |  --- |
+| 中文 | **开发文档** | [开发文档](https://www.yuque.com/realmaybe0429/storage-provider) |
+| | 说明文档 | [说明文档](https://www.yuque.com/realmaybe0429/storage-provider/documentation) |
+|  | 方法文档 | [方法文档](https://www.yuque.com/realmaybe0429/storage-provider/method) |
+|  | 更新日志 | [更新日志](https://www.yuque.com/realmaybe0429/storage-provider/change-log) |
 
 ---
 

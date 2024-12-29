@@ -1,6 +1,0 @@
-# Storage Provider Method Document
-
----
----
-
-## 
