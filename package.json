@@ -1,6 +1,6 @@
 {
     "name": "storage-provider",
-    "version": "1.0.3",
+    "version": "1.1.2",
     "description": "介绍及开发文档请访问[Storage Provider 开发文档](https://www.yuque.com/realmaybe0429/storage-provider)",
     "main": "src/index.js",
     "scripts": {
@@ -12,8 +12,7 @@
         "Web 应用程序",
         "window",
         "localStorage",
-        "SessionStorage",
-        "cookie"
+        "sessionStorage"
     ],
     "author": "RealMaybe",
     "license": "MIT License",

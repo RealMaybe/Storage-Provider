@@ -4,6 +4,4 @@
 import { StorageProvider } from "./Storage.js";
 
 // 导出
-export {
-    StorageProvider as default
-};
+export default StorageProvider;

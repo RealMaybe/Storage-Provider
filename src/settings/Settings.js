@@ -5,6 +5,7 @@ import { configDefault } from "./configDefault.js"; // 导入默认配置
 import { configObjectChecker } from "./configObjectChecker.js"; // 导入配置对象查验器
 import { configRuleType } from "./configRuleType.js"; // 导入参数类型
 import { CheckType } from "../checker/checkType.js"; // 导入参数类型验证器
+import { CheckStorageSize } from "../checker/checkStorageSize.js";
 
 /* ========== */
 
@@ -59,10 +60,10 @@ export function Settings(userConfig) {
         throw new Error(`Validation failed:\n${errors.map(err => `- ${err}`).join("\n")}`);
     else if (
         isValid &&
-        CONFIG_OBJ.warn && 
+        CONFIG_OBJ.warn &&
         tips.length > 0
-    ) console.warn(`Warning:\n${tips.map(tip => `- ${tip}`).join("\n")}`)
-    
+    ) console.warn(`Warning:\n${tips.map(tip => `- ${tip}`).join("\n")}`);
+
     // 返回配置对象
     return CONFIG_OBJ;
 }

@@ -12,14 +12,22 @@
 
 ---
 
+## 当前版本
+
+| 版本 | 发布时间 | 更新内容 |
+| --- | --- | --- |
+| 1.1.1 | 暂未发布 | 详见更新日志 |
+
+---
+
 ## 官方文档
 
 | 语种 | 类型 | 地址 |
 | --- | --- |  --- |
 | 中文 | **开发文档** | [开发文档](https://www.yuque.com/realmaybe0429/storage-provider) |
 | | 说明文档 | [说明文档](https://www.yuque.com/realmaybe0429/storage-provider/documentation) |
-|  | 方法文档 | [方法文档](https://www.yuque.com/realmaybe0429/storage-provider/method) |
-|  | 更新日志 | [更新日志](https://www.yuque.com/realmaybe0429/storage-provider/change-log) |
+| | 方法文档 | [方法文档](https://www.yuque.com/realmaybe0429/storage-provider/method) |
+| | 更新日志 | [更新日志](https://www.yuque.com/realmaybe0429/storage-provider/change-log) |
 
 ---
 
@@ -34,6 +42,6 @@
 If you have any questions or need further information about the software, please feel free to contact the original author at any time:
 
 - **Name:** RealMaybe
-- **Email:** <realmaybe0429@qq.com>
+- **Email:** <ling0910ai@qq.com>
 - **Weibo:** [@也许吧真的RealMaybe](https://weibo.com/u/5678690912)
 - **Twitter:** [@RealMaybe0429](<https://twitter.com/RealMaybe0429>)

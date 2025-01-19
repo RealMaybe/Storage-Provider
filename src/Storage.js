@@ -6,10 +6,10 @@ import { localStorage } from "./var/local.js"; // localStorage 存储器
 import { sessionStorage } from "./var/session.js"; // sessionStorage 存储器
 import { Settings } from "./settings/Settings.js"; // 配置管理器
 import { CheckCircular } from "./checker/checkCircular.js" // 循环引用检查器
-import { ValidateObject } from "./validate/ValidateObject.js"; // 验证对象的方法
 import { ValidateArray } from "./validate/ValidateArray.js"; // 验证数组的方法
 import { ValidateKey } from "./parameter/ValidateKey.js"; // 验证键名的方法 
 import { ValidateValue } from "./parameter/ValidateValue.js"; // 验证值的方法
+import { m_rewrite } from "./methods/rewrite.js" // 重写值的方法
 import { m_listener } from "./methods/listener.js" // 监听器
 import { m_inspector } from "./methods/inspector.js" // 验证规则的方法
 import { m_store } from "./methods/store.js" // 存储、获取值的方法
@@ -32,7 +32,7 @@ import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存�
  * @property { boolean } warn 是否弹出警告信息
  * @property { boolean } circular 是否去除循环引用
  * @property { boolean } monitor 是否监控存储变化
- * @property { string } prefix 存储项的前缀
+ * @property { BroadcastChannel | null } channel 通讯频道
  */
 
 
@@ -45,7 +45,7 @@ import { m_deleteItem } from "./methods/delete.js" // 删除单条或多条存�
  * 
  * @class StorageProvider
  * @author RealMaybe <ling0910ai@qq.com>
- * @version 1.1.1
+ * @version 1.1.2
  * @license MIT
  * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
  */
@@ -64,9 +64,10 @@ export class StorageProvider {
      * @param { string } [settings.type] 存储类型，与 storageType 一致，二选一填写即可
      * @param { boolean } [settings.warn] 是否显示警告（必填）
      * @param { boolean } [settings.circular] 是否检查循环引用（可选）
-     * @param { number } [settings.maxSize] 最大存储大小（可选）
      * @param { boolean } [settings.monitor] 是否监控存储变化（可选）
-     * @param { string } [settings.prefix] 存储项的前缀（可选）
+     * @param { string } [settings.channelName] 通讯频道的名称，需要配合 monitor 使用（可选）
+     * @param { string } [settings.prefix] 存储项的前缀（可选，未启用）
+     * @param { number } [settings.maxSize] 最大存储大小（可选，未启用）
      */
     constructor(settings) {
         // 解构、验证配置参数
@@ -107,10 +108,8 @@ export class StorageProvider {
     /**
      * 去除循环引用的方法
      * 
-     * @method Circular 
-     * 
+     * @method circular 
      * @param { object | Array<any> } item 要去除循环引用的对象或数组
-     * 
      * @return { object | Array<any> } 去除循环引用后的对象或数组
      */
     circular(item) {
@@ -127,13 +126,11 @@ export class StorageProvider {
      * 验证本地存储中指定的项是否满足制定规则的方法
      * 
      * @method inspector 
-     * 
      * @param { { [storageKey: string]: string | (item: any) => boolean } } obj 指定的项及其验证规则
      * - 该对象中的每一个属性的键名将作为存储的键名，属性值将作为验证规则；
      * - 验证规则可以是字符串，也可以是一个函数，该函数的返回值必须为布尔值；
      * - 如果是字符串，则检测 Storage 中 storageKey 对应的值的类型是否与该字符串相等；
      * - 如果是函数，则调用该函数，传入 Storage 中 storageKey 对应的值，如果函数返回 true，则验证通过，否则验证失败。
-     * 
      * @returns { { all: boolean, tips: { [storageKey: string]: string }, errors: { [storageKey: string]: string } } } 验证结果对象
      * - all: 所有的项目验证是否通过，全部通过为 true，任一不通过为 false；
      * - tips: 验证提示信息；
@@ -152,12 +149,10 @@ export class StorageProvider {
     /* 监听方法 */
 
     /**
-     * 发送消息
+     * 用于发送消息
      *
      * @method sendMsg
-     *
      * @param { any } data 需要发送的消息，可以是任意可克隆的类型
-     *
      * @returns { void }
      */
     sendMsg(data) {
@@ -171,9 +166,7 @@ export class StorageProvider {
      * 此方法会检测传入的消息内容是否有效
      *
      * @method postMsg
-     *
      * @param { any } data 需要发送的消息，可以是任意可克隆的类型
-     *
      * @returns { void }
      */
     postMsg(data) {
@@ -183,14 +176,12 @@ export class StorageProvider {
     }
 
     /**
-     * 接收消息
+     * 用于接收消息
      *
      * @method listenMsg
-     *
      * @param { (message: any) => void } callback 回调函数
      * - 回调函数中可以使用 this
      * - this 指向实例化出来的 StorageProvider 对象
-     *
      * @returns { (close: boolean = false) => void }
      */
     listenMsg(callback) {
@@ -207,12 +198,10 @@ export class StorageProvider {
 
     /**
      * 存储或获取数据
-     * 
-     * @method Storage
-     * 
+     *
+     * @method storage
      * @param { string } key 存储的键名，或用于获取值的键名
      * @param { any } [value] 存储的值，如果没有传入，则视为获取值
-     * 
      * @returns { void | any } 
      * - 如果没有传入有效的 `value`，则返回对应键名的值；
      * - 否则，存储对应键名的值并返回 `undefined`。
@@ -220,6 +209,22 @@ export class StorageProvider {
     storage(key, value) {
         try {
             return m_store(this.#config, key, value)
+        } catch (err) { console.error(err) }
+    }
+
+    /**
+     * 用于重写本地存储中的数据。
+     * - 该方法从本地存储中获取数据并传递给回调函数，回调函数返回新的数据对象，然后将新的数据对象写回本地存储。
+     * - 须要确保回调函数返回的对象与原始数据对象具有相同的键。
+     *
+     * @method rewrite
+     * @param { string | Array<string> } items 数据
+     * @param { (item: { [key: string]: any }) => { [key: string]: any } } callback 回调函数
+     * @returns { void } 
+     */
+    rewrite(keys, callback) {
+        try {
+            m_rewrite(this.#config, keys, callback, this)
         } catch (err) { console.error(err) }
     }
 
@@ -231,11 +236,10 @@ export class StorageProvider {
 
     /**
      * 设置单条存储数据
-     * @method Save
-     * 
+     *
+     * @method save
      * @param { string } key 数据的键名
      * @param { any } value 要存储的值
-     * 
      * @returns { void } 仅设置键的值，无返回值
      */
     save(key, value) {
@@ -248,9 +252,7 @@ export class StorageProvider {
      * 通过数组中的对象中的 key 和 value 属性批量设置多条存储数据
      * 
      * @method SaveMany
-     * 
      * @param { Array<{key: string, value: any}> } arr 要存储的多条数据，数组中的每个元素都是包含 key 和 value 属性的对象
-     * 
      * @returns { void } 仅设置键的值，无返回值
      */
     saveMany(arr) {
@@ -262,10 +264,8 @@ export class StorageProvider {
     /**
      * 通过对象批量设置多条存储数据
      * 
-     * @method SetMany
-     * 
+     * @method setMany
      * @param { { [key: string]: any } } obj 要存储的多条数据，对象中的每个属性的将作为key，属性值将作为存储的值。
-     * 
      * @returns { void } 仅设置键的值，无返回值
      */
     setMany(obj) {
@@ -280,10 +280,8 @@ export class StorageProvider {
      * - 该函数传入参数数量为必须为 1 ~ 2。
      * - 参数的传入原则与 save、saveMany、setMany 三个方法相同。
      *
-     * @method Set
-     * 
+     * @method set
      * @param { Array<{ key: string, value: any }> | { [key: string]: any } | string } data 要存储的单条或多条数据
-     * 
      * @returns { void } 仅设置值，无返回值
      */
     set(...data) {
@@ -301,10 +299,8 @@ export class StorageProvider {
     /**
      * 获取单条存储数据
      * 
-     * @method Get
-     * 
+     * @method get
      * @param { string } key 数据的键名
-     * 
      * @returns { any } 返回键的存储值
      */
     get(key) {
@@ -318,11 +314,9 @@ export class StorageProvider {
      * - 如关于 type 的具体用法无法理解，请参见说明文档。
      * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
      * 
-     * @method GetMany
-     * 
+     * @method getMany
      * @param { Array<string> } arr 包含需要获取值的键的数组。
      * @param { string } [type = "object"] 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
-     * 
      * @returns { Array<object> | object } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
      */
     getMany(arr, type = "object") {
@@ -334,8 +328,7 @@ export class StorageProvider {
     /**
      * 从本地存储中获取所有数据。
      * 
-     * @method GetAll
-     * 
+     * @method getAll
      * @returns { { [key: string]: any } } 包含所有本地存储数据的对象。
      */
     getAll() {
@@ -353,10 +346,8 @@ export class StorageProvider {
     /**
      * 删除存储数据
      * 
-     * @method Delete
-     * 
+     * @method delete
      * @param { string } [key] 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
-     * 
      * @returns { void } 无返回值
      */
     delete(key) {
@@ -368,10 +359,8 @@ export class StorageProvider {
     /**
      * 删除存储的单条数据
      * 
-     * @method Remove
-     * 
+     * @method remove
      * @param { string } key 要删除的数据的键名
-     * 
      * @returns { void } 无返回值
      */
     remove(key) {
@@ -383,10 +372,8 @@ export class StorageProvider {
     /**
      * 从本地存储中删除多条数据。
      * 
-     * @method RemoveMany
-     * 
+     * @method removeMany
      * @param { Array<string> } arr 包含需要删除的键的数组。
-     * 
      * @returns { void } 无返回值
      */
     removeMany(arr) {
@@ -399,8 +386,7 @@ export class StorageProvider {
     /**
      * 删除存储的所有数据
      * 
-     * @method Clean
-     * 
+     * @method clean
      * @returns { void } 无返回值
      */
     clean() {

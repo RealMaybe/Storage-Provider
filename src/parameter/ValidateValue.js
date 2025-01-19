@@ -33,7 +33,7 @@ export function ValidateValue(classConfig, value) {
     if (value === null ||
         value === void 0 ||
         Number.isNaN(value)
-    ) throw new Error("This value cannot be null, void 0 or NaN.");
+    ) throw new Error("This value cannot be null, undefined or NaN.");
 
     // 获取值的类型
     let TYPE_;

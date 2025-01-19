@@ -29,7 +29,7 @@ SOFTWARE.
 If you have any questions or need further information about the software, please feel free to contact the original author at any time:
 
 - **Name:** RealMaybe
-- **Email:** <realmaybe0429@qq.com>
+- **Email:** <ling0910ai@qq.com>
 - **Weibo:** [@也许吧真的RealMaybe](https://weibo.com/u/5678690912)
 - **Twitter:** [@RealMaybe0429](<https://twitter.com/RealMaybe0429>)
 

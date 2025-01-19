@@ -141,17 +141,6 @@ export const typeCreator = {
         false
     ),
 
-    // 最大存储大小
-    maxSize: createConfig(
-        "number",
-        false,
-        numberValidator(
-            [">0", "<=5242880"],
-            `The "maxSize" property value is invalid. It must be a positive integer less than or equal to 5242880.`
-        ),
-        1048576
-    ),
-
     // 是否监控数据变化
     monitor: createConfig(
         "boolean",
@@ -166,6 +155,17 @@ export const typeCreator = {
         false,
         stringValidator(1, 30, "channelName"),
         "StorageProvider_Channel"
+    ),
+
+    // 最大存储大小
+    maxSize: createConfig(
+        "number",
+        false,
+        numberValidator(
+            [">0", "<=5242880"],
+            `The "maxSize" property value is invalid. It must be a positive integer less than or equal to 5242880.`
+        ),
+        1048576
     ),
 
     // 前缀
