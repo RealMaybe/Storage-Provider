@@ -171,7 +171,9 @@ export class StorageProvider {
      */
     postMsg(data) {
         try {
-            m_listener(this.#config, { message: ValidateValue(data) })
+            m_listener(this.#config, {
+                message: ValidateValue(this.#config, data) 
+            })
         } catch (err) { console.error(err) }
     }
 
