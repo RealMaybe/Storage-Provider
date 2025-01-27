@@ -39,6 +39,7 @@ yarn-error.log*
 cookie.*
 cookie/
 typescript/
+provider/
 docs/
 
 # 文档文件

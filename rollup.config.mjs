@@ -13,14 +13,14 @@ const writeCopyrightPlugin = () => ({
         const copyrightBanner = () => [
             "/**",
             " * @copyright",
-            ` * StorageProvider.js ${version}`,
+            ` * StorageProvider.js v${version}`,
             " * Copyright (c) 2024-present RealMaybe",
             " * All rights reserved.",
             " * Licensed under the MIT License.",
-            " * Open source address:",
+            " * - Open source address:",
             " * - https://gitee.com/RealMaybe0429/storage-provider",
             " * - https://github.com/RealMaybe/Storage-Provider",
-            " * Documentation address:",
+            " * - Documentation address:",
             " * - https://www.yuque.com/realmaybe0429/storage-provider",
             " */"
         ].join("\n");

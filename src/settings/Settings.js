@@ -5,7 +5,7 @@ import { configDefault } from "./configDefault.js"; // 导入默认配置
 import { configObjectChecker } from "./configObjectChecker.js"; // 导入配置对象查验器
 import { configRuleType } from "./configRuleType.js"; // 导入参数类型
 import { CheckType } from "../checker/checkType.js"; // 导入参数类型验证器
-import { CheckStorageSize } from "../checker/checkStorageSize.js";
+// import { CheckStorageSize } from "../checker/checkStorageSize.js";
 
 /* ========== */
 

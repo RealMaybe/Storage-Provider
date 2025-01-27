@@ -57,7 +57,7 @@ export function ValidateArray(classConfig, arr, type = null) {
 
     // 循环引用检测
     if (classConfig.circular) {
-        const { isCircular, warning, value } = CheckCircular(arr);
+        const { isCircular, warning, value } = CheckCircular(classConfig, arr);
         if (classConfig.warn && isCircular) console.warn(warning);
 
         return value

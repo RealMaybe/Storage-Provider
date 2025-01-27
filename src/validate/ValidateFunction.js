@@ -20,10 +20,10 @@ export function ValidateFunction(classConfig, func) {
     ];
     let warning = [
         "Warning:",
-        "StoreProvider will attempt to store the following content of your function in either localStorage or sessionStorage:",
-        "function name",
-        "function source code",
-        "number of parameters"
+        "StorageProvider will attempt to store the following content of the function in Web Storage or communicate it to other pages:",
+        "Function name",
+        "Function source code",
+        "Number of parameters"
     ];
 
     // 验证函数引用是否存在且不为空

@@ -12,7 +12,7 @@
  * - value: 如果不包含循环引用，返回原对象；如果包含循环引用，返回处理后的原始对象的一个副本。
  * @summary 如果遇到循环引用，则循环引用的部分将被替换为字符串 "[Circular]"
  */
-export function CheckCircular(item) {
+export function CheckCircular(classConfig, item) {
     const _TYPE = (() => {
         if (Array.isArray(item)) return "array";
         else if (typeof item === "object" && item !== null) return "object";

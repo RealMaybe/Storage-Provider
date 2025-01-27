@@ -114,7 +114,7 @@ export class StorageProvider {
      */
     circular(item) {
         try {
-            const { isCircular, warning, value } = CheckCircular(item);
+            const { isCircular, warning, value } = CheckCircular(this.#config, item);
 
             if (isCircular && this.#config.warn) console.warn(warning);
 
@@ -172,7 +172,7 @@ export class StorageProvider {
     postMsg(data) {
         try {
             m_listener(this.#config, {
-                message: ValidateValue(this.#config, data) 
+                message: ValidateValue(this.#config, data)
             })
         } catch (err) { console.error(err) }
     }
@@ -220,8 +220,8 @@ export class StorageProvider {
      * - 须要确保回调函数返回的对象与原始数据对象具有相同的键。
      *
      * @method rewrite
-     * @param { string | Array<string> } items 数据
-     * @param { (item: { [key: string]: any }) => { [key: string]: any } } callback 回调函数
+     * @param { string | Array<string> } keys 数据
+     * @param { (item: { [storageKey: string]: any }) => { [storageKey: string]: any } } callback 回调函数
      * @returns { void } 
      */
     rewrite(keys, callback) {

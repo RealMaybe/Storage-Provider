@@ -42,7 +42,7 @@ export function ValidateObject(classConfig, obj) {
 
     // 循环引用检测
     if (classConfig.circular) {
-        const { isCircular, warning, value } = CheckCircular(obj);
+        const { isCircular, warning, value } = CheckCircular(classConfig, obj);
         if (classConfig.warn && isCircular) console.warn(warning);
 
         return value
