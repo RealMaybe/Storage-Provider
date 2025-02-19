@@ -6,9 +6,10 @@
  * - 通过遍历所有 key 计算总大小，并返回字节、千字节、兆字节的对象
  *
  * @function CheckStorageSize
+ * @param { { storage: Storage, warn: boolean, circular: boolean } } _classConfig 配置对象
  * @returns { { bytes: number | string, kb: number | string, mb: number | string } } 包含字节（bytes）、千字节（kb）和兆字节（mb）的对象
  */
-export function CheckStorageSize(classConfig) {
+export function CheckStorageSize(_classConfig) {
     // 计算localStorage的总大小
     const localSize = Object.keys(localStorage)
         .reduce((acc, key) => {

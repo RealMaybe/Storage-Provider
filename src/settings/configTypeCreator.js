@@ -42,13 +42,13 @@ const numberValidator = (conditions, errorMessage) => ({
          * @returns { { operator: string, number: number } } 条件对象
          */
         const splitByOperator = (str) => {
-            const regex = /(<=|>=|<|>|==|!=)(\d+)/;
+            const regex = /(>|<|>=|<=|=|==|!=)(\d+)/;
             const match = str.match(regex);
-            if (match) return {
+
+            return match ? {
                 operator: match[1],
                 number: parseInt(match[2], 10)
-            };
-            else return null;
+            } : null
         };
 
         /* ===== */
@@ -57,6 +57,21 @@ const numberValidator = (conditions, errorMessage) => ({
         if (typeof value !== "number" ||
             !Number.isInteger(value)
         ) return false;
+
+        // 定义比较函数对象
+        const compareFun = {
+            ">": (val, num) => val > num,
+            "<": (val, num) => val < num,
+            ">=": (val, num) => val >= num,
+            "<=": (val, num) => val <= num,
+            "=": (val, num) => val == num,
+            "==": (val, num) => val === num,
+            "!=": (val, num) => val !== num,
+            other: (val, num, operator) => {
+                console.error(`Unsupported operator: ${operator}.`);
+                return false;
+            }
+        };
 
         // 检查所有条件是否满足
         return conditions.every(condition => {
@@ -69,26 +84,10 @@ const numberValidator = (conditions, errorMessage) => ({
 
             const { operator, number } = result;
 
-            // 根据操作符进行比较
-            switch (operator) {
-                case ">":
-                    return value > number;
-                case "<":
-                    return value < number;
-                case ">=":
-                    return value >= number;
-                case "<=":
-                    return value <= number;
-                case "==":
-                    return value === number;
-                case "!=":
-                    return value !== number;
-                default:
-                    console.error(`Unsupported operator: ${operator}.`);
-                    return false;
-            }
+            // 使用对象映射进行比较
+            const compareFunction = compareFun[operator] || compareFun.other;
+            return compareFunction(value, number, operator);
         });
-
     },
     errorMessage: errorMessage
 });

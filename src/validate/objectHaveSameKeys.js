@@ -29,4 +29,4 @@ export function haveSameKeys(obj1, obj2) {
     }
 
     return { judge, missingKeys, extraKeys };
-};
+}

@@ -2,6 +2,7 @@
 
 // 导入依赖
 import { CheckCircular } from "../checker/checkCircular.js";
+import { allTypes as allowedTypes } from "../var/allTypes.js"; // 类型列表
 
 /* ========== */
 
@@ -17,7 +18,7 @@ import { CheckCircular } from "../checker/checkCircular.js";
  * @param { Array<any> } arr 要验证的数组
  * @param { string } [type = null] 数组内所有元素的类型，默认为 null（不检查元素类型）
  * 
- * @returns { Array<any> } 返回传入的数组
+ * @returns { Array<any> } 返回检查后的数组
  * 
  * @throws { Error } 验证失败时抛出错误
  * 
@@ -33,9 +34,6 @@ export function ValidateArray(classConfig, arr, type = null) {
     // 数组为空
     if (classConfig.warn && arr.length === 0)
         console.warn(`Warning: The array is empty.`);
-
-    // 允许的类型列表
-    const allowedTypes = ["array", "bigint", "boolean", "function", "null", "number", "object", "string", "symbol", "undefined"];
 
     // 检查类型参数
     if (type !== null) {

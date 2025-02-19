@@ -6,13 +6,13 @@ import { ValidateValue } from "../parameter/ValidateValue.js";
 
 /**
  * 将数据存储到 web Storage 中
- * 
+ *
  * @function SetValueToStorage
- * 
+ *
  * @param { { storage: Storage, warn: boolean } } classConfig 配置对象
  * @param { string } key 要存储的键名
  * @param { any } value 要存储的数据
- * 
+ *
  * @returns { void }
  */
 export function SetValueToStorage(classConfig, key, value) {

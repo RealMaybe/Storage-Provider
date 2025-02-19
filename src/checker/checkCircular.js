@@ -4,6 +4,7 @@
  * 处理对象并检查循环引用。
  * 
  * @function CheckCircular
+ * @param { { [key: string]: any } } _classConfig 类配置对象。
  * @param { any } item 要处理的原始对象。
  * @returns { { isCircular: boolean, warning: string | null, value: any } }
  * - 返回一个对象，包含三个属性：
@@ -12,8 +13,8 @@
  * - value: 如果不包含循环引用，返回原对象；如果包含循环引用，返回处理后的原始对象的一个副本。
  * @summary 如果遇到循环引用，则循环引用的部分将被替换为字符串 "[Circular]"
  */
-export function CheckCircular(classConfig, item) {
-    const _TYPE = (() => {
+export function CheckCircular(_classConfig, item) {
+    const TYPE = (() => {
         if (Array.isArray(item)) return "array";
         else if (typeof item === "object" && item !== null) return "object";
         else return typeof item;
@@ -21,9 +22,9 @@ export function CheckCircular(classConfig, item) {
 
     const warn = [
         `Warning:`,
-        `- This ${_TYPE} has the behavior of cyclically referencing itself, and we do not recommend doing so.`,
+        `- This ${TYPE} has the behavior of cyclically referencing itself, and we do not recommend doing so.`,
         `- Please check if there are potential errors in your code.`,
-        // `- We have replaced the circular reference found in your ${_TYPE} with '[Circular]' to avoid potential issues.`
+        // `- We have replaced the circular reference found in your ${TYPE} with "[Circular]" to avoid potential issues.`
     ];
 
 

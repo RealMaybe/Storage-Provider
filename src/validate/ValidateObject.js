@@ -14,9 +14,11 @@ import { CheckCircular } from "../checker/checkCircular.js";
  * @function ValidateObject
  * 
  * @param { { warn: boolean, circular: boolean } } classConfig 配置对象
- * @param { object } obj 一个对象
+ * @param { object } obj 需要验证的对象
+ * @param { boolean } [type = false] 是否查验对象内属性对应的值的类型
+ * - 默认为 false（不检查值的类型）
  * 
- * @returns { object } 返回传入的对象
+ * @returns { object } 返回检查后的对象
  * 
  * @throws { Error } 验证失败时抛出错误
  * 
@@ -24,7 +26,7 @@ import { CheckCircular } from "../checker/checkCircular.js";
  * - 如果传入的对象存在循环引用自身的行为，在默认情况下，控制台会提示警告信息
  * - 不建议传入存在循环引用自身的行为的对象，虽然这样并不会报错
  */
-export function ValidateObject(classConfig, obj) {
+export function ValidateObject(classConfig, obj, type = false) {
     // 验证对象  
     if (obj === void 0 ||
         obj === null ||
@@ -37,7 +39,11 @@ export function ValidateObject(classConfig, obj) {
         if (obj.hasOwnProperty(key) && (
                 obj[key] === null ||
                 obj[key] === void 0
-            )) throw new Error(`Invalid object: The object contains an invalid value (null or undefined) for key "${key}".`);
+            )) {
+            let warnOrErr = `The object contains an invalid value (null or undefined) for key "${key}".`;
+            if (!type && classConfig.warn) console.warn("Warning: " + warnOrErr);
+            else if (type) throw new Error("Error: " + warnOrErr);
+        }
     }
 
     // 循环引用检测

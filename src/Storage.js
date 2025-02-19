@@ -56,7 +56,7 @@ export class StorageProvider {
      * @type { ConfigType }
      */
     #config
-
+    
     /**
      * @constructor StorageProvider
      * @param { string | object } settings 配置对象，可以是字符串或包含配置属性的对象。
@@ -318,8 +318,8 @@ export class StorageProvider {
      * 
      * @method getMany
      * @param { Array<string> } arr 包含需要获取值的键的数组。
-     * @param { string } [type = "object"] 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
-     * @returns { Array<object> | object } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
+     * @param { "array" | "object" | "array-object" } [type = "object"] 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
+     * @returns { Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string, value: any }> } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
      */
     getMany(arr, type = "object") {
         try {
@@ -331,7 +331,7 @@ export class StorageProvider {
      * 从本地存储中获取所有数据。
      * 
      * @method getAll
-     * @returns { { [key: string]: any } } 包含所有本地存储数据的对象。
+     * @returns { { [storageKey: string]: any } } 包含所有本地存储数据的对象。
      */
     getAll() {
         try {

@@ -18,5 +18,6 @@
     "license": "MIT License",
     "devDependencies": {
         "rollup-plugin-terser": "^7.0.2"
-    }
+    },
+    "type": "module"
 }
