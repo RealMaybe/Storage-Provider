@@ -41,6 +41,13 @@ export const configRuleType: ClassConfigOptionsRules = {
         false
     ),
 
+    original: createConfigFactory(
+        "boolean",
+        false,
+        booleanFactory("original"),
+        false
+    ),
+
     // 是否监控数据变化
     monitor: createConfigFactory(
         "boolean",

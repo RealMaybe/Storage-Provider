@@ -1,5 +1,15 @@
-import StorageProvider from "../lib/index";
+import StorageProvider from "../dist/es/StorageProvider.es.1.1.2";
 
 /* ========== */
 
-console.log(StorageProvider);
+const localProvider = new StorageProvider({
+    type: "local",
+    warn: true,
+    monitor: true,
+    circular: true,
+    original: true,
+});
+
+// const req = localProvider.getAll();
+
+console.log(localProvider);

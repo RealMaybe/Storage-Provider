@@ -27,9 +27,7 @@ export function m_getAll(
     for (const key of keys) {
         try {
             allData[key] = GetValueFromStorage(classConfig, key);
-        } catch (err) {
-            throw new Error(`Failed to retrieve value for key "${key}": ${err}`);
-        }
+        } catch (err) { throw new TypeError(`Failed to retrieve value for key "${key}":` + err) }
     }
 
     return allData;

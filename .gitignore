@@ -89,3 +89,6 @@ jetbrains-idea/workspace.xml
 
 # 忽略原始开发文件
 original_development_files/
+
+# 忽略测试文件
+test/

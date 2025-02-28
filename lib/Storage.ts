@@ -61,6 +61,7 @@ export class StorageProvider {
             storageType,
             warn,
             circular,
+            original,
             monitor,
             channelName,
         } = Settings(options);
@@ -80,6 +81,7 @@ export class StorageProvider {
             type: storageType, // 存储类型
             warn, // 是否弹出警告信息
             circular, // 是否去除循环引用
+            original, // 是否输出原始值
             monitor, // 是否监控存储变化
             channel: monitor && typeof BroadcastChannel !== "undefined" ? new BroadcastChannel(channelName) : null, // 频道
         }
@@ -185,7 +187,7 @@ export class StorageProvider {
      * - 如果没有传入有效的 `value`，则返回对应键名的值；
      * - 否则，存储对应键名的值并返回 `undefined`。
      */
-    storage(key: string, value: any): void | any {
+    storage(key: string, value?: any): void | any {
         return m_store(this.#config, key, value)
     }
 

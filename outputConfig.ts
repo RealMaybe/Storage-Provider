@@ -4,7 +4,7 @@ export const version = "1.1.2";
 // 版权信息
 export const writeCopyrightPlugin = () => ({
     name: "write-copyright-plugin",
-    generateBundle(_, bundle) {
+    generateBundle(_, bundle: any) {
         const copyrightBanner = () => [
             "/**",
             " * @copyright",

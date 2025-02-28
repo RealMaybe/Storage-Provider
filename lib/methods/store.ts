@@ -4,7 +4,7 @@
 import { type RealClassConfigType } from "../tsType/classConfigType";
 import { GetValueFromStorage } from "../value/getValue";
 import { SetValueToStorage } from "../value/setValue";
-import { isEffective } from "../type/checkType";
+import { isInvalid } from "../type/checkType";
 
 
 /* ========== */
@@ -36,7 +36,7 @@ export function m_store(
     value?: any
 ): any | void {
     // 如果 value 无效，则获取 key 对应的内容
-    if (isEffective(value))
+    if (isInvalid(value))
         return GetValueFromStorage(classConfig, key);
 
     // 如果 value 有效，则设置 key 和 value 值

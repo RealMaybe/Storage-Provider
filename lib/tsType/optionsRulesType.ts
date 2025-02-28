@@ -1,4 +1,4 @@
-export type rulesPropName = "storageType" | "warn" | "circular" | "monitor" | "channelName" | "prefix" | "maxSize";
+export type rulesPropName = "storageType" | "warn" | "circular" | "original" | "monitor" | "channelName" | "prefix" | "maxSize";
 
 /**
  * 类配置对象检查器的子属性的规则类型

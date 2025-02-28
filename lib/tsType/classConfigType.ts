@@ -37,6 +37,7 @@ type requiredAttributes = (onlyHasStorageType | onlyHasType) & mastHaveOptions;
 type optionalAttribute = {
     circular?: boolean,
     maxSize?: number,
+    original?: boolean,
     monitor?: boolean,
     channelName?: string,
     prefix?: string,
@@ -89,6 +90,7 @@ export type ClassOptionsType = {
     warn: boolean,
     circular: boolean,
     maxSize: number,
+    original: boolean,
     monitor: boolean,
     channelName: string,
     prefix: string,
@@ -109,6 +111,7 @@ export type RealClassConfigType<M extends boolean> = {
     type: webStorageType, // 存储类型
     warn: boolean, // 是否弹出警告信息
     circular: boolean, // 是否去除循环引用
+    original: boolean, // 是否输出原始值
     monitor: M, // 是否监控存储变化
     channel: ChannelType<M>; // 根据 monitor 决定 channel 类型
 };
