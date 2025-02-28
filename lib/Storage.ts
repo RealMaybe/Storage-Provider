@@ -5,28 +5,28 @@ import {
     type RealClassConfigType, // 真实的类配置类型
     type UserOptionsType // 用户传入的配置类型
 } from "./tsType/classConfigType";
-import { type CircularItem } from "./tsType/circularType";
+import { type CircularItem } from "./tsType/circularType"; // 循环引用类型
 
 import { localStorage } from "./var/local"; // localStorage 存储器
 import { sessionStorage } from "./var/session"; // sessionStorage 存储器
 import { isString } from "./type/checkType"; // 类型检查器
 
 import { Settings } from "./settings/Settings"; // 配置管理器
-import { CheckCircular } from "./checker/checkCircular" // 循环引用检查器
+import { CheckCircular } from "./checker/checkCircular"; // 循环引用检查器
 import { ValidateArray } from "./validate/ValidateArray"; // 验证数组的方法
 import { ValidateKey } from "./parameter/ValidateKey"; // 验证键名的方法 
 import { ValidateValue } from "./parameter/ValidateValue"; // 验证值的方法
 
-import { m_rewrite } from "./methods/rewrite" // 重写值的方法
-import { m_listener } from "./methods/listener" // 监听器
-import { m_inspector, type $inspector } from "./methods/inspector" // 验证规则的方法
-import { m_store } from "./methods/store" // 存储、获取值的方法
-import { m_setManyFromKeyValue } from "./methods/setManyFromKeyValue" // 通过数组中的对象中的 key 和 value 属性批量设置值的方法
+import { m_rewrite } from "./methods/rewrite"; // 重写值的方法
+import { m_listener } from "./methods/listener"; // 监听器
+import { m_inspector, type $inspector } from "./methods/inspector"; // 验证规则的方法
+import { m_store } from "./methods/store"; // 存储、获取值的方法
+import { m_setManyFromKeyValue } from "./methods/setManyFromKeyValue"; // 通过数组中的对象中的 key 和 value 属性批量设置值的方法
 import { m_setManyFromObject } from "./methods/setManyFromObject"; // 通过对象批量设置值的方法
 import { m_setValueMethod } from "./methods/setValueMethod"; // 设置单条或多条存储数据
-import { m_getMany, type OutputType, type OutputResult } from "./methods/getMany" // 获取多条存储数据的方法
-import { m_getAll } from "./methods/getAll" // 获取所有存储数据的方法
-import { m_deleteItem } from "./methods/delete" // 删除单条或多条存储数据的方法
+import { m_getMany, type OutputType, type OutputResult } from "./methods/getMany"; // 获取多条存储数据的方法
+import { m_getAll } from "./methods/getAll"; // 获取所有存储数据的方法
+import { m_deleteItem } from "./methods/delete"; // 删除单条或多条存储数据的方法
 
 
 /* ========== */
