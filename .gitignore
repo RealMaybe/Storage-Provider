@@ -1,54 +1,24 @@
-# 依赖管理工具的目录
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# 构建输出目录
-dist/
-
-# 开发环境的配置文件
-.env
-
-# IDE 和编辑器的配置文件
-.idea/
-.vscode/
-
-# 测试生成的覆盖率报告
-coverage/
-
-# 测试文件目录及测试文件
-test/
-test.*
-*.test
-
-# 编译工具的缓存和临时文件
-.babelcache/
-.tmp/
-
-# 其他自动生成的文件或目录
+# Logs
+logs
 *.log
-*.log.*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnp/
-.pnp.js
-*.pnp.js
+pnpm-debug.log*
+lerna-debug.log*
 
-# 测试中的开发文件
-cookie.*
-cookie/
-typescript/
-provider/
-docs/
+node_modules
+dist
+dist-ssr
+*.local
 
-# 文档文件
-*.pdf
-*.doc
-*.docx
-*.xls
-*.xlsx
-
-# shit code
-*.DS_store
-*._.DS_store
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
