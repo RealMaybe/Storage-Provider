@@ -1,53 +1,94 @@
-# 依赖管理工具的目录
+# 忽略 node_modules 目录及其内容
 node_modules/
-npm-debug.log
-yarn-error.log
 
-# 构建输出目录
+# 忽略 npm 和 yarn 的锁文件
+package-lock.json
+yarn.lock
+
+# 忽略 pnpm 的锁文件和缓存目录
+pnpm-lock.yaml
+.pnpm-store/
+
+# 忽略构建输出目录
 dist/
+build/
 
-# 开发环境的配置文件
-.env
+# 忽略 TypeScript 编译生成的 .d.ts.map 文件
+*.d.ts.map
 
-# IDE 和编辑器的配置文件
+# 忽略临时文件和编辑器备份文件
+*.log
+*~
+*.swp
+*.swo
+*.bak
+
+# 忽略操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 忽略 IDE 和编辑器配置文件
 .idea/
 .vscode/
 
-# 测试生成的覆盖率报告
+# 忽略环境变量配置文件
+.env
+.env.*
+
+# 忽略测试报告和覆盖率文件
 coverage/
+test-results/
 
-# 测试文件目录及测试文件
+# 忽略编译后的 JavaScript 文件
+src/**/*.js
+src/**/*.js.map
+
+# 忽略 Webpack 或 Rollup 生成的文件
+webpack-stats.json
+
+# 忽略 Babel 生成的文件
+.babelrc.js
+babel.config.js
+
+# 忽略 ESLint 和 Prettier 的缓存文件
+.eslintcache
+.prettierrc.js
+prettier.config.js
+
+# 忽略 VSCode 的调试配置文件
+.vscode/
+launch.json
+
+# 忽略 Docker 相关文件
+Dockerfile*
+docker-compose.yml
+.dockerignore
+
+# 忽略其他常见文件
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+
+# 忽略 macOS 的 Finder 设置文件
+.AppleDouble/
+.LSOverride
+
+# 忽略 Windows 的系统文件
+desktop.ini
+$RECYCLE.BIN/
+
+# 忽略 Visual Studio Code 的扩展文件
+extensions.json
+
+# 忽略 JetBrains IDE 的全局设置文件
+jetbrains-idea/workspace.xml
+
+# 忽略原始开发文件
+original_development_files/
+
+# 忽略测试文件
 test/
-test.*
-*.test
-
-# 编译工具的缓存和临时文件
-.babelcache/
-.tmp/
-
-# 其他自动生成的文件或目录
-*.log
-*.log.*
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnp/
-.pnp.js
-*.pnp.js
-
-# 测试中的开发文件
-cookie.*
-cookie/
-typescript/
-docs/
-
-# 文档文件
-*.pdf
-*.doc
-*.docx
-*.xls
-*.xlsx
-
-# shit code
-*.DS_store
-*._.DS_store
