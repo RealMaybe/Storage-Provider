@@ -33,7 +33,7 @@ export function ValidateString(
 ): string {
     // 验证参数类型
     if (isInvalid(str) || !isString(str))
-        throw new Error(`Invalid data type: The parameter "${keyName}" passed to ${methodName} must be of type string.`);
+        throw new TypeError(`Invalid data type: The parameter "${keyName}" passed to ${methodName} must be of type string.`);
 
     // 空字符串警告
     if (classConfig.warn && str.trim() === "")

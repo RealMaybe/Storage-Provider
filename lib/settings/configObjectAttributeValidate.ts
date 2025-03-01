@@ -58,7 +58,7 @@ export function configObjectAttributeValidate(userConfig: UserOptionsObjectType)
 } {
     const CONFIG: UserOptionsObjectType = ((set) => {
         if (!isObjectAndNotArray(set))
-            throw new Error("The configuration object must be an object.");
+            throw new TypeError("The configuration object must be an object.");
         else return set
     })(userConfig) // 查验对象有效性
 
@@ -82,7 +82,7 @@ export function configObjectAttributeValidate(userConfig: UserOptionsObjectType)
     if (missingAttributes.length > 0) {
         const missingList = missingAttributes.join('", "');
 
-        throw new Error(`The configuration object must contain all of the following attributes: "${missingList}".`);
+        throw new TypeError(`The configuration object must contain all of the following attributes: "${missingList}".`);
     }
 
     return {

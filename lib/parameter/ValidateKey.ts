@@ -24,6 +24,6 @@ export function ValidateKey(
     key: string,
     methodName: string = "this method"
 ): string {
-    if (key === "") throw new Error(`In ${methodName}, the key must be a valid string`);
+    if (key === "") throw new TypeError(`In ${methodName}, the key must be a valid string`);
     else return ValidateString(classConfig, key, "key", methodName);
 }

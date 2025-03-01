@@ -110,7 +110,7 @@ export function ValidateValue<T>(
         if (isEffective(result)) return result;
 
         // 如果验证器没有返回值，说明验证失败
-        throw new Error(`Validation for type "${TYPE_}" failed without returning a result.`);
+        throw new TypeError(`Validation for type "${TYPE_}" failed without returning a result.`);
     }
 
     // 如果没有匹配的验证器，抛出错误

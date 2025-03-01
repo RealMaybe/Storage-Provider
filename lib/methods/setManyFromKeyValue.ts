@@ -34,7 +34,7 @@ export function m_setManyFromKeyValue(
 
         if (isInvalid(ITEM_.key) ||
             isInvalid(ITEM_.value)
-        ) throw new Error(`Array items must be objects that contain valid "key" and valid "value" properties.`);
+        ) throw new TypeError(`Array items must be objects that contain valid "key" and valid "value" properties.`);
 
         else SetValueToStorage(classConfig, ITEM_.key, ITEM_.value);
     })

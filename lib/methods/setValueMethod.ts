@@ -44,7 +44,7 @@ export function m_setValueMethod(
 ): void {
     /* 检查参数数量 */
     if (!isArray(items) || !(items.length === 1 || items.length === 2))
-        throw new Error("Effective parameters must exist and the number of parameters must be exactly 1 or 2");
+        throw new TypeError("Effective parameters must exist and the number of parameters must be exactly 1 or 2");
 
     // 参数数量为 1
     if (items.length === 1) {
@@ -63,7 +63,7 @@ export function m_setValueMethod(
         }
 
         // 其他情况
-        else throw new Error("If only one parameter is passed in, the type of the parameter must be array or non-null object.")
+        else throw new TypeError("If only one parameter is passed in, the type of the parameter must be array or non-null object.")
     }
 
     // 参数数量为 2
@@ -76,6 +76,6 @@ export function m_setValueMethod(
         ) SetValueToStorage(classConfig, KEY_, VALUE_);
 
         // 两个参数存在类型错误
-        else throw new Error("If two parameters are passed in, the first parameter must be of type string, and the second parameter must exist and be valid.")
+        else throw new TypeError("If two parameters are passed in, the first parameter must be of type string, and the second parameter must exist and be valid.")
     }
 };

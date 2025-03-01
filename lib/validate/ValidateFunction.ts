@@ -44,11 +44,11 @@ export function ValidateFunction(
 
     // 验证函数引用是否存在且不为空
     if (isInvalid(func))
-        throw new Error("Function is required and cannot be null or undefined.");
+        throw new TypeError("Function is required and cannot be null or undefined.");
 
     // 验证该函数是否为函数类型
     if (!isFunction(func))
-        throw new Error(`${func} is not a function.`);
+        throw new TypeError(`${func} is not a function.`);
 
     // 警告信息
     if (classConfig.warn) {

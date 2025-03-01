@@ -3,7 +3,7 @@
 
 import { type RealClassConfigType } from "../tsType/classConfigType";
 import { CheckCircular } from "../checker/checkCircular";
-import { isObjectAndNotArray } from "../type/checkType";
+import { isObjectAndNotArray, isInvalid } from "../type/checkType";
 
 
 /* ========== */
@@ -41,13 +41,12 @@ export function ValidateObject(
 
     // 验证对象中的每个属性值都不为无效值
     for (const key in obj) {
-        if (obj.hasOwnProperty(key) && (
-            obj[key] === null ||
-            obj[key] === void 0
-        )) {
+        if (obj.hasOwnProperty(key) &&
+            isInvalid(obj[key])
+        ) {
             let warnOrErr = `The object contains an invalid value (null or undefined) for key "${key}".`;
             if (!type && classConfig.warn) console.warn("Warning: " + warnOrErr);
-            else if (type) throw new Error("Error: " + warnOrErr);
+            else if (type) throw new TypeError("Error: " + warnOrErr);
         }
     }
 

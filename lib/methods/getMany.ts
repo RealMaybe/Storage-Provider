@@ -76,7 +76,7 @@ export function m_getMany(
         throw new TypeError(`The type of "outputType" must be a string.`);
 
     if (!objKeys(formatHandlers).includes(outputType))
-        throw new Error(`The only available formats are "array", "object", and "array-object".`);
+        throw new TypeError(`The only available formats are "array", "object", and "array-object".`);
 
     // 获取并执行相应的处理函数
     const handler = formatHandlers[outputType];

@@ -39,7 +39,7 @@ export function Settings(
     if (
         isArray(userConfig) &&
         isInvalid(userConfig)
-    ) throw new Error(`Please pass in a valid "string" or "object" parameter and try again.`);
+    ) throw new TypeError(`Please pass in a valid "string" or "object" parameter and try again.`);
 
     let configObject: ClassOptionsType = (() => {
         // 如果传入的是字符串，检查是否为有效的存储类型
@@ -48,7 +48,7 @@ export function Settings(
                 return { ...configDefault, storageType: userConfig } as ClassOptionsType;
 
             else if (!configRuleType.storageType.validator(userConfig))
-                throw new Error(configRuleType.storageType.errorMessage);
+                throw new TypeError(configRuleType.storageType.errorMessage);
         }
 
         // 如果传入的是对象，检查对象属性
@@ -59,7 +59,7 @@ export function Settings(
         }
 
         // 传入的值无效
-        else throw new Error(`Please pass in a valid "string" or "object" parameter and try again.`);
+        else throw new TypeError(`Please pass in a valid "string" or "object" parameter and try again.`);
     })() ?? { ...configDefault } as ClassOptionsType;
 
     // 检查验证结果  
@@ -67,7 +67,7 @@ export function Settings(
 
     // 输出错误信息
     if (!isValid)
-        throw new Error(`Validation failed:\n${errors.map(err => `- ${err}`).join("\n")}`);
+        throw new TypeError(`Validation failed:\n${errors.map(err => `- ${err}`).join("\n")}`);
     else if (
         isValid &&
         configObject.warn &&
