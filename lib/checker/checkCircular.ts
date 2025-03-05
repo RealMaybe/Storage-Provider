@@ -53,15 +53,15 @@ export function CheckCircular(
      * 
      * @function process
      * @param { CircularItem } currentObj 当前正在处理的对象或数组。
-     * @returns { CircularItem } 处理后的对象或数组。
+     * @returns { CircularItem | string } 处理后的对象或数组。
      */
-    function process(currentObj: CircularItem): CircularItem {
+    function process(currentObj: CircularItem): CircularItem | string {
         if (!isObject(currentObj) || isNull(currentObj))
             return currentObj;
 
         if (seenObjects.has(currentObj)) {
             isCircular = true;
-            return currentObj; // 继续处理而不是立即返回 "[Circular]"
+            return "[Circular]";
         }
 
         // 标记当前对象已被处理过

@@ -37,7 +37,7 @@ export function ValidateObject(
 ): { [key: string]: any } {
     // 验证对象  
     if (!isObjectAndNotArray(obj))
-        throw new TypeError(`Invalid data type: The parameter "obj" must be a non-null, non-array object.`);
+        throw new TypeError(`The parameter "obj" must be a non-null, non-array object.`);
 
     // 验证对象中的每个属性值都不为无效值
     for (const key in obj) {

@@ -26,7 +26,7 @@ export function GetValueFromStorage(
     const KEY_ = ValidateKey(classConfig, key);
     const storedValue = classConfig.storage.getItem(KEY_);
 
-    let result: any;
+    let result: any; // 结果值
 
     if (!classConfig.original)
         result = storedValue ? JSON.parse(storedValue) : null;

@@ -4,6 +4,7 @@
 import { type RealClassConfigType } from "../tsType/classConfigType";
 import { ValidateObject } from "../validate/ValidateObject"; // 导入对象有效性检查器
 import { objKeys } from "../assistant/objKeys";
+import { allTypes } from "../type/allTypes";
 import { checkType, isArray, isFunction, isInvalid, isObjectAndNotArray, isString } from "../type/checkType"
 import { m_getMany } from "./getMany"; // 导入获取多个数据的函数
 
@@ -49,10 +50,12 @@ export function m_inspector(
 
     // 如果对象为空，抛出错误
     if (keys.length === 0)
-        throw new TypeError("Invalid data type: The parameter 'obj' must be a non-empty object.");
+        throw new TypeError("The parameter 'obj' must be a non-empty object.");
 
     // 定义有效的类型集合
-    const validTypes = new Set(["string", "number", "boolean", "function", "array", "object"]);
+    const stringsToRemove = new Set(["null", "undefined"]);
+    const validTypes = new Set(allTypes.filter(item => !stringsToRemove.has(item)));
+
     let tips: { [tipsKey: string]: string } = {}; // 存储提示信息的对象
     let errors: { [errorsKey: string]: string } = {}; // 存储错误信息的对象
 
@@ -63,6 +66,14 @@ export function m_inspector(
     keys.forEach(storageKey => {
         const validator = validatedObj[storageKey]; // 获取验证规则
         const value = storageData[storageKey]; // 获取存储中的值
+
+        // 验证规则不是有效字符串或函数，抛出错误
+        if ((!isString(validator) && !isFunction(validator)) ||
+            (isString(validator) && !validTypes.has(validator as string))
+        ) throw new TypeError([
+            "The value corresponding to the key (validator) must be a valid string or function.",
+            `- Valid strings are: '${[...validTypes].join("', '")}'.`
+        ].join("\n"));
 
         // 如果值不存在或无效，记录错误信息
         if (isInvalid(value)) {
@@ -88,7 +99,7 @@ export function m_inspector(
                     tips[storageKey] = `Array for "${storageKey}" is empty.`;
             }
 
-            // 如果验证规则要求是对象
+            // 如果验证规则要求是对象（默认判定为非数组、非 null 对象）
             else if (expectedType === "object") {
                 if (!isObjectAndNotArray(value))
                     errors[storageKey] = `Invalid format for "${storageKey}": Expected object.`;

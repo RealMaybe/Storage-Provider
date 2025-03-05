@@ -96,7 +96,7 @@ export function ValidateValue<T>(
     };
 
     // 如果值是无效值，抛出错误
-    if (isInvalid(value)) throw new TypeError("This value cannot be null, undefined or NaN.");
+    if (isInvalid(value)) throw new TypeError("This value cannot be null, undefined, NaN or Infinity.");
 
     // 获取值的类型
     const TYPE_: string = checkType(value);

@@ -50,21 +50,24 @@ export function m_getMany(
     // 定义格式处理策略
     const formatHandlers = {
         array: (keys: Array<string>) => keys.map(
-            (key: string) => ({ [key]: GetValueFromStorage(classConfig, key) })
+            (key: string) => ({
+                [key]: GetValueFromStorage(classConfig, key)
+            })
         ),
         object: (keys: Array<string>) => {
             const result: { [key: string]: any } = {};
             keys.forEach((key: string) => {
                 try {
                     result[key] = GetValueFromStorage(classConfig, key);
-                } catch (err) {
-                    console.error(`Failed to retrieve value for key "${key}":`, err);
-                }
+                } catch (err) { console.error(`Failed to retrieve value for key "${key}":`, err) }
             });
             return result;
         },
         "array-object": (keys: Array<string>) => keys.map(
-            key => ({ key, value: GetValueFromStorage(classConfig, key) })
+            key => ({
+                key,
+                value: GetValueFromStorage(classConfig, key)
+            })
         )
     };
 

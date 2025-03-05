@@ -16,14 +16,22 @@ export const isNull = (val: any): boolean => val === null;
 export const isUndefined = (val: any): boolean => typeof val === "undefined" || val === void 0;
 
 /**
- * 判断一个值是否为无效值（null, undefined 或 NaN）
+ * 判断一个值是否为 Infinity 或 -Infinity。
+ *
+ * @param { any } value 任意类型的值，其类型需要被判断
+ * @returns { boolean } 如果值为 Infinity 或 -Infinity，则返回 true，否则返回 false
+ */
+export const isInfinity = (value: any): boolean => value === Infinity || value === -Infinity;
+
+/**
+ * 判断一个值是否为无效值（null 或 undefined 或 NaN 或 Infinity 或 -Infinity）
  * @param { any } val 任意类型的值，其类型需要被判断
  * @return { boolean } 如果值是无效值，则返回 true，否则返回 false
  */
-export const isInvalid = (val: any): boolean => isNull(val) || isUndefined(val) || Number.isNaN(val);
+export const isInvalid = (val: any): boolean => isNull(val) || isUndefined(val) || Number.isNaN(val) || isInfinity(val);
 
 /**
- * 判断一个值是否为有效值（非 null，非 undefined，非 NaN）
+ * 判断一个值是否为有效值（非 null，非 undefined，非 NaN，非 Infinity 或 -Infinity）
  * @param { any } val 任意类型的值，其类型需要被判断
  * @return { boolean } 如果值是有效值，则返回 true，否则返回 false
  */
@@ -96,13 +104,9 @@ export const isSymbol = (val: any): boolean => typeof val === "symbol";
  * 获取变量的类型
  * - 此函数用于判断并返回给定值的数据类型
  * - 它特别处理了 null 和数组类型，因为这两种类型在 JavaScript 中通过 typeof 操作符判断时会返回不明确的结果
+ * - 对于其他类型，它直接返回 typeof 操作符的结果
  * 
- * @function typeChecker
- * @param { any } value 任意类型的值，其类型需要被判断
+ * @param { any } val 任意类型的值，其类型需要被判断
  * @returns { string } 返回值的类型以字符串形式表示，如 "string", "number", "boolean", "null", "array" 等
  */
-export function checkType(value: any): string {
-    if (isNull(value)) return "null";
-    if (isArray(value)) return "array";
-    return typeof value;
-};
+export const checkType = (val: any): string => isNull(val) ? "null" : isArray(val) ? "array" : typeof val;

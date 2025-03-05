@@ -2,8 +2,9 @@
 
 
 import { type RealClassConfigType } from "../tsType/classConfigType";
-import { isFunction } from "../type/checkType";
-import { StorageProvider } from "../Storage"
+import { isFunction, isInvalid, isBoolean } from "../type/checkType";
+import { StorageProvider } from "../Storage";
+
 
 /* ========== */
 
@@ -24,8 +25,8 @@ type listenerObject = messageObject | callbackObject;
 /* ========== */
 
 
-export function m_listener(classConfig: RealClassConfigType<boolean>, msgObj: messageObject): void
-export function m_listener(classConfig: RealClassConfigType<boolean>, msgObj: callbackObject, provider: StorageProvider): (close?: boolean) => void  
+export function m_listener(classConfig: RealClassConfigType<boolean>, msgObj: messageObject): void;
+export function m_listener(classConfig: RealClassConfigType<boolean>, msgObj: callbackObject, provider: StorageProvider): (close?: boolean) => void;
 
 
 /* ========== */
@@ -66,20 +67,25 @@ export function m_listener(
         /* ========== */
 
         // message 存在，发送消息
-        if (msgObj.hasOwnProperty("message"))
+        if (msgObj.hasOwnProperty("message")) {
+            if (isInvalid(message) &&
+                classConfig.warn
+            ) console.warn("Warning: The message may be an invalid value or the message object may contain invalid values. To send invalid values, please use the 'sendMsg' method.");
+
             channel.postMessage(message);
+        }
 
         // callback 存在
         else if (msgObj.hasOwnProperty("callback")) {
             if (isFunction(callback as Function)) {
                 // 监听消息
-                let callbackFun = (event: { data: any }) => { (callback as (message: any) => any).call(provider, event.data) };
+                let callbackFun = (event: { [key: string]: any }): void => { (callback as Function).call(provider, event.data) };
 
                 // 监听消息事件
                 channel.addEventListener("message", callbackFun)
 
                 // 返回清理函数
-                return (close: boolean = false) => { close ? channel.close() : channel.removeEventListener("message", callbackFun) }
+                return (close: boolean = false) => { isBoolean(close) && close ? channel.close() : channel.removeEventListener("message", callbackFun) }
             } else throw new TypeError("The callback must be a function.");
         }
     }

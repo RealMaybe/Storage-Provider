@@ -2,7 +2,7 @@
 
 
 import { type RealClassConfigType } from "../tsType/classConfigType";
-import { StorageProvider } from "../Storage"
+import { StorageProvider } from "../Storage";
 import { m_getMany } from "./getMany";
 import { m_setManyFromObject } from "./setManyFromObject";
 import { haveSameKeys } from "../validate/objectHaveSameKeys";
@@ -22,7 +22,7 @@ import { isArray, isString, isFunction, isObjectAndNotArray } from "../type/chec
  * @param { RealClassConfigType<boolean> } classConfig 类配置
  * @param { string | Array<string> } items 数据
  * @param { (item: { [key: string]: any }) => ({ [key: string]: any }) } callback 回调函数
- * @param { StorageProvider } provider
+ * @param { StorageProvider } provider 存储提供者
  * @returns { void } 无返回值
  */
 export function m_rewrite(
@@ -32,30 +32,31 @@ export function m_rewrite(
     provider: StorageProvider
 ): void {
     // 确保 items 是一个数组或字符串
-    const KEYS_ = isArray(items) ? items : isString(items) ? [items] : [];
+    const KEYS_: Array<string> = isArray(items) ? items : isString(items) ? [items] : [];
     if (KEYS_.length === 0) throw new TypeError("Items must be a non-empty string or array.");
 
-    let getResult = m_getMany(classConfig, KEYS_, "object"); // 获取到的数据值: { [key: string]: any }
-    let rewriteResult: { [key: string]: any }; // 重写对象: { [key: string]: any }
+    // 数据
+    const getResult: { [key: string]: any } = m_getMany(classConfig, KEYS_, "object"); // 获取到的数据值
+    let rewriteResult: { [key: string]: any }; // 重写对象
 
     // 调用回调函数并捕获可能的错误
     try {
-        if (isFunction(callback)) rewriteResult = callback.call(provider, getResult);
-        else throw new TypeError("Callback must be a function.");
-    } catch (err: any) {
-        throw new TypeError(`Callback execution failed: ${err.message}`);
-    }
-
-    let KeysJudge = haveSameKeys(getResult, rewriteResult);
+        if (!isFunction(callback)) throw new TypeError("Callback must be a function.");
+        rewriteResult = callback.call(provider, getResult);
+    } catch (err: any) { throw new TypeError(`Callback execution failed: ${err.message}`) }
 
     // 检查 rewriteResult 是否是一个有效的对象并且键相同
-    if (isObjectAndNotArray(rewriteResult) &&
-        KeysJudge.judge
-    ) m_setManyFromObject(classConfig, rewriteResult);
+    if (!isObjectAndNotArray(rewriteResult))
+        throw new TypeError("The return value of the rewrite method must be a non array object.");
 
-    else throw new TypeError([
-        "Rewrite result must have the same keys as the original data.",
-        `- The missing attributes are as follows: '${KeysJudge.missingKeys.join("', '")}'`,
-        `- The extra attributes are as follows: '${KeysJudge.extraKeys.join("', '")}'`
-    ].join("\n"))
-}
+    const { judge, missingKeys, extraKeys } = haveSameKeys(getResult, rewriteResult);
+
+    if (!judge) throw new TypeError([
+        "The return value of the rewrite method must have the same keys as the original data.",
+        `- The missing attributes are as follows: '${missingKeys.join("', '")}'`,
+        `- The extra attributes are as follows: '${extraKeys.join("', '")}'`
+    ].join("\n"));
+
+    // 将新的数据对象写回本地存储
+    m_setManyFromObject(classConfig, rewriteResult);
+};

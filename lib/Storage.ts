@@ -50,6 +50,7 @@ export class StorageProvider {
      * @param { string } [options.type] 存储类型，与 storageType 一致，二选一填写即可
      * @param { boolean } [options.warn] 是否显示警告（必填）
      * @param { boolean } [options.circular] 是否检查循环引用（可选）
+     * @param { boolean } [options.original] 是否输出原始值（可选）
      * @param { boolean } [options.monitor] 是否监控存储变化（可选）
      * @param { string } [options.channelName] 通讯频道的名称，需要配合 monitor 使用（可选）
      * @param { string } [options.prefix] 存储项的前缀（可选，未启用）
@@ -108,7 +109,6 @@ export class StorageProvider {
         return value
     };
 
-
     /**
     * 验证本地存储中指定的项是否满足制定规则的方法
     * 
@@ -123,7 +123,9 @@ export class StorageProvider {
     * - tips: 验证提示信息；
     * - errors: 验证失败的项目及其对应的错误信息。
     */
-    inspector(obj: { [storageKey: string]: string | ((item: any) => boolean) }): $inspector {
+    inspector(obj: {
+        [storageKey: string]: string | ((item: any) => boolean)
+    }): $inspector {
         return { ...m_inspector(this.#config, obj) }
     };
 
@@ -141,8 +143,10 @@ export class StorageProvider {
      * @returns { void }
      */
     sendMsg(data: any): void {
-        m_listener(this.#config, { message: data })
-    }
+        m_listener(this.#config, {
+            message: data
+        })
+    };
 
     /**
      * 发送消息
@@ -156,7 +160,7 @@ export class StorageProvider {
         m_listener(this.#config, {
             message: ValidateValue(this.#config, data)
         })
-    }
+    };
 
     /**
      * 用于接收消息
@@ -168,8 +172,10 @@ export class StorageProvider {
      * @returns { (close?: boolean) => void }
      */
     listenMsg(callback: (message: any) => void): (close?: boolean) => void {
-        return m_listener(this.#config, { callback }, this)
-    }
+        return m_listener(this.#config, {
+            callback
+        }, this)
+    };
 
 
     /* ========== */
@@ -187,9 +193,12 @@ export class StorageProvider {
      * - 如果没有传入有效的 `value`，则返回对应键名的值；
      * - 否则，存储对应键名的值并返回 `undefined`。
      */
-    storage(key: string, value?: any): void | any {
+    storage(
+        key: string,
+        value?: any
+    ): void | any {
         return m_store(this.#config, key, value)
-    }
+    };
 
     /**
      * 用于重写本地存储中的数据。
@@ -198,16 +207,19 @@ export class StorageProvider {
      *
      * @method rewrite
      * @param { string | Array<string> } keys 数据
-     * @param { (item: { [storageKey: string]: any }) => { [storageKey: string]: any } } callback 回调函数
+     * @param { (items: { [storageKey: string]: any }) => { [storageKey: string]: any } } callback 回调函数
      * @returns { void } 
      */
-    rewrite(keys: string | Array<string>, callback: (item: {
-        [storageKey: string]: any
-    }) => {
-        [storageKey: string]: any
-    }): void {
+    rewrite(
+        keys: string | Array<string>,
+        callback: (items: {
+            [storageKey: string]: any
+        }) => ({
+            [storageKey: string]: any
+        })
+    ): void {
         m_rewrite(this.#config, keys, callback, this)
-    }
+    };
 
 
     /* ========== */
@@ -223,9 +235,12 @@ export class StorageProvider {
      * @param { any } value 要存储的值
      * @returns { void } 仅设置键的值，无返回值
      */
-    save(key: string, value: any): void {
+    save(
+        key: string,
+        value: any
+    ): void {
         m_store(this.#config, key, ValidateValue(this.#config, value))
-    }
+    };
 
     /**
      * 通过数组中的对象中的 key 和 value 属性批量设置多条存储数据
@@ -236,7 +251,7 @@ export class StorageProvider {
      */
     saveMany(arr: Array<{ key: string, value: any }>): void {
         m_setManyFromKeyValue(this.#config, arr)
-    }
+    };
 
     /**
      * 通过对象批量设置多条存储数据
@@ -247,7 +262,7 @@ export class StorageProvider {
      */
     setMany(obj: { [key: string]: any }): void {
         m_setManyFromObject(this.#config, obj)
-    }
+    };
 
     /**
      * 设置单条或多条存储数据。
@@ -261,7 +276,7 @@ export class StorageProvider {
      */
     set(...data: Array<{ key: string, value: any }> | [{ [key: string]: any }] | [string, any]): void {
         m_setValueMethod(this.#config, data)
-    }
+    };
 
 
     /* ========== */
@@ -278,7 +293,7 @@ export class StorageProvider {
      */
     get(key: string): any {
         return m_store(this.#config, key)
-    }
+    };
 
     /**
      * 从存储中获取多个键对应的值。
@@ -290,9 +305,12 @@ export class StorageProvider {
      * @param { "array" | "object" | "array-object" } [type = "object"] 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
      * @returns { Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string, value: any }> } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
      */
-    getMany(arr: Array<string>, type: OutputType = "object"): OutputResult {
+    getMany(
+        arr: Array<string>,
+        type: OutputType = "object"
+    ): OutputResult {
         return m_getMany(this.#config, arr, type as "object")
-    }
+    };
 
     /**
      * 从本地存储中获取所有数据。
@@ -302,7 +320,7 @@ export class StorageProvider {
      */
     getAll(): { [storageKey: string]: any } {
         return m_getAll(this.#config)
-    }
+    };
 
 
     /* ========== */
@@ -322,7 +340,7 @@ export class StorageProvider {
             m_deleteItem(this.#config, true, key as string);
         else
             m_deleteItem(this.#config, false, null);
-    }
+    };
 
     /**
      * 删除存储的单条数据
@@ -333,7 +351,7 @@ export class StorageProvider {
      */
     remove(key: string): void {
         m_deleteItem(this.#config, true, ValidateKey(this.#config, key, "remove"))
-    }
+    };
 
     /**
      * 从本地存储中删除多条数据。
@@ -343,9 +361,10 @@ export class StorageProvider {
      * @returns { void } 无返回值
      */
     removeMany(arr: Array<string>): void {
-        for (let key of ValidateArray<"string">(this.#config, arr, { type: "string" }))
-            m_deleteItem(this.#config, true, key)
-    }
+        for (let key of ValidateArray<"string">(this.#config, arr, {
+            type: "string"
+        })) m_deleteItem(this.#config, true, key)
+    };
 
     /**
      * 删除存储的所有数据

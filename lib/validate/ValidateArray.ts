@@ -1,7 +1,7 @@
 /* 验证数组有效性 */
 
 import { type RealClassConfigType } from "../tsType/classConfigType";
-import { isArray, isString, checkType, isObjectAndNotArray } from "../type/checkType.js";
+import { isArray, isString, checkType, isObjectAndNotArray, isInvalid } from "../type/checkType.js";
 import { allTypes } from "../type/allTypes.js"; // 类型列表
 import { CheckCircular } from "../checker/checkCircular";
 
@@ -39,9 +39,18 @@ type ArrayConfigType = {
 
 /* ========== */
 
-
-const stringsToRemove = new Set(["null", "undefined"]);
-const EffectiveFormat = allTypes.filter(item => !stringsToRemove.has(item));
+/**
+ * 抛出一个带有指定消息的 TypeError。
+ * 该函数用于处理无效的类型参数，并提供清晰的错误信息。
+ *
+ * @param { string } t 导致错误的类型参数，在错误消息中包含。
+ * @param { Array<string> } [e=EffectiveFormat] 可选的有效类型参数数组，用于在错误消息中列出允许的类型。
+ * - 如果未提供，则默认为 EffectiveFormat。
+ */
+const throwError = (
+    t: string,
+    e: Array<string>
+): void => { throw new TypeError(`Invalid type parameter: "${t}" is not a valid type. \nAllowed types are: "${e.join('", "')}".`) };
 
 
 /* ========== */
@@ -78,9 +87,13 @@ export function ValidateArray<T extends ArrayStringType>(
             console.warn(`Warning: The array is empty.`);
     }
 
+    // 定义有效类型集合
+    const stringsToRemove = new Set(["null", "undefined"]);
+    const EffectiveFormat = allTypes.filter(item => !stringsToRemove.has(item));
+
+    // 如果 type 参数存在且不为空字符串，则进行类型检查
     if (isString(type) && type.trim() !== "") {
-        if (!EffectiveFormat.includes(type))
-            throw new TypeError(`Invalid type parameter: "${type}" is not a valid type. \nAllowed types are: "${EffectiveFormat.join('", "')}".`);
+        if (!EffectiveFormat.includes(type)) throwError(type, EffectiveFormat);
 
         const isValidType = (item: any): boolean => {
             switch (type) {
@@ -96,7 +109,10 @@ export function ValidateArray<T extends ArrayStringType>(
         if (arr.some(item => !isValidType(item)))
             throw new TypeError(`Invalid data type: The elements in this array must be of type "${type}".`);
     }
+    // 如果 type 参数无效，则抛出错误
+    else if (isInvalid(type)) throwError(type, EffectiveFormat);
 
+    // 根据参数配置进行循环引用检查
     if (classConfig.circular) {
         const { isCircular, warning, value } = CheckCircular(classConfig, arr);
 
