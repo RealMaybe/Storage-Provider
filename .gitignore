@@ -92,4 +92,4 @@ original_development_files/
 
 # 忽略测试文件
 test/
-src/test.*
+test.*

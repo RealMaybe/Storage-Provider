@@ -13,10 +13,12 @@ export const writeCopyrightPlugin = () => ({
             " * - All rights reserved.",
             " * - Licensed under the MIT License.",
             " * @author RealMaybe <realmaybe0429@qq.com>",
-            " * @link Gitee: https://gitee.com/RealMaybe0429/storage-provider",
-            " * @link GitHub: https://github.com/RealMaybe/Storage-Provider",
+            " * @license https://opensource.org/licenses/MIT",
+            " * - Open source address:",
+            " * @see https://gitee.com/RealMaybe0429/storage-provider",
+            " * @see https://github.com/RealMaybe/Storage-Provider",
             " * - Documentation address:",
-            " * @link https://www.yuque.com/realmaybe0429/storage-provider",
+            " * @see https://www.yuque.com/realmaybe0429/storage-provider",
             " */"
         ].join("\n");
 
