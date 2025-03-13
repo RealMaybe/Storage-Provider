@@ -16,15 +16,22 @@ import { isString } from "../type/checkType";
  * - type 的指定类型。
  */
 export type OutputType = "array" | "object" | "array-object";
-export type OutputResult = Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string; value: any; }>
+export type OutputResult<
+    K extends string,
+    T extends OutputType
+> =
+    T extends "array" ? Array<{ [P in K]: any }> :
+    T extends "object" ? { [P in K]: any } :
+    T extends "array-object" ? Array<{ key: K, value: any }> :
+    never;
 
 
 /* ========== */
 
 
-export function m_getMany(classConfig: RealClassConfigType<boolean>, keys: Array<string>, outputType: "array"): Array<{ [key: string]: any }>;
-export function m_getMany(classConfig: RealClassConfigType<boolean>, keys: Array<string>, outputType: "object"): { [storageKey: string]: any };
-export function m_getMany(classConfig: RealClassConfigType<boolean>, keys: Array<string>, outputType: "array-object"): Array<{ key: string, value: any }>;
+export function m_getMany<K extends string>(classConfig: RealClassConfigType<boolean>, keys: Array<K>, outputType: "array"): Array<{ [P in K]: any }>;
+export function m_getMany<K extends string>(classConfig: RealClassConfigType<boolean>, keys: Array<K>, outputType: "object"): { [P in K]: any };
+export function m_getMany<K extends string>(classConfig: RealClassConfigType<boolean>, keys: Array<K>, outputType: "array-object"): Array<{ key: K, value: any }>;
 
 
 /**
@@ -42,39 +49,46 @@ export function m_getMany(classConfig: RealClassConfigType<boolean>, keys: Array
  * @example (classConfig, keys, outputType = "object") => { [storageKey: string]: any }
  * @example (classConfig, keys, outputType = "array-object") => Array<{ key: string, value: any }>
  */
-export function m_getMany(
+export function m_getMany<K extends string>(
     classConfig: RealClassConfigType<boolean>,
-    keys: Array<string>,
+    keys: Array<K>,
     outputType: OutputType
-): OutputResult {
+): OutputResult<K, typeof outputType> {
     // 定义格式处理策略
     const formatHandlers = {
-        array: (keys: Array<string>) => keys.map(
-            (key: string) => ({
+        // 返回一个对象数组，每个对象包含一个键值对
+        array: (keys: Array<K>) => keys.map(
+            (key: K) => ({
                 [key]: GetValueFromStorage(classConfig, key)
             })
-        ),
-        object: (keys: Array<string>) => {
-            const result: { [key: string]: any } = {};
-            keys.forEach((key: string) => {
+        ) as Array<{ [P in K]: any }>,
+
+        // 返回一个对象，每个键值对对应一个键值
+        object: (keys: Array<K>) => {
+            const result: { [P in K]?: any } = {};
+            keys.forEach((key: K) => {
                 try {
                     result[key] = GetValueFromStorage(classConfig, key);
-                } catch (err) { console.error(`Failed to retrieve value for key "${key}":`, err) }
+                } catch (err) {
+                    console.error(`Failed to retrieve value for key "${key}":`, err);
+                }
             });
-            return result;
+            return result as { [P in K]: any };
         },
-        "array-object": (keys: Array<string>) => keys.map(
+
+        // 返回一个对象数组，每个对象包含一个键值对
+        "array-object": (keys: Array<K>) => keys.map(
             key => ({
                 key,
                 value: GetValueFromStorage(classConfig, key)
             })
-        )
+        ) as Array<{ key: K, value: any }>
     };
 
     /* ===== */
 
     // 参数验证
-    const validatedKeys = ValidateArray<"string">(classConfig, keys, { type: "string" });
+    const validatedKeys = ValidateArray<"string">(classConfig, keys, { type: "string" }) as Array<K>;
     if (!isString(outputType))
         throw new TypeError(`The type of "outputType" must be a string.`);
 

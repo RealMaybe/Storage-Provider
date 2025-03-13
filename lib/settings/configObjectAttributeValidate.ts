@@ -1,10 +1,6 @@
 /* 查验配置对象以确保它包含所有必需的属性 */
 
 
-import {
-    type UserOptionsObjectType,
-    // type ClassOptionsType,
-} from "../tsType/classConfigType";
 import { isObjectAndNotArray } from "../type/checkType";
 
 
@@ -13,18 +9,23 @@ import { isObjectAndNotArray } from "../type/checkType";
 
 /**
  * 用于标准化对象属性的映射
- * @param { { [key: string]: any } } obj 需要标准化的对象
- * @param { { [key: string]: Array<string> } } equivalentAttributes 属性映射
- * @returns { { [key: string]: any } } 标准化后的对象
+ * @param { T } obj 需要标准化的对象
+ * @param { { [key: string]: Array<keyof T> } } equivalentAttributes 属性映射
+ * @returns { T } 标准化后的对象
  */
-function standardizeObject(obj: { [key: string]: any }, equivalentAttributes: { [key: string]: Array<string> }): { [key: string]: any } {
+function standardizeObject<T extends { [key: string]: any }>(
+    obj: T,
+    equivalentAttributes: {
+        [key in keyof T]: Array<keyof T>
+    }
+): T {
     const standardizedObj: { [key: string]: any } = {};
 
     for (let key in obj) {
         let foundStandardKey = false;
 
         for (let standard in equivalentAttributes) {
-            if (equivalentAttributes[standard].includes(key)) {
+            if (equivalentAttributes[standard].includes(key as keyof T)) {
                 standardizedObj[standard] = obj[key];
                 foundStandardKey = true;
                 break;
@@ -33,7 +34,8 @@ function standardizeObject(obj: { [key: string]: any }, equivalentAttributes: { 
 
         if (!foundStandardKey) standardizedObj[key] = obj[key];
     }
-    return standardizedObj;
+
+    return standardizedObj as T;
 };
 
 
@@ -47,37 +49,37 @@ function standardizeObject(obj: { [key: string]: any }, equivalentAttributes: { 
  * @function configObjectAttributeValidate
  * 
  * @param { UserOptionsObjectType } userConfig 要验证的设置对象。
+ * @param { { required: Array<keyof UserOptionsObjectType>, equivalent: { [K in keyof UserOptionsObjectType]: Array<keyof UserOptionsObjectType> } } } [attributeMapping] 属性映射，指定必需属性和等价属性。
  * 
  * @returns { { valid: boolean, value: object } } 如果所有必需属性都存在，则返回验证后的设置对象。
  * 
  * @throws { Error } 如果设置对象无效或缺少任何必需属性，则抛出错误。
  */
-export function configObjectAttributeValidate(userConfig: UserOptionsObjectType): {
+export function configObjectAttributeValidate<T extends { [key: string]: any }>(
+    userConfig: T,
+    attributeMapping: {
+        required: Array<keyof T>,
+        equivalent: {
+            [K in keyof T]: Array<keyof T>;
+        }
+    }
+): {
     valid: boolean,
-    value: UserOptionsObjectType
+    value: T
 } {
-    const CONFIG: UserOptionsObjectType = ((set) => {
+    const CONFIG: T = ((set) => {
         if (!isObjectAndNotArray(set))
             throw new TypeError("The configuration object must be an object.");
         else return set
     })(userConfig) // 查验对象有效性
 
-    // 必需属性
-    const requiredAttributes: Array<keyof UserOptionsObjectType> = ["storageType", "warn"];
-
-    // 等价属性
-    const equivalentAttributes: {
-        [K in keyof UserOptionsObjectType]: Array<keyof UserOptionsObjectType>;
-    } = {
-        "storageType": ["type"],
-        "warn": ["warn"],
-    };
+    const { required, equivalent } = attributeMapping;
 
     // 标准化等价属性
-    const NEW_CONFIG = standardizeObject(CONFIG, equivalentAttributes);
+    const NEW_CONFIG = standardizeObject(CONFIG, equivalent);
 
     // 查验必需属性
-    const missingAttributes = requiredAttributes.filter(prop => !NEW_CONFIG.hasOwnProperty(prop) || NEW_CONFIG[prop] === void 0);
+    const missingAttributes = required.filter(prop => !NEW_CONFIG.hasOwnProperty(prop) || NEW_CONFIG[prop] === void 0);
 
     if (missingAttributes.length > 0) {
         const missingList = missingAttributes.join('", "');
@@ -87,6 +89,6 @@ export function configObjectAttributeValidate(userConfig: UserOptionsObjectType)
 
     return {
         valid: true,
-        value: NEW_CONFIG as UserOptionsObjectType
-    };
-}
+        value: NEW_CONFIG as T
+    }
+};

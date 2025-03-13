@@ -305,11 +305,11 @@ export class StorageProvider {
      * @param { "array" | "object" | "array-object" } [type = "object"] 获取值之后的输出类型，可选值为 "array", "object", "array-object"。
      * @returns { Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string, value: any }> } 返回包含键值对的数组或对象，具体形式由 type 参数决定。
      */
-    getMany(
-        arr: Array<string>,
+    getMany<K extends string>(
+        arr: Array<K>,
         type: OutputType = "object"
-    ): OutputResult {
-        return m_getMany(this.#config, arr, type as "object")
+    ): OutputResult<K, typeof type> {
+        return m_getMany(this.#config, arr, "object") as OutputResult<K, "object">;
     };
 
     /**
@@ -335,11 +335,11 @@ export class StorageProvider {
      * @param { string | null } [key] 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
      * @returns { void } 无返回值
      */
-    delete(key: string | null = null): void {
+    delete(key: string): void {
         if (isString(key))
-            m_deleteItem(this.#config, true, key as string);
+            m_deleteItem(this.#config, true, key);
         else
-            m_deleteItem(this.#config, false, null);
+            m_deleteItem(this.#config, false)
     };
 
     /**
@@ -373,6 +373,6 @@ export class StorageProvider {
      * @returns { void } 无返回值
      */
     clean(): void {
-        m_deleteItem(this.#config, false, null)
+        m_deleteItem(this.#config, false)
     };
 };

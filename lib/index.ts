@@ -2,4 +2,6 @@
 import { StorageProvider } from "./Storage";
 
 // 导出
-export default StorageProvider;
+export {
+    StorageProvider as default
+};

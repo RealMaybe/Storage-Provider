@@ -5,14 +5,12 @@ import {
     type UserOptionsType,
     type UserOptionsObjectType,
     type ClassOptionsType,
-    // type RealClassConfigType,
 } from "../tsType/classConfigType";
 import { configRuleType } from "./configRuleType";
 import { configChecker } from "./configChecker";
 import { configDefault } from "./configDefault";
 import { configObjectAttributeValidate } from "./configObjectAttributeValidate"
 import {
-    // checkType,
     isArray,
     isString,
     isInvalid,
@@ -53,7 +51,22 @@ export function Settings(
 
         // 如果传入的是对象，检查对象属性
         else if (isObjectAndNotArray(userConfig)) {
-            const { valid, value } = configObjectAttributeValidate(userConfig as UserOptionsObjectType);
+            // 必需属性
+            const required: Array<keyof UserOptionsObjectType> = ["storageType", "warn"];
+            // 等价属性
+            const equivalent: {
+                [K in keyof UserOptionsObjectType]: Array<keyof UserOptionsObjectType> | Array<string>
+            } = {
+                storageType: ["type"],
+                warn: ["tip", "tips"],
+                // lang: ["language"]
+            };
+
+            const { valid, value } = configObjectAttributeValidate<UserOptionsObjectType>(
+                userConfig as UserOptionsObjectType, {
+                required,
+                equivalent: equivalent as any
+            });
 
             if (valid) return { ...configDefault, ...value } as ClassOptionsType;
         }

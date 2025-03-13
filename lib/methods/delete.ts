@@ -9,8 +9,8 @@ import { GetValueFromStorage } from "../value/getValue"; // 导入获取存储�
 /* ========== */
 
 
-export function m_deleteItem(classConfig: RealClassConfigType<boolean>, judge: boolean, key: string): void
-export function m_deleteItem(classConfig: RealClassConfigType<boolean>, judge: boolean, key: null): void
+export function m_deleteItem(classConfig: RealClassConfigType<boolean>, judge: boolean, key: string): void;
+export function m_deleteItem(classConfig: RealClassConfigType<boolean>, judge: boolean): void;
 
 
 /* ========== */
@@ -23,14 +23,14 @@ export function m_deleteItem(classConfig: RealClassConfigType<boolean>, judge: b
  * @param { boolean } judge 决定用于删除单个项目还是清空存储
  * - true 删除单个
  * - false 清空
- * @param { string } key 要删除的存储项目的键名
+ * @param { string } [key] 要删除的存储项目的键名
  * @return { void } 无返回值
  * @warning 如果传入的 key 对应的值不存在或者无效，则发出警告
  */
 export function m_deleteItem(
     classConfig: RealClassConfigType<boolean>,
     judge: boolean,
-    key: string | null
+    key?: string
 ): void {
     if (judge && key) {
         const KEY_ = ValidateKey(classConfig, key);
