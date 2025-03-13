@@ -2,10 +2,7 @@
 
 
 import { type RealClassConfigType } from "../tsType/classConfigType";
-import {
-    isFunction,
-    isInvalid
-} from "../type/checkType";
+import { isFunction, isInvalid } from "../type/checkType";
 
 
 /* ========== */
@@ -17,15 +14,15 @@ import {
  * @function ValidateFunction
  * @param { RealClassConfigType<boolean> } classConfig 类配置对象
  * @param { Function } func 需要验证的函数
- * @return { { functionName: string, functionSourceCode: string, numberOfParameters: number } } 验证结果对象
+ * @return { { functionName: string, functionCode: string, functionLength: number } } 验证结果对象
  */
 export function ValidateFunction(
     classConfig: RealClassConfigType<boolean>,
-    func: (...args: Array<any>) => any
+    func: (...args: any) => any
 ): {
     functionName: string,
-    functionSourceCode: string,
-    numberOfParameters: number
+    functionCode: string,
+    functionLength: number
 } {
     let notice: Array<string> = [
         "Important Notice:",
@@ -58,7 +55,7 @@ export function ValidateFunction(
 
     return {
         functionName: func.name || "anonymous",
-        functionSourceCode: func.toString(),
-        numberOfParameters: func.length,
+        functionCode: func.toString(),
+        functionLength: func.length,
     };
 }

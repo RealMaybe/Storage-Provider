@@ -29,10 +29,24 @@ export type OutputResult<
 /* ========== */
 
 
-export function m_getMany<K extends string>(classConfig: RealClassConfigType<boolean>, keys: Array<K>, outputType: "array"): Array<{ [P in K]: any }>;
-export function m_getMany<K extends string>(classConfig: RealClassConfigType<boolean>, keys: Array<K>, outputType: "object"): { [P in K]: any };
-export function m_getMany<K extends string>(classConfig: RealClassConfigType<boolean>, keys: Array<K>, outputType: "array-object"): Array<{ key: K, value: any }>;
-
+/**
+ * 从存储中获取多个值并根据指定的类型返回不同格式的结果。
+ * - 关于 type 的具体用法、输出格式等详见说明文档。
+ * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
+ * 
+ * @function m_getMany
+ * @param { RealClassConfigType<boolean> } classConfig 配置对象
+ * @param { Array<string> } keys 字符串数组
+ * @param { "array" } outputType 获取值之后的输出类型，可选值为 "array", "object", "array-object"
+ * @returns { Array<{ [P in K]: any }> } 根据 outputType 指定类型返回不同格式的结果
+ * 
+ * @example (classConfig, keys, outputType = "array") => Array<{ [storageKey: string]: any }>
+ */
+export function m_getMany<K extends string>(
+    classConfig: RealClassConfigType<boolean>,
+    keys: Array<K>,
+    outputType: "array"
+): Array<{ [P in K]: any }>;
 
 /**
  * 从存储中获取多个值并根据指定的类型返回不同格式的结果。
@@ -42,13 +56,43 @@ export function m_getMany<K extends string>(classConfig: RealClassConfigType<boo
  * @function m_getMany
  * @param { RealClassConfigType<boolean> } classConfig 配置对象
  * @param { Array<string> } keys 字符串数组
- * @param { OutputType } outputType 获取值之后的输出类型，可选值为 "array", "object", "array-object"
- * @returns { Array<{ [key: string]: any }> | { [key: string]: any } | Array<{ key: string, value: any }> } 根据 outputType 指定类型返回不同格式的结果
+ * @param { "object" } outputType 
+ * @returns { { [P in K]: any } } 根据 outputType 指定类型返回不同格式的结果
  * 
- * @example (classConfig, keys, outputType = "array") => Array<{ [storageKey: string]: any }>
  * @example (classConfig, keys, outputType = "object") => { [storageKey: string]: any }
+ */
+export function m_getMany<K extends string>(
+    classConfig: RealClassConfigType<boolean>,
+    keys: Array<K>,
+    outputType: "object"
+): { [P in K]: any };
+
+/**
+ * 从存储中获取多个值并根据指定的类型返回不同格式的结果。
+ * - 关于 type 的具体用法、输出格式等详见说明文档。
+ * @link 官方文档 <https://www.yuque.com/realmaybe0429/storage-provider>
+ * 
+ * @function m_getMany
+ * @param { RealClassConfigType<boolean> } classConfig 配置对象
+ * @param { Array<string> } keys 字符串数组
+ * @param { "array-object" } outputType 
+ * @returns { Array<{ key: K, value: any }> } 根据 outputType 指定类型返回不同格式的结果
+ * 
  * @example (classConfig, keys, outputType = "array-object") => Array<{ key: string, value: any }>
  */
+export function m_getMany<K extends string>(
+    classConfig: RealClassConfigType<boolean>,
+    keys: Array<K>,
+    outputType: "array-object"
+): Array<{
+    key: K,
+    value: any
+}>;
+
+
+/* ========== */
+
+
 export function m_getMany<K extends string>(
     classConfig: RealClassConfigType<boolean>,
     keys: Array<K>,

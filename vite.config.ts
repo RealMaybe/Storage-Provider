@@ -42,6 +42,7 @@ export default defineConfig({
         lib: {
             entry: [
                 "./lib/index.ts",
+                "./lib/main.ts",
             ],
             name,
             fileName: (format, entryName) => `${entryName}.${format}.${version}.js`,
@@ -49,6 +50,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 StorageProvider: "./lib/index.ts",
+                StorageProvider_es: "./lib/main.ts",
             },
             output: [{
                 dir: "dist/es", // ES 模块格式的输出目录
@@ -57,10 +59,10 @@ export default defineConfig({
                 globals: {},
                 plugins: pluginOptions
             }, {
-                dir: "dist/umd", // UMD 格式模块的输出目录
-                format: "umd",
+                dir: "dist/iife", // IIFE 格式模块的输出目录
+                format: "iife",
                 name,
-                entryFileNames: chunkInfo => `${chunkInfo.name}.umd.${version}.js`,
+                entryFileNames: chunkInfo => `${chunkInfo.name}.iife.${version}.js`,
                 globals: {},
                 plugins: pluginOptions
             }],

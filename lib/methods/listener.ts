@@ -25,20 +25,34 @@ type listenerObject = messageObject | callbackObject;
 /* ========== */
 
 
-export function m_listener(classConfig: RealClassConfigType<boolean>, msgObj: messageObject): void;
-export function m_listener(classConfig: RealClassConfigType<boolean>, msgObj: callbackObject, provider: StorageProvider): (close?: boolean) => void;
-
-
-/* ========== */
-
+/**
+ * 辅助监听函数
+ * @param { RealClassConfigType<true> } classConfig 类配置
+ * @param { listenerObject } msgObj 消息对象
+ * @returns { void } 无返回值
+ */
+export function m_listener(
+    classConfig: RealClassConfigType<boolean>,
+    msgObj: messageObject
+): void;
 
 /**
  * 辅助监听函数
  * @param { RealClassConfigType<true> } classConfig 类配置
  * @param { listenerObject } msgObj 消息对象
  * @param { StorageProvider } provider
- * @returns { void | (close?: boolean) => void } 清理函数
+ * @returns { (close?: boolean) => void } 清理函数
  */
+export function m_listener(
+    classConfig: RealClassConfigType<boolean>,
+    msgObj: callbackObject,
+    provider: StorageProvider
+): (close?: boolean) => void;
+
+
+/* ========== */
+
+
 export function m_listener(
     classConfig: RealClassConfigType<boolean>,
     msgObj: listenerObject,

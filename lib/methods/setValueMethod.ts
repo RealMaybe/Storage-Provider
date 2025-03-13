@@ -19,13 +19,20 @@ type itemsType = Array<{ key: string, value: any }> | Array<{ [key: string]: any
 /* ========== */
 
 
-export function m_setValueMethod(classConfig: RealClassConfigType<boolean>, items: Array<{ key: string, value: any }>): void
-export function m_setValueMethod(classConfig: RealClassConfigType<boolean>, items: Array<{ [key: string]: any }>): void
-export function m_setValueMethod(classConfig: RealClassConfigType<boolean>, items: [string, any]): void
-
-
-/* ========== */
-
+/**
+ * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
+ * - 该函数传入参数数量为必须为 1 ~ 2。
+ * - 参数的传入原则详见说明文档。
+ * 
+ * @function m_setValueMethod
+ * @param { RealClassConfigType<boolean> } classConfig 
+ * @param { Array<{ key: string, value: any }> } items 参数数组
+ * @returns { void } 无返回值
+ */
+export function m_setValueMethod(
+    classConfig: RealClassConfigType<boolean>,
+    items: Array<{ key: string, value: any }>
+): void
 
 /**
  * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
@@ -33,11 +40,34 @@ export function m_setValueMethod(classConfig: RealClassConfigType<boolean>, item
  * - 参数的传入原则详见说明文档。
  * 
  * @function m_setValueMethod
- * 
  * @param { RealClassConfigType<boolean> } classConfig 
- * @param { itemsType } items 参数数组
- * @returns { void }
+ * @param {  Array<{ [key: string]: any }> } items 参数数组
+ * @returns { void } 无返回值
  */
+export function m_setValueMethod(
+    classConfig: RealClassConfigType<boolean>,
+    items: Array<{ [key: string]: any }>
+): void
+
+/**
+ * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
+ * - 该函数传入参数数量为必须为 1 ~ 2。
+ * - 参数的传入原则详见说明文档。
+ * 
+ * @function m_setValueMethod
+ * @param { RealClassConfigType<boolean> } classConfig 
+ * @param { [string, any] } items 参数数组
+ * @returns { void } 无返回值
+ */
+export function m_setValueMethod(
+    classConfig: RealClassConfigType<boolean>,
+    items: [string, any]
+): void
+
+
+/* ========== */
+
+
 export function m_setValueMethod(
     classConfig: RealClassConfigType<boolean>,
     items: itemsType

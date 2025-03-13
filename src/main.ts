@@ -1,6 +1,13 @@
-import StorageProvider from "../lib/index";
-import test from "./test";
+import {
+    isCircular
+} from "../lib/main";
 
 /* ========== */
 
-test(StorageProvider);
+const val: any = {
+    a: 1,
+};
+
+val.b = val;
+
+console.log(isCircular(val, !0));

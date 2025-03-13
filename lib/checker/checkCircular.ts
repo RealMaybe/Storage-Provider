@@ -98,5 +98,5 @@ export function CheckCircular(
         isCircular, // 是否存在循环引用
         warning: isCircular ? warn.join("\n") : null, // 提醒用户存在循环引用
         value: processedObj // 处理后的对象或数组
-    };
-}
+    }
+};

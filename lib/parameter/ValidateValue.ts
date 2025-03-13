@@ -67,7 +67,7 @@ export function ValidateValue<T>(
         // function
         function: (
             set: RealClassConfigType<boolean>,
-            val: (...args: Array<any>) => any
+            val: (...args: any) => any
         ) => ValidateFunction(set, val),
 
         // number

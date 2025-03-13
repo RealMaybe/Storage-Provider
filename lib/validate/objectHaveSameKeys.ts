@@ -15,7 +15,7 @@ import { objKeys } from "../assistant/objKeys";
  */
 export function haveSameKeys(
     obj1: { [key: string]: any },
-    obj2: { [key: string]: any },
+    obj2: { [key: string]: any }
 ): {
     judge: boolean,
     missingKeys: Array<string>,
