@@ -1,7 +1,24 @@
 import { StorageProvider } from "./Storage";
 import { isCircular } from "./checker/isCircular";
 import { haveSameKeys } from "./validate/objectHaveSameKeys";
-import { isNull, isUndefined, isInfinity, isArray, isBigInt, isBoolean, isFunction, isNumber, isObject, isObjectAndNotArray, isString, isSymbol, checkType, isInvalid, isEffective } from "./type/checkType";
+import {
+    isNotANumber,
+    isNull,
+    isUndefined,
+    isInfinity,
+    isArray,
+    isBigInt,
+    isBoolean,
+    isFunction,
+    isNumber,
+    isObject,
+    isObjectAndNotArray,
+    isString,
+    isSymbol,
+    checkType,
+    isInvalid,
+    isEffective
+} from "./type/checkType";
 
 
 /* ========== */
@@ -37,6 +54,7 @@ export {
     checkType, // 类型判断
 
     // 类型判断辅助函数
+    isNotANumber,
     isNull,
     isUndefined,
     isInfinity,

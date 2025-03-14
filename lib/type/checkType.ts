@@ -1,6 +1,20 @@
 /* 类型检查函数 */
 
 
+import { objIs } from "../assistant/objIs";
+
+
+/* ========== */
+
+
+/**
+ * 判断一个值是否为 NaN
+ * @param { any } val 任意类型的值，其类型需要被判断
+ * @return { boolean } 如果值是 NaN，则返回 true，否则返回 false
+ */
+export const isNotANumber = (val: any): boolean => objIs(NaN, val);
+
+
 /**
  * 判断一个值是否为 null
  * @param { any } val 任意类型的值，其类型需要被判断
@@ -104,7 +118,7 @@ export const checkType = (val: any, skipSpecialNumberCheck: boolean = false): st
     if (isArray(val)) return "array";
 
     if (!skipSpecialNumberCheck) {
-        if (Number.isNaN(val)) return "NaN";
+        if (isNotANumber(val)) return "NaN";
         if (isInfinity(val)) return "Infinity";
     }
 
