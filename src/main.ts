@@ -1,13 +1,5 @@
-import {
-    isCircular
-} from "../lib/main";
+import test from "./test";
 
 /* ========== */
 
-const val: any = {
-    a: 1,
-};
-
-val.b = val;
-
-console.log(isCircular(val, !0));
+test();
