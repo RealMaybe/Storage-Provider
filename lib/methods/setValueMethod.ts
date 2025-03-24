@@ -13,55 +13,59 @@ import { isArray, isObjectAndNotArray, isString, isEffective } from "../type/che
 /* ========== */
 
 
-type itemsType = Array<{ key: string, value: any }> | Array<{ [key: string]: any }> | [string, any];
+type KeyValueItem = Array<{ key: string, value: any }>;
+type ObjectItem = Array<{ [key: string]: any }>;
+type TupleItem = [string, any];
+
+type itemsType = KeyValueItem | ObjectItem | TupleItem;
 
 
 /* ========== */
 
 
 /**
- * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
+ * 设置单条或多条存储数据，是 StorageProvider 中的 set() 方法的实现。
  * - 该函数传入参数数量为必须为 1 ~ 2。
  * - 参数的传入原则详见说明文档。
  * 
  * @function m_setValueMethod
  * @param { RealClassConfigType<boolean> } classConfig 
- * @param { Array<{ key: string, value: any }> } items 参数数组
+ * @param { KeyValueItem } items 参数数组
  * @returns { void } 无返回值
  */
 export function m_setValueMethod(
     classConfig: RealClassConfigType<boolean>,
-    items: Array<{ key: string, value: any }>
+    items: KeyValueItem
 ): void
 
 /**
- * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
+ * 设置单条或多条存储数据，是 StorageProvider 中的 set() 方法的实现。
  * - 该函数传入参数数量为必须为 1 ~ 2。
  * - 参数的传入原则详见说明文档。
  * 
  * @function m_setValueMethod
  * @param { RealClassConfigType<boolean> } classConfig 
- * @param {  Array<{ [key: string]: any }> } items 参数数组
+ * @param { ObjectItem } items 参数数组
  * @returns { void } 无返回值
  */
 export function m_setValueMethod(
     classConfig: RealClassConfigType<boolean>,
-    items: Array<{ [key: string]: any }>
+    items: ObjectItem
 ): void
 
 /**
- * 设置单条或多条存储数据，需要配合 StorageProvider 中的 Set() 方法使用。
+ * 设置单条或多条存储数据，是 StorageProvider 中的 set() 方法的实现。
  * - 该函数传入参数数量为必须为 1 ~ 2。
  * - 参数的传入原则详见说明文档。
  * 
  * @function m_setValueMethod
  * @param { RealClassConfigType<boolean> } classConfig 
- * @param { [string, any] } items 参数数组
+ * @param { TupleItem } items 参数数组
  * @returns { void } 无返回值
  */
 export function m_setValueMethod(
     classConfig: RealClassConfigType<boolean>,
-    items: [string, any]
+    items: TupleItem
 ): void
 
 
@@ -80,14 +84,14 @@ export function m_setValueMethod(
     if (items.length === 1) {
         // 参数为数组
         if (isArray(items[0])) {
-            const ARR_ = ValidateArray<"object">(classConfig, items[0], { type: "object" });
+            const ARR_ = ValidateArray<"object">(classConfig, items[0], { type: "object" }) as KeyValueItem;
 
-            m_setManyFromKeyValue(classConfig, ARR_ as Array<{ key: string, value: any }>);
+            m_setManyFromKeyValue(classConfig, ARR_);
         }
 
         // 参数为对象
         else if (isObjectAndNotArray(items[0])) {
-            const OBJ_ = ValidateObject(classConfig, items[0]);
+            const OBJ_ = ValidateObject(classConfig, items[0]) as ObjectItem;
 
             m_setManyFromObject(classConfig, OBJ_);
         }
@@ -99,7 +103,7 @@ export function m_setValueMethod(
     // 参数数量为 2
     else if (items.length === 2) {
         // 第 1 个参数为字符串，且第 2 个参数有效，第 1 个参数为 key，第 2 个参数为 value
-        const [KEY_, VALUE_] = items as [string, any];
+        const [KEY_, VALUE_] = items as TupleItem;
 
         if (isString(KEY_) &&
             isEffective(VALUE_)

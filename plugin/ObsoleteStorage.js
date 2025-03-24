@@ -12,7 +12,7 @@
  */
 export default function ObsoleteStorage($SP, settings) {
     class ob extends $SP {
-        constructor(...options) { super(...options) }
+        constructor(options) { super(options) }
         Storage(key, value) { return this.storage(key, value) }
         Save(key, value) { return this.save(key, value) }
         SaveMany(values) { return this.saveMany(values) }

@@ -49,8 +49,8 @@ export default defineConfig({
         },
         rollupOptions: {
             input: {
-                StorageProvider: "./lib/index.ts",
-                StorageProvider_es: "./lib/main.ts",
+                [name]: "./lib/index.ts",
+                [name + "_es"]: "./lib/main.ts",
             },
             output: [{
                 dir: "dist/es", // ES 模块格式的输出目录

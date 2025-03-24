@@ -1,7 +1,7 @@
 /* 创建属性定义的工厂函数 */
 
 
-import { type Rule } from "../../tsType/optionsRulesType"
+import { type Rule } from "../tsType/optionsRulesType"
 
 /* ========== */
 

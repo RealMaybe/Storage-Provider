@@ -335,7 +335,7 @@ export class StorageProvider {
      * @param { string | null } [key] 要删除的数据的键名（可选），参数有效时删除对应的单条数据，参数无效时删除所有数据。
      * @returns { void } 无返回值
      */
-    delete(key: string): void {
+    delete(key: string | null): void {
         if (isString(key))
             m_deleteItem(this.#config, true, key);
         else

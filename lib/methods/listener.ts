@@ -99,7 +99,10 @@ export function m_listener(
                 channel.addEventListener("message", callbackFun)
 
                 // 返回清理函数
-                return (close: boolean = false) => { isBoolean(close) && close ? channel.close() : channel.removeEventListener("message", callbackFun) }
+                return (close: boolean = false) =>
+                    isBoolean(close) && close
+                        ? channel.close()
+                        : channel.removeEventListener("message", callbackFun);
             } else throw new TypeError("The callback must be a function.");
         }
     }

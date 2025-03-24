@@ -1,7 +1,7 @@
 /* 字符串工厂函数 */
 
 
-import { isString } from "../../type/checkType";
+import { isString } from "../type/checkType";
 
 
 /* ========== */

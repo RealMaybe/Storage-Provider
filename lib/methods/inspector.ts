@@ -69,7 +69,7 @@ export function m_inspector(
 
         // 验证规则不是有效字符串或函数，抛出错误
         if ((!isString(validator) && !isFunction(validator)) ||
-            (isString(validator) && !validTypes.has(validator as string))
+            (isString(validator) && !validTypes.has(validator))
         ) throw new TypeError([
             "The value corresponding to the key (validator) must be a valid string or function.",
             `- Valid strings are: '${[...validTypes].join("', '")}'.`
@@ -82,13 +82,13 @@ export function m_inspector(
         }
 
         // 如果验证规则是一个函数，调用该函数进行验证
-        if (isFunction(validator) && !(validator as (item: any) => boolean)(value)) {
+        if (isFunction(validator) && !validator(value)) {
             errors[storageKey] = `Invalid format for "${storageKey}".`;
             return;
         }
 
         // 如果验证规则是一个字符串且是有效类型之一
-        if (isString(validator) && validTypes.has(validator as string)) {
+        if (isString(validator) && validTypes.has(validator)) {
             const expectedType = validator;
 
             // 如果验证规则要求是数组

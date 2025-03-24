@@ -43,7 +43,10 @@ export function Settings(
         // 如果传入的是字符串，检查是否为有效的存储类型
         if (isString(userConfig)) {
             if (userConfig === "local" || userConfig === "session")
-                return { ...configDefault, storageType: userConfig } as ClassOptionsType;
+                return {
+                    ...configDefault,
+                    storageType: userConfig
+                };
 
             else if (!configRuleType.storageType.validator(userConfig))
                 throw new TypeError(configRuleType.storageType.errorMessage);
