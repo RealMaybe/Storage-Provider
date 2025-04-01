@@ -1,34 +1,56 @@
 import { defineConfig } from "vite"; // vite 配置文件
 import terser from "@rollup/plugin-terser"; // 压缩插件
 import {
-    version, // 版本号
-    writeCopyrightPlugin, // 引入版权信息写入插件
-} from "./outputConfig";
+    libVersion, // 版本号
+    WriteCopyrightPlugin, // 引入版权信息写入插件
+    libCopyrightBanner, // 版权信息
+    libPluginOptions, // 库打包插件选项
+    pluginPluginOptions, // 插件打包插件选项
+} from "./copyright";
 
 
 /* ========== */
 
 
-/* 打包选项 */
+/* 库打包选项 */
 
-const name = "StorageProvider"; // 库的名称
-const pluginOptions = [ // 打包插件选项
-    terser({
-        compress: {
-            drop_console: false, // console 日志
-            drop_debugger: true // debugger 语句
-        },
-        mangle: true, // 变量名
-        output: {
-            comments: false, // 移除注释
-        }
-    }),
-    writeCopyrightPlugin(), // 写入版权信息
-];
+const libName = "StorageProvider"; // 库的名称
+const pluginName = "StorageProviderPlugin"; // 插件的名称
+
+const libOutputIIFE = {
+    input: {
+        [libName]: "./src/lib/index.ts", // IIFE 格式模块的入口文件
+    },
+    output: {
+        dir: `dist/${libName}/iife`, // IIFE 格式模块的输出目录
+        format: "iife",
+        name: libName,
+        entryFileNames: `[name].iife.${libVersion}.js`,
+        plugins: libPluginOptions
+    }
+} as any;
+
+const libOutputES = {
+    input: {
+        [libName]: "./src/lib/main.ts", // ES 格式模块的入口文件
+    },
+    output: {
+        dir: `dist/${libName}/es`, // ES 格式模块的输出目录
+        format: "es",
+        name: libName,
+        entryFileNames: `[name].es.${libVersion}.js`,
+        plugins: libPluginOptions
+    }
+} as any;
 
 
 /* ========== */
 
+
+/* 插件打包配置 */
+
+
+/* ========== */
 
 /* 输出配置 */
 export default defineConfig({
@@ -40,32 +62,13 @@ export default defineConfig({
     /* 打包配置 */
     build: {
         lib: {
-            entry: [
-                "./lib/index.ts",
-                "./lib/main.ts",
-            ],
-            name,
-            fileName: (format, entryName) => `${entryName}.${format}.${version}.js`,
+            entry: "./src/lib/index.ts",
+            name: libName,
+            fileName: (format, entryName) => `${entryName}.${format}.${libVersion}.js`,
         },
         rollupOptions: {
-            input: {
-                [name]: "./lib/index.ts",
-                [name + "_es"]: "./lib/main.ts",
-            },
-            output: [{
-                dir: "dist/es", // ES 模块格式的输出目录
-                format: "es",
-                entryFileNames: chunkInfo => `${chunkInfo.name}.es.${version}.js`,
-                globals: {},
-                plugins: pluginOptions
-            }, {
-                dir: "dist/iife", // IIFE 格式模块的输出目录
-                format: "iife",
-                name,
-                entryFileNames: chunkInfo => `${chunkInfo.name}.iife.${version}.js`,
-                globals: {},
-                plugins: pluginOptions
-            }],
-        }
+            ...libOutputIIFE,
+            // ...libOutputES,
+        },
     },
 });

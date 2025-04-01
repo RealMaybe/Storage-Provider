@@ -2,18 +2,19 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "skipLibCheck": true,
-
     "useDefineForClassFields": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -21,5 +22,14 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
   },
-  "include": ["lib"]
+  "include": [
+    "src/lib",
+    "src/plugin",
+    "scriptType/circularType.ts",
+    "scriptType/classConfigType.ts",
+    "scriptType/classType.ts",
+    "scriptType/optionsRulesType.ts",
+    "src/type",
+    "src/assistant"
+  ]
 }
