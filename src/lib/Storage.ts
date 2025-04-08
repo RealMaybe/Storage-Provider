@@ -274,7 +274,11 @@ export class StorageProvider {
      * @param { Array<{ key: string, value: any }> | { [key: string]: any } | string } data 要存储的单条或多条数据
      * @returns { void } 仅设置值，无返回值
      */
-    set(...data: Array<{ key: string, value: any }> | [{ [key: string]: any }] | [string, any]): void {
+    set(...data:
+        [Array<{ key: string, value: any }>]
+        | [{ [key: string]: any }]
+        | [string, any]
+    ): void {
         m_setValueMethod(this.#config, data)
     };
 
@@ -309,7 +313,7 @@ export class StorageProvider {
         arr: Array<K>,
         type: OutputType = "object"
     ): OutputResult<K, typeof type> {
-        return m_getMany(this.#config, arr, "object") as OutputResult<K, "object">;
+        return m_getMany(this.#config, arr, type as "object");
     };
 
     /**
