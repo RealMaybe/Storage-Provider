@@ -10,7 +10,7 @@ import {
 } from "../../scriptType/classConfigType";
 import { objKeys } from "../../assistant/objKeys";
 import { ValidateObject } from "../validate/ValidateObject";
-import { checkType, isInvalid } from "../../type/checkType";
+import { checkType, isInvalid } from "../../typeChecker";
 
 
 /* ========== */

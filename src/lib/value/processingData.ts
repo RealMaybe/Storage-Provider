@@ -5,7 +5,7 @@ import {
     isNumber,
     isObjectAndNotArray,
     isString,
-} from "../../type/checkType";
+} from "../../typeChecker";
 
 
 /* ========== */

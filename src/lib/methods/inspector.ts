@@ -5,7 +5,7 @@ import { type RealClassConfigType } from "../../scriptType/classConfigType";
 import { ValidateObject } from "../validate/ValidateObject"; // 导入对象有效性检查器
 import { objKeys } from "../../assistant/objKeys";
 import { allTypes } from "../../type/allTypes";
-import { checkType, isArray, isFunction, isInvalid, isObjectAndNotArray, isString } from "../../type/checkType"
+import { checkType, isArray, isFunction, isInvalid, isObjectAndNotArray, isString } from "../../typeChecker"
 import { m_getMany } from "./getMany"; // 导入获取多个数据的函数
 
 

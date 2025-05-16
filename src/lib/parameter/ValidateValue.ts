@@ -11,7 +11,7 @@ import {
     isNumber, // 检查是否为 Number
     isObjectAndNotArray, // 检查是否为 Object
     isSymbol, // 检查是否为 Symbol
-} from "../../type/checkType";
+} from "../../typeChecker";
 import { ValidateArray } from "../validate/ValidateArray"; // 数组验证器
 import { ValidateObject } from "../validate/ValidateObject"; // 对象验证器
 import { ValidateString } from "../validate/ValidateString"; // 字符串验证器

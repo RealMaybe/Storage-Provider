@@ -15,7 +15,7 @@ import {
     isString,
     isInvalid,
     isObjectAndNotArray
-} from "../../type/checkType";
+} from "../../typeChecker";
 
 
 /* ========== */

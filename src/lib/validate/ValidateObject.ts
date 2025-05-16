@@ -3,7 +3,7 @@
 
 import { type RealClassConfigType } from "../../scriptType/classConfigType";
 import { CheckCircular } from "../checker/checkCircular";
-import { isObjectAndNotArray, isInvalid } from "../../type/checkType";
+import { isObjectAndNotArray, isInvalid } from "../../typeChecker";
 
 
 /* ========== */

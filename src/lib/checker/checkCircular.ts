@@ -11,7 +11,7 @@ import {
     isObject, // 检查是否为对象
     isArray, // 检查是否为数组
     isNull // 检查是否为 null
-} from "../../type/checkType";
+} from "../../typeChecker";
 
 
 /* ========== */

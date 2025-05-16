@@ -1,7 +1,7 @@
 /* 查验配置对象以确保它包含所有必需的属性 */
 
 
-import { isObjectAndNotArray } from "../../type/checkType";
+import { isObjectAndNotArray } from "../../typeChecker";
 
 
 /* ========== */

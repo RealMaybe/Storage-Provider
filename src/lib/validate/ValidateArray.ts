@@ -1,7 +1,7 @@
 /* 验证数组有效性 */
 
 import { type RealClassConfigType } from "../../scriptType/classConfigType.js";
-import { isArray, isString, checkType, isObjectAndNotArray, isInvalid } from "../../type/checkType.js";
+import { isArray, isString, checkType, isObjectAndNotArray, isInvalid } from "../../typeChecker.js";
 import { allTypes } from "../../type/allTypes.js"; // 类型列表
 import { CheckCircular } from "../checker/checkCircular.js";
 

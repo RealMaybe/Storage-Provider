@@ -2,7 +2,7 @@
 
 
 import { type ClassConfigOptionsRules } from "../../scriptType/optionsRulesType";
-import { isBoolean, isArray, isFunction, isString } from "../../type/checkType";
+import { isBoolean, isArray, isFunction, isString } from "../../typeChecker";
 import { validatorFactory } from "./factoryFunction/validatorFactory";
 
 

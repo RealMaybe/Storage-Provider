@@ -1,4 +1,4 @@
-import { ObsoleteStorage } from "./obsolete/Obsolete";
+import { ObsoleteStorage } from "./plugin/obsolete/Obsolete";
 
 export default {
     // 标准名称

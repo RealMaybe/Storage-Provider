@@ -2,7 +2,7 @@
 
 
 import { type RealClassConfigType } from "../../scriptType/classConfigType";
-import { isFunction, isInvalid } from "../../type/checkType";
+import { isFunction, isInvalid } from "../../typeChecker";
 
 
 /* ========== */

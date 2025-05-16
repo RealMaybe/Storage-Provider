@@ -7,7 +7,7 @@ import { ValidateObject } from "../validate/ValidateObject"; // 验证对象
 import { m_setManyFromKeyValue } from "./setManyFromKeyValue" // 批量设置值的方法
 import { m_setManyFromObject } from "./setManyFromObject" // 批量设置值的方法
 import { SetValueToStorage } from "../value/setValue" // 设置值到存储的方法
-import { isArray, isObjectAndNotArray, isString, isEffective } from "../../type/checkType";
+import { isArray, isObjectAndNotArray, isString, isEffective } from "../../typeChecker";
 
 
 /* ========== */

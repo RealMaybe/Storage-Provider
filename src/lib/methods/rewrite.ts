@@ -6,7 +6,7 @@ import { StorageProvider } from "../Storage";
 import { m_getMany } from "./getMany";
 import { m_setManyFromObject } from "./setManyFromObject";
 import { haveSameKeys } from "../validate/objectHaveSameKeys";
-import { isArray, isString, isFunction, isObjectAndNotArray } from "../../type/checkType";
+import { isArray, isString, isFunction, isObjectAndNotArray } from "../../typeChecker";
 
 
 /* ========== */

@@ -1,7 +1,7 @@
 /* 布尔值工厂函数 */
 
 
-import { isBoolean } from "../../type/checkType";
+import { isBoolean } from "../../typeChecker";
 
 
 /* ========== */

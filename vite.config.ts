@@ -1,4 +1,6 @@
 import { defineConfig } from "vite"; // vite 配置文件
+import path from "path";
+
 import terser from "@rollup/plugin-terser"; // 压缩插件
 import {
     libVersion, // 版本号
@@ -54,6 +56,13 @@ const libOutputES = {
 
 /* 输出配置 */
 export default defineConfig({
+    /* 别名配置 */
+    resolve: {
+        alias: {
+            "@types": path.resolve(__dirname, "src/@types"),
+        },
+    },
+    /* 服务器配置 */
     server: {
         port: 2427, // 设置服务器端口号
         open: true, // 启动时自动打开浏览器

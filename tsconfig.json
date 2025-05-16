@@ -1,35 +1,41 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "skipLibCheck": true,
-    "useDefineForClassFields": true,
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-  },
-  "include": [
-    "src/lib",
-    "src/plugin",
-    "scriptType/circularType.ts",
-    "scriptType/classConfigType.ts",
-    "scriptType/classType.ts",
-    "scriptType/optionsRulesType.ts",
-    "src/type",
-    "src/assistant"
-  ]
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "skipLibCheck": true,
+        "useDefineForClassFields": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true,
+        "paths": {
+            "@types/*": [
+                "./src/@types/*"
+            ]
+        }
+    },
+    "include": [
+        "src/lib",
+        "src/plugin",
+        "scriptType/circularType.ts",
+        "scriptType/classConfigType.ts",
+        "scriptType/classType.ts",
+        "scriptType/optionsRulesType.ts",
+        "src/type",
+        "src/assistant",
+        "src/plugin.ts"
+    ]
 }

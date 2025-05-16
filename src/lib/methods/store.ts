@@ -4,7 +4,7 @@
 import { type RealClassConfigType } from "../../scriptType/classConfigType";
 import { GetValueFromStorage } from "../value/getValue";
 import { SetValueToStorage } from "../value/setValue";
-import { isInvalid } from "../../type/checkType";
+import { isInvalid } from "../../typeChecker";
 
 
 /* ========== */

@@ -4,7 +4,7 @@
 import {
     isNumber,
     isString,
-} from "../../../type/checkType";
+} from "../../../typeChecker";
 
 
 /* ========== */

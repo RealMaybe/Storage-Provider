@@ -2,7 +2,7 @@
 
 
 import { type RealClassConfigType } from "../../scriptType/classConfigType";
-import { isFunction, isInvalid, isBoolean } from "../../type/checkType";
+import { isFunction, isInvalid, isBoolean } from "../../typeChecker";
 import { StorageProvider } from "../Storage";
 
 

@@ -1,4 +1,4 @@
-import { isBoolean } from "../../type/checkType";
+import { isBoolean } from "../../typeChecker";
 import { CheckCircular } from "./checkCircular";
 import { type CircularItem } from "../../scriptType/circularType";
 

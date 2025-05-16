@@ -5,7 +5,7 @@ import { type RealClassConfigType } from "../../scriptType/classConfigType";
 import { ValidateArray } from "../validate/ValidateArray";
 import { ValidateObject } from "../validate/ValidateObject";
 import { SetValueToStorage } from "../value/setValue";
-import { isInvalid } from "../../type/checkType";
+import { isInvalid } from "../../typeChecker";
 
 
 /* ========== */

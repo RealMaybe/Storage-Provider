@@ -1,9 +1,4 @@
-// 标准库、辅助函数
-import { StorageProvider, isCircular, objectHaveSameKeys } from "./lib/main";
-
-// 类型判断辅助函数
 import {
-    checkType,
     isNotANumber,
     isNull,
     isUndefined,
@@ -17,22 +12,17 @@ import {
     isObjectAndNotArray,
     isString,
     isSymbol,
+    checkType,
     isInvalid,
     isEffective
-} from "./typeChecker";
-
-// 官方插件
-import spp from "./plugin";
+} from "./type/checkType";
+import { allTypes } from "./type/allTypes";
 
 
 /* ========== */
 
 
 export {
-    StorageProvider as default,
-    isCircular,
-    objectHaveSameKeys,
-    checkType,
     isNotANumber,
     isNull,
     isUndefined,
@@ -46,9 +36,8 @@ export {
     isObjectAndNotArray,
     isString,
     isSymbol,
+    checkType,
     isInvalid,
     isEffective,
-
-    // 
-    spp
+    allTypes
 }

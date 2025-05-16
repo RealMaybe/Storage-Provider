@@ -1,4 +1,4 @@
-import { isObjectAndNotArray, isFunction, isEffective } from "../../type/checkType";
+import { isObjectAndNotArray, isFunction, isEffective } from "../../typeChecker";
 import { StorageProvider } from "../Storage";
 
 

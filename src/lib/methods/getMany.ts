@@ -5,7 +5,7 @@ import { type RealClassConfigType } from "../../scriptType/classConfigType";
 import { objKeys } from "../../assistant/objKeys";
 import { ValidateArray } from "../validate/ValidateArray"; // 导入数组有效性验证函数
 import { GetValueFromStorage } from "../value/getValue"; // 导入获取存储内容的函数
-import { isString } from "../../type/checkType";
+import { isString } from "../../typeChecker";
 
 
 /* ========== */

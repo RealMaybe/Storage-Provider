@@ -1,7 +1,7 @@
 /* 数字验证器工厂函数 */
 
 
-import { isNumber } from "../../type/checkType";
+import { isNumber } from "../../typeChecker";
 
 
 /* ========== */

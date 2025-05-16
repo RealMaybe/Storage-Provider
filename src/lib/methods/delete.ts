@@ -3,7 +3,7 @@
 
 import { type RealClassConfigType } from "../../scriptType/classConfigType";
 import { ValidateKey } from "../parameter/ValidateKey"; // 导入 key 验证器
-import { isBoolean, isString, isInvalid } from "../../type/checkType";
+import { isBoolean, isString, isInvalid } from "../../typeChecker";
 import { GetValueFromStorage } from "../value/getValue"; // 导入获取存储内容的函数
 
 

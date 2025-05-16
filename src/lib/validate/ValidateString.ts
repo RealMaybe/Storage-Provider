@@ -7,7 +7,7 @@ import {
 import {
     isString,
     isInvalid
-} from "../../type/checkType";
+} from "../../typeChecker";
 
 
 /* ========== */
